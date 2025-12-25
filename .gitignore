@@ -1,0 +1,16 @@
+# Maven target folder
+target/
+
+# Compiled Java classes
+*.class
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+
+# IDE folders
+.idea/
+*.iml
+.vscode/

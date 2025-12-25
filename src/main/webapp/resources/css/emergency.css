@@ -1,0 +1,222 @@
+/* ========== EMERGENCY PAGE SPECIFIC STYLES ========== */
+
+.emergency-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.emergency-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--danger-color);
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
+
+.emergency-subtitle {
+  font-size: 16px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ========== SUPPORT SECTION ========== */
+.support-section {
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 32px;
+  background-color: var(--bg-white);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+}
+
+.support-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  letter-spacing: 0.2px;
+}
+
+.support-subheading {
+  font-size: 16px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== CONTACT OPTIONS ========== */
+.contact-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.contact-card {
+  background-color: var(--bg-white);
+  border-radius: 12px;
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  border-top: 4px solid transparent;
+}
+
+.contact-card.phone {
+  border-top-color: var(--danger-color);
+}
+
+.contact-card.email {
+  border-top-color: var(--primary-color);
+}
+
+.contact-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-4px);
+}
+
+.contact-icon {
+  font-size: 56px;
+  margin-bottom: 20px;
+}
+
+.contact-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.contact-title:first-of-type {
+  color: var(--danger-color);
+}
+
+.contact-card.phone .contact-title {
+  color: var(--danger-color);
+}
+
+.contact-card.email .contact-title {
+  color: var(--primary-color);
+}
+
+.contact-description {
+  font-size: 14px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== CRISIS GUIDANCE SECTION ========== */
+.crisis-section {
+  margin-bottom: 48px;
+}
+
+.crisis-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 28px;
+  letter-spacing: 0.2px;
+   text-align: center;
+}
+
+.crisis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.crisis-card {
+  background-color: var(--bg-white);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.crisis-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-4px);
+}
+
+.crisis-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.crisis-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  letter-spacing: 0.2px;
+}
+
+.crisis-card-text {
+  font-size: 14px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .emergency-title {
+    font-size: 28px;
+  }
+
+  .emergency-subtitle {
+    font-size: 14px;
+  }
+
+  .support-section {
+    padding: 24px;
+  }
+
+  .support-heading {
+    font-size: 18px;
+  }
+
+  .support-subheading {
+    font-size: 14px;
+  }
+
+  .contact-options {
+    gap: 20px;
+  }
+
+  .contact-card {
+    padding: 28px 20px;
+  }
+
+  .contact-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+  }
+
+  .contact-title {
+    font-size: 18px;
+  }
+
+  .crisis-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .crisis-card {
+    padding: 24px 20px;
+  }
+
+  .crisis-icon {
+    font-size: 40px;
+  }
+
+  .crisis-card-title {
+    font-size: 16px;
+  }
+}
