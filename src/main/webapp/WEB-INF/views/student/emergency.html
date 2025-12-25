@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Help - MINDBLOOM</title>
+
+  <!-- GLOBAL -->
+  <link rel="stylesheet" th:href="@{/css/common/base.css}">
+
+  <!-- STUDENT LAYOUT -->
+  <link rel="stylesheet" th:href="@{/css/student/layout.css}">
+
+  <!-- PAGE -->
+  <link rel="stylesheet" th:href="@{/css/student/emergency.css}">
+</head>
+
+<body>
+<div class="container">
+
+  <!-- SIDEBAR (FRAGMENT) -->
+ <div th:replace="fragments/student-navbar :: student-navbar"></div>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="emergency-header">
+      <h1 class="emergency-title">Emergency Help</h1>
+      <p class="emergency-subtitle">
+        If you are in a crisis, please use the resources below for immediate support
+      </p>
+    </header>
+
+    <!-- SUPPORT SECTION -->
+    <section class="support-section">
+      <h2 class="support-heading">You Are Not Alone. Help Is Available.</h2>
+      <p class="support-subheading">
+        Connect With Someone Who Can Support You Right Now
+      </p>
+    </section>
+
+    <!-- CONTACT OPTIONS -->
+    <section class="contact-options">
+
+      <div class="contact-card phone">
+        <div class="contact-icon">☎️</div>
+        <h3 class="contact-title">Call 911</h3>
+        <p class="contact-description">
+          Speak To A Trained Counsellor Immediately
+        </p>
+      </div>
+
+      <div class="contact-card email">
+        <div class="contact-icon">✉️</div>
+        <h3 class="contact-title">@Pkk.Utm.My</h3>
+        <p class="contact-description">
+          Email Psycare At UTM Immediately
+        </p>
+      </div>
+
+    </section>
+
+    <!-- CRISIS GUIDANCE -->
+    <section class="crisis-section">
+      <h2 class="crisis-title">What To Do In A Crisis:</h2>
+
+      <div class="crisis-grid">
+
+        <div class="crisis-card">
+          <div class="crisis-icon">🧘</div>
+          <h3 class="crisis-card-title">Stay Calm</h3>
+          <p class="crisis-card-text">
+            Focus On Your Breathing. Inhale Slowly, Hold, And Exhale.
+          </p>
+        </div>
+
+        <div class="crisis-card">
+          <div class="crisis-icon">🛡️</div>
+          <h3 class="crisis-card-title">Ensure Safety</h3>
+          <p class="crisis-card-text">
+            Move To A Safe Place Away From Any Potential Harm.
+          </p>
+        </div>
+
+        <div class="crisis-card">
+          <div class="crisis-icon">📞</div>
+          <h3 class="crisis-card-title">Reach Out</h3>
+          <p class="crisis-card-text">
+            Use The Phone Or Text Lines Above To Talk To Someone.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

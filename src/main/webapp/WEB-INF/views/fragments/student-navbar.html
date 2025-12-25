@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<aside class="sidebar" th:fragment="student-navbar">
+
+    <div class="logo-section">
+        <div class="logo"><span class="logo-icon">✨</span></div>
+        <h2 class="logo-text">MINDBLOOM</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <div class="nav-section">
+            <h3 class="nav-title">OVERVIEW</h3>
+            <ul class="nav-list">
+                <li><a href="#" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="#" class="nav-link">📖 Book consultation</a></li>
+                <li><a href="#" class="nav-link">👥 Peer support</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h3 class="nav-title">EMERGENCY</h3>
+            <ul class="nav-list">
+                <li>
+                    <a th:href="@{/student/emergency}" class="nav-link danger">
+                        🆘 SOS
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h3 class="nav-title">SETTINGS</h3>
+            <ul class="nav-list">
+                <li><a href="#" class="nav-link">👤 Profile</a></li>
+                <li><a href="#" class="nav-link danger">🚪 Logout</a></li>
+            </ul>
+        </div>
+
+    </nav>
+
+</aside>
+
+</body>
+</html>
