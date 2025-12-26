@@ -8,14 +8,14 @@
 .emergency-title {
   font-size: 36px;
   font-weight: 700;
-  color: var(--danger-color);
+  color: #dc2626;
   margin-bottom: 12px;
   letter-spacing: 0.3px;
 }
 
 .emergency-subtitle {
   font-size: 16px;
-  color: var(--text-gray);
+  color: #6b7280;
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
@@ -25,23 +25,24 @@
 .support-section {
   text-align: center;
   margin-bottom: 48px;
-  padding: 32px;
-  background-color: var(--bg-white);
-  border-radius: 12px;
-  box-shadow: var(--card-shadow);
+  padding: 40px 32px;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
 }
 
 .support-heading {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #111827;
   margin-bottom: 12px;
   letter-spacing: 0.2px;
 }
 
 .support-subheading {
   font-size: 16px;
-  color: var(--text-gray);
+  color: #6b7280;
   line-height: 1.6;
   margin: 0;
 }
@@ -51,60 +52,94 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 32px;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
 
 .contact-card {
-  background-color: var(--bg-white);
-  border-radius: 12px;
-  padding: 40px 32px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 48px 32px;
   text-align: center;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
-  border-top: 4px solid transparent;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Updated contact card styling with gradient backgrounds */
 .contact-card.phone {
-  border-top-color: var(--danger-color);
+  border-color: #fecaca;
+  background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
 }
 
 .contact-card.email {
-  border-top-color: var(--primary-color);
+  border-color: #e9d5ff;
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
 }
 
 .contact-card:hover {
-  box-shadow: var(--card-shadow-hover);
-  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px);
 }
 
+.contact-card.phone:hover {
+  border-color: #fca5a5;
+}
+
+.contact-card.email:hover {
+  border-color: #d8b4fe;
+}
+
+/* Updated icon styling for SVG icons with proper sizing and colors */
 .contact-icon {
-  font-size: 56px;
-  margin-bottom: 20px;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.contact-card.phone .contact-icon {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #dc2626;
+}
+
+.contact-card.email .contact-icon {
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+  color: #9333ea;
+}
+
+.contact-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.contact-card:hover .contact-icon {
+  transform: scale(1.1);
 }
 
 .contact-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   letter-spacing: 0.2px;
 }
 
-.contact-title:first-of-type {
-  color: var(--danger-color);
-}
-
 .contact-card.phone .contact-title {
-  color: var(--danger-color);
+  color: #dc2626;
 }
 
 .contact-card.email .contact-title {
-  color: var(--primary-color);
+  color: #9333ea;
 }
 
 .contact-description {
-  font-size: 14px;
-  color: var(--text-gray);
+  font-size: 15px;
+  color: #6b7280;
   line-height: 1.6;
   margin: 0;
 }
@@ -115,52 +150,72 @@
 }
 
 .crisis-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 28px;
+  color: #111827;
+  margin-bottom: 32px;
   letter-spacing: 0.2px;
-   text-align: center;
+  text-align: center;
 }
 
 .crisis-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 28px;
 }
 
 .crisis-card {
-  background-color: var(--bg-white);
-  border-radius: 12px;
-  padding: 32px 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 36px 28px;
   text-align: center;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  border: 1px solid #f3f4f6;
 }
 
 .crisis-card:hover {
-  box-shadow: var(--card-shadow-hover);
-  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px);
+  border-color: #e5e7eb;
 }
 
+/* Updated crisis icon styling for SVG with proper sizing and colors */
 .crisis-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  display: block;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+  color: #9333ea;
+  transition: all 0.3s ease;
+}
+
+.crisis-icon svg {
+  width: 36px;
+  height: 36px;
+}
+
+.crisis-card:hover .crisis-icon {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 100%);
 }
 
 .crisis-card-title {
   font-size: 18px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #111827;
   margin-bottom: 12px;
   letter-spacing: 0.2px;
 }
 
 .crisis-card-text {
-  font-size: 14px;
-  color: var(--text-gray);
-  line-height: 1.6;
+  font-size: 15px;
+  color: #6b7280;
+  line-height: 1.7;
   margin: 0;
 }
 
@@ -175,11 +230,11 @@
   }
 
   .support-section {
-    padding: 24px;
+    padding: 32px 24px;
   }
 
   .support-heading {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .support-subheading {
@@ -187,20 +242,26 @@
   }
 
   .contact-options {
-    gap: 20px;
+    gap: 24px;
   }
 
   .contact-card {
-    padding: 28px 20px;
+    padding: 36px 24px;
   }
 
   .contact-icon {
-    font-size: 40px;
-    margin-bottom: 16px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+  }
+
+  .contact-icon svg {
+    width: 32px;
+    height: 32px;
   }
 
   .contact-title {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .crisis-grid {
@@ -209,11 +270,17 @@
   }
 
   .crisis-card {
-    padding: 24px 20px;
+    padding: 28px 24px;
   }
 
   .crisis-icon {
-    font-size: 40px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .crisis-icon svg {
+    width: 30px;
+    height: 30px;
   }
 
   .crisis-card-title {

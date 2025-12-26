@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Assessment</title>
+    <link rel="stylesheet" th:href="@{/css/common/base.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/counselor/assessment-questions.css}">
+</head>
+
+<body>
+<div class="container">
+
+    <!-- Counselor Navbar -->
+    <div th:replace="fragments/counselor-navbar :: counselor-navbar"></div>
+
+    <main class="main-content">
+
+        <!-- Header -->
+        <div class="assessment-header">
+            <a th:href="@{/counselor/resources}" class="back-link">← Back to Resources</a>
+            <h1>Add Assessment Questions</h1>
+            <p class="resource-context">
+                Resource:
+                <strong th:text="${resource.title}">Resource Title</strong>
+            </p>
+        </div>
+
+        <form method="post"
+              th:action="@{/counselor/resources/{id}/assessment/save(id=${resource.id})}"
+              class="assessment-form">
+
+            <!-- ================= QUESTION 1 ================= -->
+            <div class="question-card">
+                <div class="question-header">
+                    <label class="question-label">Question 1</label>
+                </div>
+
+                <input type="text" name="question1" class="question-input"
+                       placeholder="Enter your question here..."
+                       th:value="${questions != null && questions.size() > 0 ? questions[0].questionText : ''}"
+                       required>
+
+                <div class="options-grid">
+                    <div class="option-item">
+                        <input type="radio" name="correct1" value="A"
+                               th:checked="${questions != null && questions.size() > 0 && questions[0].correctOption == 'A'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option1A" class="option-input"
+                               placeholder="Option A"
+                               th:value="${questions != null && questions.size() > 0 ? questions[0].optionA : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct1" value="B"
+                               th:checked="${questions != null && questions.size() > 0 && questions[0].correctOption == 'B'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option1B" class="option-input"
+                               placeholder="Option B"
+                               th:value="${questions != null && questions.size() > 0 ? questions[0].optionB : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct1" value="C"
+                               th:checked="${questions != null && questions.size() > 0 && questions[0].correctOption == 'C'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option1C" class="option-input"
+                               placeholder="Option C"
+                               th:value="${questions != null && questions.size() > 0 ? questions[0].optionC : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct1" value="D"
+                               th:checked="${questions != null && questions.size() > 0 && questions[0].correctOption == 'D'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option1D" class="option-input"
+                               placeholder="Option D"
+                               th:value="${questions != null && questions.size() > 0 ? questions[0].optionD : ''}"
+                               required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= QUESTION 2 ================= -->
+            <div class="question-card">
+                <div class="question-header">
+                    <label class="question-label">Question 2</label>
+                </div>
+
+                <input type="text" name="question2" class="question-input"
+                       th:value="${questions != null && questions.size() > 1 ? questions[1].questionText : ''}"
+                       required>
+
+                <div class="options-grid">
+                    <div class="option-item">
+                        <input type="radio" name="correct2" value="A"
+                               th:checked="${questions != null && questions.size() > 1 && questions[1].correctOption == 'A'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option2A" class="option-input"
+                               th:value="${questions != null && questions.size() > 1 ? questions[1].optionA : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct2" value="B"
+                               th:checked="${questions != null && questions.size() > 1 && questions[1].correctOption == 'B'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option2B" class="option-input"
+                               th:value="${questions != null && questions.size() > 1 ? questions[1].optionB : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct2" value="C"
+                               th:checked="${questions != null && questions.size() > 1 && questions[1].correctOption == 'C'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option2C" class="option-input"
+                               th:value="${questions != null && questions.size() > 1 ? questions[1].optionC : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct2" value="D"
+                               th:checked="${questions != null && questions.size() > 1 && questions[1].correctOption == 'D'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option2D" class="option-input"
+                               th:value="${questions != null && questions.size() > 1 ? questions[1].optionD : ''}"
+                               required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= QUESTION 3 ================= -->
+            <div class="question-card">
+                <div class="question-header">
+                    <label class="question-label">Question 3</label>
+                </div>
+
+                <input type="text" name="question3" class="question-input"
+                       th:value="${questions != null && questions.size() > 2 ? questions[2].questionText : ''}"
+                       required>
+
+                <div class="options-grid">
+                    <div class="option-item">
+                        <input type="radio" name="correct3" value="A"
+                               th:checked="${questions != null && questions.size() > 2 && questions[2].correctOption == 'A'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option3A" class="option-input"
+                               th:value="${questions != null && questions.size() > 2 ? questions[2].optionA : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct3" value="B"
+                               th:checked="${questions != null && questions.size() > 2 && questions[2].correctOption == 'B'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option3B" class="option-input"
+                               th:value="${questions != null && questions.size() > 2 ? questions[2].optionB : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct3" value="C"
+                               th:checked="${questions != null && questions.size() > 2 && questions[2].correctOption == 'C'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option3C" class="option-input"
+                               th:value="${questions != null && questions.size() > 2 ? questions[2].optionC : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct3" value="D"
+                               th:checked="${questions != null && questions.size() > 2 && questions[2].correctOption == 'D'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option3D" class="option-input"
+                               th:value="${questions != null && questions.size() > 2 ? questions[2].optionD : ''}"
+                               required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= QUESTION 4 ================= -->
+            <div class="question-card">
+                <div class="question-header">
+                    <label class="question-label">Question 4</label>
+                </div>
+
+                <input type="text" name="question4" class="question-input"
+                       th:value="${questions != null && questions.size() > 3 ? questions[3].questionText : ''}"
+                       required>
+
+                <div class="options-grid">
+                    <div class="option-item">
+                        <input type="radio" name="correct4" value="A"
+                               th:checked="${questions != null && questions.size() > 3 && questions[3].correctOption == 'A'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option4A" class="option-input"
+                               th:value="${questions != null && questions.size() > 3 ? questions[3].optionA : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct4" value="B"
+                               th:checked="${questions != null && questions.size() > 3 && questions[3].correctOption == 'B'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option4B" class="option-input"
+                               th:value="${questions != null && questions.size() > 3 ? questions[3].optionB : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct4" value="C"
+                               th:checked="${questions != null && questions.size() > 3 && questions[3].correctOption == 'C'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option4C" class="option-input"
+                               th:value="${questions != null && questions.size() > 3 ? questions[3].optionC : ''}"
+                               required>
+                    </div>
+
+                    <div class="option-item">
+                        <input type="radio" name="correct4" value="D"
+                               th:checked="${questions != null && questions.size() > 3 && questions[3].correctOption == 'D'}">
+                        <label class="option-label">Correct Answer</label>
+                        <input type="text" name="option4D" class="option-input"
+                               th:value="${questions != null && questions.size() > 3 ? questions[3].optionD : ''}"
+                               required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+                <a th:href="@{/counselor/resources}" class="btn-cancel">Cancel</a>
+                <button type="submit" class="btn-submit">Save Assessment</button>
+            </div>
+
+        </form>
+
+    </main>
+</div>
+</body>
+</html>
