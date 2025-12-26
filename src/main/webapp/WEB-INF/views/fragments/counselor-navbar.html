@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<aside class="sidebar" th:fragment="counselor-navbar">
+
+    <div class="logo-section">
+        <div class="logo"><span class="logo-icon">✨</span></div>
+        <h2 class="logo-text">MINDBLOOM</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <!-- OVERVIEW -->
+        <div class="nav-section">
+            <h3 class="nav-title">OVERVIEW</h3>
+            <ul class="nav-list">
+                <li>
+                    <a th:href="@{/counselor/dashboard}" class="nav-link">
+                        📊 Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- MANAGEMENT -->
+        <div class="nav-section">
+            <h3 class="nav-title">MANAGEMENT</h3>
+            <ul class="nav-list">
+                <li>
+                    <a th:href="@{/counselor/resources}" class="nav-link">
+                        📚 Mental Health Resources
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/counselor/consultations}" class="nav-link">
+                        🗓 Consultations
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/counselor/students}" class="nav-link">
+                        👥 Students
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="nav-section">
+            <h3 class="nav-title">SETTINGS</h3>
+            <ul class="nav-list">
+                <li>
+                    <a th:href="@{/counselor/profile}" class="nav-link">
+                        👤 Profile
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/logout}" class="nav-link danger">
+                        🚪 Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+</aside>
+
+</body>
+</html>
