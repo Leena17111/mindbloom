@@ -1,0 +1,36 @@
+.auth-container {
+    max-width: 450px;
+    margin: 70px auto;
+    background: white;
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-group {
+    margin-bottom: 15px;
+}
+
+.auth-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.auth-group input,
+.auth-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: var(--radius);
+    border: 1px solid #ddd;
+}
+
+.auth-actions {
+    margin-top: 20px;
+    text-align: center;
+}

@@ -47,7 +47,7 @@ public class AuthController {
         session.setAttribute("loggedUser", person);
         session.setAttribute("role", person.getRole());
 
-        // 🔥 CRITICAL FIX
+        // CRITICAL FIX
         String role = person.getRole().trim().toUpperCase();
 
         switch (role) {

@@ -2,8 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Student Dashboard</title>
-    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}">
+    
+    <!-- GLOBAL STYLES -->
+     <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/resources/css/common/style.css">
+
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/resources/css/common/dashboard.css">
+
 </head>
 <body>
 

@@ -88,6 +88,10 @@ public class CounselorController {
 
         return "counselor/resources";
     }
+    @GetMapping("/dashboard")
+public String counselorDashboard() {
+    return "counselor/dashboard";
+}
 
 
     /* ===========================

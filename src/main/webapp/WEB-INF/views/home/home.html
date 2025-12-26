@@ -1,45 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>MindBloom - Home</title>
+    <title>MindBloom</title>
 
-    <!-- GLOBAL STYLE -->
-    <link rel="stylesheet"
-          th:href="@{/resources/css/common/style.css}" />
+    <!-- BASE -->
+    <link rel="stylesheet" th:href="@{/css/common/base.css}">
 
-    <!-- HOME STYLE -->
-    <link rel="stylesheet"
-          th:href="@{/resources/css/common/home.css}" />
+    <!-- PAGE -->
+    <link rel="stylesheet" th:href="@{/css/auth/home.css}">
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <header class="navbar">
-    <div class="logo">🌸 MindBloom</div>
-    <nav>
-        <a th:href="@{/login}">Login</a>
-        <a th:href="@{/register}" class="btn">Register</a>
-    </nav>
-</header>
-
-<section class="hero">
-    <div class="hero-text">
-        <h1>Your Mental Well-Being Matters</h1>
-        <p>
-            Access trusted resources, book counselling sessions,
-            and connect with UTM’s well-being community — all in one place.
-        </p>
-
-        <div class="hero-buttons">
-            <a th:href="@{/register}" class="btn primary">Get Started</a>
-            <a th:href="@{/login}" class="btn secondary">Sign In</a>
-        </div>
+    <div class="nav-left">
+        <span class="logo">🌸</span>
+        <h2 class="brand">MindBloom</h2>
     </div>
 
-    <div class="hero-image">
-        <img th:src="@{/resources/img/hero.jpg}"
-             alt="Mental Health Support" />
+    <div class="nav-actions">
+        <a th:href="@{/register}" class="btn btn-outline">Register Here</a>
+        <a th:href="@{/login}" class="btn btn-primary">Sign In</a>
+    </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+
+        <!-- LEFT TEXT -->
+        <div class="hero-text">
+            <h1>
+                Your Mental Well-Being<br>
+                <span>Matters</span>
+            </h1>
+
+            <p>
+                Access trusted resources, book appointments with mental health
+                professionals, and connect with UTM’s well-being community —
+                all in one place.
+            </p>
+
+            <div class="hero-buttons">
+                <a th:href="@{/register}" class="btn btn-primary btn-lg">
+                    Get Started
+                </a>
+                <a th:href="@{/login}" class="btn btn-outline btn-lg">
+                    Sign In
+                </a>
+            </div>
+        </div>
+
+        <!-- RIGHT IMAGE PLACEHOLDER -->
+            <img th:src="@{/resources/img/hero.jpg}" alt="Mental Health Support"> 
+      
+        </div>
+
     </div>
 </section>
 
