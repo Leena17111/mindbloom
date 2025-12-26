@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Counselor Dashboard</title>
+
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}">
+</head>
+
+<body>
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>MindBloom</h2>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Counselor</h4>
+            <nav class="sidebar-nav">
+                <a class="active">Dashboard</a>
+                <a>My Sessions</a>
+                <a>Student Requests</a>
+                <a>Profile</a>
+                <a th:href="@{/logout}">Logout</a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <h1>Welcome Counselor 🧠</h1>
+        </header>
+
+        <div class="dashboard-content">
+
+            <!-- STATS -->

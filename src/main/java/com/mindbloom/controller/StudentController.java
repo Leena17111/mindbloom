@@ -15,4 +15,9 @@ public class StudentController {
     public String emergencyPage() {
         return "student/emergency";
     }
+
+    @GetMapping("/dashboard")
+    public String studentDashboard() {
+        return "student/dashboard";
+    }
 }

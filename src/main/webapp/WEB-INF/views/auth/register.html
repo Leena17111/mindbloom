@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - MindBloom</title>
+</head>
+<body>
+
+<h1>Register Here</h1>
+<p>Create your student account to access MindBloom</p>
+
+<form th:action="@{/register}" method="post">
+
+    <label>Full Name</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Email</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Phone</label><br>
+    <input type="tel" name="phone"><br><br>
+
+    <label>Date of Birth</label><br>
+    <input type="date" name="dateOfBirth"><br><br>
+
+    <label>Password</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <label>Confirm Password</label><br>
+    <input type="password" name="confirmPassword" required><br><br>
+
+    <button type="submit">Register</button>
+</form>
+
+<p>
+    Have an account? <a th:href="@{/login}">Login here</a>
+</p>
+
+<p th:if="${error}" style="color:red">
+    <span th:text="${error}"></span>
+</p>
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/resources/css/common/style.css">
+
+
+</body>
+</html>

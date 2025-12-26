@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MindBloom - Home</title>
+
+    <!-- GLOBAL STYLE -->
+    <link rel="stylesheet"
+          th:href="@{/resources/css/common/style.css}" />
+
+    <!-- HOME STYLE -->
+    <link rel="stylesheet"
+          th:href="@{/resources/css/common/home.css}" />
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">🌸 MindBloom</div>
+    <nav>
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/register}" class="btn">Register</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-text">
+        <h1>Your Mental Well-Being Matters</h1>
+        <p>
+            Access trusted resources, book counselling sessions,
+            and connect with UTM’s well-being community — all in one place.
+        </p>
+
+        <div class="hero-buttons">
+            <a th:href="@{/register}" class="btn primary">Get Started</a>
+            <a th:href="@{/login}" class="btn secondary">Sign In</a>
+        </div>
+    </div>
+
+    <div class="hero-image">
+        <img th:src="@{/resources/img/hero.jpg}"
+             alt="Mental Health Support" />
+    </div>
+</section>
+
+</body>
+</html>
