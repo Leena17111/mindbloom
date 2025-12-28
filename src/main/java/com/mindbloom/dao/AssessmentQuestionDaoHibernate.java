@@ -27,7 +27,7 @@ public class AssessmentQuestionDaoHibernate implements AssessmentQuestionDao {
     }
 
     @Override
-    public void deleteByAssessmentId(Long assessmentId) {
+    public void deleteByAssessmentId(int assessmentId) {
         getSession()
             .createQuery("DELETE FROM AssessmentQuestion WHERE assessmentId = :aid")
             .setParameter("aid", assessmentId)
@@ -35,7 +35,7 @@ public class AssessmentQuestionDaoHibernate implements AssessmentQuestionDao {
     }
 
     @Override
-    public List<AssessmentQuestion> findByAssessmentId(Long assessmentId) {
+    public List<AssessmentQuestion> findByAssessmentId(int assessmentId) {
         return getSession()
             .createQuery(
                 "FROM AssessmentQuestion WHERE assessmentId = :aid ORDER BY questionOrder",

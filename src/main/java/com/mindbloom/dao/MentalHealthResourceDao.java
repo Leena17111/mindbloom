@@ -8,9 +8,9 @@ public interface MentalHealthResourceDao {
 
     void save(MentalHealthResource resource);
 
-    void delete(Long id);
+    void delete(int id);
 
-    MentalHealthResource findById(Long id);
+    MentalHealthResource findById(int id);
 
     List<MentalHealthResource> findAll();
 

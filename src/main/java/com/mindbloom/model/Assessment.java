@@ -13,26 +13,26 @@ public class Assessment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "resource_id", nullable = false, unique = true)
-    private Long resourceId;
+    private int resourceId;
 
     // ===== GETTERS & SETTERS =====
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getResourceId() {
+    public int getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(Long resourceId) {
+    public void setResourceId(int resourceId) {
         this.resourceId = resourceId;
     }
 }

@@ -16,7 +16,7 @@ public class MentalHealthResource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(nullable = false, length = 255)
     private String title;
@@ -46,7 +46,7 @@ public class MentalHealthResource {
 
     // TODO: Replace with real counselor ID when Spring Security is implemented
     @Column(name = "created_by_id", nullable = false)
-    private Long createdById;
+    private int createdById;
 
      // TODO: Replace with real counselor name when Spring Security is implemented
     // Display name shown to students (e.g. "Dr. Azmina Ahmed")
@@ -63,8 +63,8 @@ public class MentalHealthResource {
 
     // ===== Getters & Setters =====
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -84,8 +84,8 @@ public class MentalHealthResource {
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public Long getCreatedById() { return createdById; }
-    public void setCreatedById(Long createdById) { this.createdById = createdById; }
+    public int getCreatedById() { return createdById; }
+    public void setCreatedById(int createdById) { this.createdById = createdById; }
 
     public String getCreatedByName() { return createdByName; }
     public void setCreatedByName(String createdByName) { this.createdByName = createdByName; }

@@ -3,6 +3,6 @@ package com.mindbloom.dao;
 import com.mindbloom.model.Assessment;
 
 public interface AssessmentDao {
-    Assessment findByResourceId(Long resourceId);
+    Assessment findByResourceId(int resourceId);
     void save(Assessment assessment);
 }
