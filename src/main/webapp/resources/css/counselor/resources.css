@@ -7,46 +7,70 @@
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 8px;
-  color: #1a1a1a;
+  color: var(--text-dark);
 }
 
 .page-header p {
   font-size: 15px;
-  color: #6b7280;
+  color: var(--text-gray);
 }
 
 /* ===== ACTION BAR ===== */
 .actions-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
   margin-bottom: 24px;
 }
+
 
 .actions-bar form {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
+/* SEARCH INPUT */
 .actions-bar input {
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   font-size: 14px;
-  min-width: 280px;
+  min-width: 260px;
+  background-color: var(--bg-white);
+  color: var(--text-dark);
   transition: border-color 0.2s;
 }
 
 .actions-bar input:focus {
   outline: none;
-  border-color: #9333ea;
+  border-color: var(--primary-color);
 }
 
-.actions-bar button {
-  padding: 10px 20px;
+/* CATEGORY FILTER */
+.actions-bar select {
+  padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: white;
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.actions-bar select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* SEARCH BUTTON */
+.actions-bar button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-white);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -54,14 +78,14 @@
 }
 
 .actions-bar button:hover {
-  background: #f9fafb;
-  border-color: #d1d5db;
+  background-color: var(--bg-light);
+  border-color: var(--border-color);
 }
 
-/* ===== BUTTON ===== */
+/* ===== PRIMARY BUTTON ===== */
 .btn-primary {
-  background-color: #9333ea;
-  color: white;
+  background-color: var(--primary-color);
+  color: #ffffff;
   padding: 10px 20px;
   border-radius: 8px;
   text-decoration: none;
@@ -72,7 +96,7 @@
 }
 
 .btn-primary:hover {
-  background-color: #7e22ce;
+  background-color: #7e22ce; /* intentional darker primary */
 }
 
 /* ===== TABLE ===== */
@@ -80,36 +104,37 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  background-color: white;
+  background-color: var(--bg-white);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
 }
 
 .resource-table thead {
-  background-color: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
+  background-color: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .resource-table th {
   padding: 16px 24px;
   font-size: 13px;
   text-align: left;
-  color: #6b7280;
+  color: var(--text-gray);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.025em;
+  white-space: nowrap;
 }
 
 .resource-table td {
   padding: 16px 24px;
   font-size: 14px;
   text-align: left;
-  color: #1f2937;
+  color: var(--text-dark);
 }
 
 .resource-table tbody tr {
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--border-light);
   transition: background-color 0.15s;
 }
 
@@ -118,23 +143,22 @@
 }
 
 .resource-table tbody tr:hover {
-  background-color: #f9fafb;
+  background-color: var(--bg-light);
 }
 
-/* ===== ACTION LINKS ===== */
-/* Fixed action cell to display buttons inline horizontally */
+/* ===== ACTION CELL ===== */
 .action-cell {
   display: flex;
   gap: 8px;
   align-items: center;
-  flex-wrap: nowrap; /* Updated from 'wrap' */
+  flex-wrap: nowrap;
 }
 
-/* Removed flex-wrap: wrap to keep buttons on same line */
 .resource-table td.action-cell {
   white-space: nowrap;
 }
 
+/* ===== ACTION BUTTONS ===== */
 .resource-table a {
   font-size: 13px;
   text-decoration: none;
@@ -146,8 +170,7 @@
   white-space: nowrap;
 }
 
-/* Added specific button classes for each action type */
-/* Edit button - blue style */
+/* EDIT */
 .btn-edit {
   color: #3b82f6;
   background-color: #eff6ff;
@@ -159,20 +182,18 @@
   border-color: #3b82f6;
 }
 
-/* Delete button - red style */
+/* DELETE */
 .btn-delete {
-  color: #ef4444;
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
+  color: var(--danger-color);
+  background-color: var(--danger-light);
+  border: 1px solid var(--danger-border);
 }
 
 .btn-delete:hover {
-  background-color: #fee2e2;
-  border-color: #ef4444;
+  background-color: var(--danger-border);
 }
 
-/* Added assessment button styles */
-/* Add Assessment button - purple/green style */
+/* ADD ASSESSMENT */
 .btn-assessment {
   color: #16a34a;
   background-color: #f0fdf4;
@@ -181,17 +202,15 @@
 
 .btn-assessment:hover {
   background-color: #dcfce7;
-  border-color: #16a34a;
 }
 
-/* Manage Assessment button - purple style */
+/* MANAGE ASSESSMENT */
 .btn-assessment-manage {
-  color: #9333ea;
+  color: var(--primary-color);
   background-color: #faf5ff;
-  border: 1px solid #f3e8ff;
+  border: 1px solid var(--badge-bg);
 }
 
 .btn-assessment-manage:hover {
-  background-color: #f3e8ff;
-  border-color: #9333ea;
+  background-color: var(--badge-bg);
 }

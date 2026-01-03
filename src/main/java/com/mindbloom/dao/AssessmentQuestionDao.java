@@ -6,6 +6,6 @@ import com.mindbloom.model.AssessmentQuestion;
 
 public interface AssessmentQuestionDao {
     void save(AssessmentQuestion question);
-    void deleteByAssessmentId(Long assessmentId);
-    List<AssessmentQuestion> findByAssessmentId(Long assessmentId);
+    void deleteByAssessmentId(int assessmentId);
+    List<AssessmentQuestion> findByAssessmentId(int assessmentId);
 }

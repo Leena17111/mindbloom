@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mental Health Resources - MindBloom</title>
+
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/resources.css}">
+</head>
+
+<body>
+<div class="layout">
+
+    <!-- SIDEBAR (FRAGMENT) -->
+    <div th:replace="fragments/student-navbar :: student-navbar"></div>
+
+    <main class="main-content">
+
+        <div class="page-header">
+            <h1>Mental Health Resources</h1>
+            <p class="subtitle">Learn and grow with curated mental health content</p>
+        </div>
+
+        <div class="resources-grid">
+
+            <div th:each="resource : ${resources}" class="resource-card">
+
+                <div class="card-header">
+                    <span class="resource-type">
+
+                        <!-- VIDEO SVG -->
+                        <svg th:if="${resource.type == 'VIDEO'}"
+                             width="16" height="16" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+
+                        <!-- ARTICLE SVG -->
+                        <svg th:if="${resource.type == 'ARTICLE'}"
+                             width="16" height="16" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16
+                                     a2 2 0 0 0 2 2h12a2 2
+                                     0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+
+                        <span th:text="${resource.type}"></span>
+                    </span>
+
+                    <span class="resource-category"
+                          th:text="${resource.category}"></span>
+                </div>
+
+                <h3 class="resource-title"
+                    th:text="${resource.title}"></h3>
+
+                <p class="resource-description"
+                   th:text="${resource.description}"></p>
+
+                <div class="card-footer">
+
+                   <span th:if="${statusMap[resource.id] == 'NOT_STARTED'}"
+                    class="status-badge not-started">
+                    Not Started
+                    </span>
+
+                <span th:if="${statusMap[resource.id] == 'IN_PROGRESS'}"
+                    class="status-badge pending">
+                    In Progress
+                    </span>
+
+                <span th:if="${statusMap[resource.id] == 'COMPLETED'}"
+                    class="status-badge completed">
+                    Completed
+                    </span>
+
+                    <a th:href="@{/student/resources/{id}(id=${resource.id})}"
+                       class="btn-view">
+                        View Resource
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+</body>
+</html>

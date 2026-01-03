@@ -33,7 +33,7 @@ public class MentalHealthResourceDaoHibernate implements MentalHealthResourceDao
        DELETE
        =========================== */
     @Override
-    public void delete(Long id) {
+    public void delete(int id) {
         MentalHealthResource resource = findById(id);
         if (resource != null) {
             getSession().delete(resource);
@@ -44,7 +44,7 @@ public class MentalHealthResourceDaoHibernate implements MentalHealthResourceDao
        FIND BY ID
        =========================== */
     @Override
-    public MentalHealthResource findById(Long id) {
+    public MentalHealthResource findById(int id) {
         return getSession().get(MentalHealthResource.class, id);
     }
 
@@ -74,4 +74,16 @@ public class MentalHealthResourceDaoHibernate implements MentalHealthResourceDao
                 .setParameter("kw", "%" + keyword + "%")
                 .list();
     }
+
+    @Override
+    public List<MentalHealthResource> findByCategory(String category) {
+    return sessionFactory.getCurrentSession()
+            .createQuery(
+                "FROM MentalHealthResource WHERE category = :category",
+                MentalHealthResource.class
+            )
+            .setParameter("category", category)
+            .list();
+}
+
 }

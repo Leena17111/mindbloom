@@ -13,10 +13,10 @@ public class AssessmentQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "assessment_id", nullable = false)
-    private Long assessmentId;
+    private int assessmentId;
 
     @Column(name = "question_order", nullable = false)
     private int questionOrder;
@@ -41,19 +41,19 @@ public class AssessmentQuestion {
 
     // ===== GETTERS & SETTERS =====
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getAssessmentId() {
+    public int getAssessmentId() {
         return assessmentId;
     }
 
-    public void setAssessmentId(Long assessmentId) {
+    public void setAssessmentId(int assessmentId) {
         this.assessmentId = assessmentId;
     }
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment - MindBloom</title>
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/assessment.css}">
+</head>
+<body>
+    <div class="layout">
+       <div th:replace="fragments/student-navbar :: student-navbar"></div>
+        
+        <main class="main-content">
+            <div class="assessment-container">
+                <div class="assessment-header">
+                    <h1>Knowledge Check</h1>
+                    <p class="subtitle">Answer the following questions to test your understanding</p>
+                    <div class="assessment-info-bar">
+                        <span class="info-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span th:text="${questions.size()} + ' Questions'">4 Questions</span>
+                        </span>
+                        <span class="info-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            Earn 10 Points
+                        </span>
+                    </div>
+                </div>
+
+                <form th:action="@{/student/assessment/{id}/submit(id=${assessment.id})}" method="post" class="assessment-form">
+                    <div th:each="question, iterStat : ${questions}" class="question-card">
+                        <div class="question-header">
+                            <span class="question-number" th:text="'Question ' + ${iterStat.count}">Question 1</span>
+                        </div>
+                        
+                        <h3 class="question-text" th:text="${question.questionText}">What is the main symptom of depression?</h3>
+                        
+                        <div class="options-container">
+                            <label class="option-label">
+                                <input type="radio" th:name="'q' + ${question.id}" value="A" required>
+                                <div class="option-content">
+                                    <span class="option-letter">A</span>
+                                    <span class="option-text" th:text="${question.optionA}">Option A</span>
+                                </div>
+                            </label>
+
+                            <label class="option-label">
+                                <input type="radio" th:name="'q' + ${question.id}" value="B" required>
+                                <div class="option-content">
+                                    <span class="option-letter">B</span>
+                                    <span class="option-text" th:text="${question.optionB}">Option B</span>
+                                </div>
+                            </label>
+
+                            <label class="option-label">
+                                <input type="radio" th:name="'q' + ${question.id}" value="C" required>
+                                <div class="option-content">
+                                    <span class="option-letter">C</span>
+                                    <span class="option-text" th:text="${question.optionC}">Option C</span>
+                                </div>
+                            </label>
+
+                            <label class="option-label">
+                                <input type="radio" th:name="'q' + ${question.id}" value="D" required>
+                                <div class="option-content">
+                                    <span class="option-letter">D</span>
+                                    <span class="option-text" th:text="${question.optionD}">Option D</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a th:href="@{/student/resources/{id}(id=${resource.id})}" class="btn-cancel">Cancel</a>
+                        <button type="submit" class="btn-submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

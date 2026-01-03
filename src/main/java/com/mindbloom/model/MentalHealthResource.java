@@ -16,7 +16,11 @@ public class MentalHealthResource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
+    /* =========================
+       BASIC INFO
+       ========================= */
 
     @Column(nullable = false, length = 255)
     private String title;
@@ -25,31 +29,37 @@ public class MentalHealthResource {
     @Column(nullable = false, length = 500)
     private String description;
 
+    // e.g. Anxiety, Depression, Stress, Burnout
     @Column(nullable = false, length = 100)
     private String category;
 
+    // VIDEO or ARTICLE
     @Column(nullable = false, length = 20)
-    private String type; // VIDEO or ARTICLE
+    private String type;
 
-    // YouTube URL OR full article text
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String content;
+    /* =========================
+       CONTENT
+       ========================= */
 
-    // Image shown on student dashboard cards
-    @Column(name = "image_url")
-    private String imageUrl;
+    // Used when type = VIDEO
+    @Column(name = "youtube_video_id", length = 50)
+    private String youtubeVideoId;
 
+    // Used when type = ARTICLE
+    @Column(name = "article_url", length = 500)
+    private String articleUrl;
 
-    /* ===========================
-       CREATED BY (TEMPORARY)
-       =========================== */
+    // e.g. "5 min video", "Quick read"
+    @Column(name = "estimated_duration", length = 50)
+    private String estimatedDuration;
 
-    // TODO: Replace with real counselor ID when Spring Security is implemented
+    /* =========================
+       CREATED BY
+       ========================= */
+
     @Column(name = "created_by_id", nullable = false)
-    private Long createdById;
+    private int createdById;
 
-     // TODO: Replace with real counselor name when Spring Security is implemented
-    // Display name shown to students (e.g. "Dr. Azmina Ahmed")
     @Column(name = "created_by_name", nullable = false, length = 100)
     private String createdByName;
 
@@ -61,10 +71,12 @@ public class MentalHealthResource {
         createdAt = LocalDateTime.now();
     }
 
-    // ===== Getters & Setters =====
+    /* =========================
+       GETTERS & SETTERS
+       ========================= */
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -78,20 +90,21 @@ public class MentalHealthResource {
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
+    public String getYoutubeVideoId() { return youtubeVideoId; }
+    public void setYoutubeVideoId(String youtubeVideoId) { this.youtubeVideoId = youtubeVideoId; }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getArticleUrl() { return articleUrl; }
+    public void setArticleUrl(String articleUrl) { this.articleUrl = articleUrl; }
 
-    public Long getCreatedById() { return createdById; }
-    public void setCreatedById(Long createdById) { this.createdById = createdById; }
+    public String getEstimatedDuration() { return estimatedDuration; }
+    public void setEstimatedDuration(String estimatedDuration) { this.estimatedDuration = estimatedDuration; }
+
+    public int getCreatedById() { return createdById; }
+    public void setCreatedById(int createdById) { this.createdById = createdById; }
 
     public String getCreatedByName() { return createdByName; }
     public void setCreatedByName(String createdByName) { this.createdByName = createdByName; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-
-
 }

@@ -1,0 +1,229 @@
+/* ==================== ASSESSMENT RESULT PAGE ==================== */
+.result-container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.result-celebration {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.celebration-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ede9fe 0%, #fae8ff 100%);
+  border-radius: 50%;
+  margin-bottom: 14px;
+}
+
+.celebration-icon svg {
+  color: var(--primary-color);
+}
+
+.result-celebration h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+}
+
+.celebration-text {
+  font-size: 13px;
+  color: var(--text-gray);
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.result-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.score-card .card-icon {
+  background: #ede9fe;
+}
+
+.score-card .card-icon svg {
+  color: var(--primary-color);
+}
+
+.points-card .card-icon {
+  background: #fef3c7;
+}
+
+.points-card .card-icon svg {
+  color: #d97706;
+}
+
+.level-card .card-icon {
+  background: #dbeafe;
+}
+
+.level-card .card-icon svg {
+  color: #2563eb;
+}
+
+.badge-card .card-icon {
+  background: #d1fae5;
+}
+
+.badge-card .card-icon svg {
+  color: #059669;
+}
+
+.card-label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-gray);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.card-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.progress-section {
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.progress-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.progress-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-gray);
+}
+
+.stat-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.progress-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--border-light);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+
+.progress-label {
+  font-size: 12px;
+  color: var(--text-gray);
+}
+
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #7e22ce;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-white);
+  color: var(--text-gray);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .result-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
