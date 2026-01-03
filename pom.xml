@@ -6,7 +6,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-
   <groupId>com.mindbloom</groupId>
   <artifactId>mindbloom</artifactId>
   <version>1.0</version>
@@ -53,7 +52,7 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- JSTL  -->
+    <!-- JSTL -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
@@ -67,7 +66,7 @@
       <version>8.0.33</version>
     </dependency>
 
-    <!-- APACHE  -->
+    <!-- APACHE DBCP -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-dbcp2</artifactId>
@@ -121,6 +120,20 @@
       <artifactId>junit</artifactId>
       <version>4.13.1</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- Spring Mail support -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>5.3.33</version>
+    </dependency>
+
+    <!-- JavaMail (for Java 8 / Spring 5) -->
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
     </dependency>
 
   </dependencies>

@@ -25,6 +25,9 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+   
+
+
     <!-- ============================== -->
     <!-- SPRING SECURITY FILTER       -->
     <!-- ============================== -->
@@ -43,5 +46,6 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
 
 </web-app>

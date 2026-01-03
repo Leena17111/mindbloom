@@ -1,6 +1,7 @@
 package com.mindbloom.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
@@ -22,8 +23,14 @@ public class Person {
 
     private String phone;
 
-    @Column(name = "date_of_birth") // 🔥 THIS IS THE KEY
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+
+    @Column(name = "reset_code")
+    private String resetCode;
+
+    @Column(name = "reset_code_expiry")
+    private LocalDateTime resetCodeExpiry;
 
     // ===== GETTERS & SETTERS =====
 
@@ -38,7 +45,7 @@ public class Person {
     public String getName() {
         return name;
     }
-
+ 
     public void setName(String name) {
         this.name = name;
     }
@@ -46,7 +53,7 @@ public class Person {
     public String getEmail() {
         return email;
     }
-
+ 
     public void setEmail(String email) {
         this.email = email;
     }
@@ -81,5 +88,21 @@ public class Person {
  
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getResetCode() {
+        return resetCode;
+    }
+
+    public void setResetCode(String resetCode) {
+        this.resetCode = resetCode;
+    }
+
+    public LocalDateTime getResetCodeExpiry() {
+        return resetCodeExpiry;
+    }
+
+    public void setResetCodeExpiry(LocalDateTime resetCodeExpiry) {
+        this.resetCodeExpiry = resetCodeExpiry;
     }
 }
