@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<div class="container">
+<div class="layout">
 
     <!-- Counselor Navbar -->
     <div th:replace="fragments/counselor-navbar :: counselor-navbar"></div>
@@ -20,11 +20,43 @@
             <p>Manage all mental health learning materials</p>
         </div>
 
-        <!-- Top Actions -->
         <div class="actions-bar">
-            <form method="get" th:action="@{/counselor/resources}">
-                <input type="text" name="search" placeholder="Search by title">
-                <button type="submit">Search</button>
+    <form method="get" th:action="@{/counselor/resources}">
+
+        <input type="text"
+               name="search"
+               placeholder="Search by title"
+               th:value="${param.search}">
+
+        <select name="category" onchange="this.form.submit()">
+        <option value="">All Categories</option>
+
+        <option value="Awareness"
+            th:selected="${selectedCategory == 'Awareness'}">
+            Awareness
+        </option>
+
+        <option value="Self-Care"
+            th:selected="${selectedCategory == 'Self-Care'}">
+            Self-Care
+        </option>
+
+        <option value="Coping Strategies"
+            th:selected="${selectedCategory == 'Coping Strategies'}">
+            Coping Strategies
+        </option>
+
+        <option value="Treatment"
+            th:selected="${selectedCategory == 'Treatment'}">
+            Treatment
+        </option>
+
+        <option value="Crisis Support"
+            th:selected="${selectedCategory == 'Crisis Support'}">
+            Crisis Support
+        </option>
+    </select>
+
             </form>
 
             <a th:href="@{/counselor/resources/add}" class="btn-primary">
@@ -39,7 +71,7 @@
                     <th>Title</th>
                     <th>Category</th>
                     <th>Type</th>
-                    <th>Created On</th>
+                    <th>Created</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -51,7 +83,6 @@
                     <td th:text="${#strings.capitalize(res.type.toLowerCase())}"></td>
                     <td th:text="${#temporals.format(res.createdAt, 'dd MMM yyyy')}"></td>
 
-                    <!-- Actions -->
                     <td class="action-cell">
                         <a th:href="@{/counselor/resources/edit/{id}(id=${res.id})}"
                            class="btn-edit">Edit</a>
@@ -62,19 +93,20 @@
                            Delete
                         </a>
 
-                        <!-- Add Assessment (if no assessment exists) -->
-                        <a th:if="${assessmentMap != null && !assessmentMap[res.id]}"
-                           th:href="@{/counselor/resources/{id}/assessment/add(id=${res.id})}"
-                           class="btn-assessment">
-                           Add Assessment
-                        </a>
+                        <!-- ADD ASSESSMENT -->
+                    <a th:if="${!assessmentMap[res.id]}"
+                    th:href="@{/counselor/resources/{id}/assessment/add(id=${res.id})}"
+                    class="btn-assessment">
+                    Add Assessment
+                    </a>
 
-                        <!-- Manage Assessment (if assessment exists) -->
-                        <a th:if="${assessmentMap != null && assessmentMap[res.id]}"
-                           th:href="@{/counselor/resources/{id}/assessment/add(id=${res.id})}"
-                           class="btn-assessment-manage">
-                           Manage Assessment
-                        </a>
+                    <!-- MANAGE ASSESSMENT -->
+                    <a th:if="${assessmentMap[res.id]}"
+                    th:href="@{/counselor/resources/{id}/assessment/add(id=${res.id})}"
+                    class="btn-assessment-manage">
+                    Manage Assessment
+                    </a>
+
                     </td>
                 </tr>
             </tbody>
@@ -82,7 +114,9 @@
 
         <!-- Empty State -->
         <div class="empty-state" th:if="${resources.isEmpty()}">
-            <p>No resources found. <a th:href="@{/counselor/resources/add}">Add your first resource</a></p>
+            <p>No resources found.
+               <a th:href="@{/counselor/resources/add}">Add your first resource</a>
+            </p>
         </div>
 
     </main>

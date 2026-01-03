@@ -10,7 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mindbloom.dao.AssessmentDao;
 import com.mindbloom.dao.AssessmentQuestionDao;
@@ -47,38 +53,32 @@ public class CounselorController {
     @GetMapping("/resources")
     public String listResources(
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) String category,
             Model model) {
 
         List<MentalHealthResource> resources;
-
-        if (search != null && !search.trim().isEmpty()) {
-            resources = resourceDao.searchByTitle(search);
-        } else {
-            resources = resourceDao.findAll();
-        }
-
-        // Map: resourceId → hasAssessmentWithQuestions
-        Map<Integer, Boolean> assessmentMap = new HashMap<>();
-
-        for (MentalHealthResource res : resources) {
-            Assessment assessment =
-                    assessmentDao.findByResourceId(res.getId());
-
-            if (assessment != null) {
-                List<AssessmentQuestion> questions =
-                        questionDao.findByAssessmentId(assessment.getId());
-                assessmentMap.put(res.getId(), !questions.isEmpty());
-            } else {
-                assessmentMap.put(res.getId(), false);
-            }
-        }
-
-        model.addAttribute("resources", resources);
-        model.addAttribute("assessmentMap", assessmentMap);
-
-        return "counselor/resources";
+        if (category != null && !category.isEmpty()) {
+        resources = resourceDao.findByCategory(category);
+    } else if (search != null && !search.trim().isEmpty()) {
+        resources = resourceDao.searchByTitle(search);
+    } else {
+        resources = resourceDao.findAll();
     }
 
+    // Map: resourceId → assessment exists
+    Map<Integer, Boolean> assessmentMap = new HashMap<>();
+
+    for (MentalHealthResource res : resources) {
+        Assessment assessment =
+                assessmentDao.findByResourceId(res.getId());
+        assessmentMap.put(res.getId(), assessment != null);
+    }
+
+    model.addAttribute("resources", resources);
+    model.addAttribute("assessmentMap", assessmentMap);
+    model.addAttribute("selectedCategory", category);
+
+    return "counselor/resources"; }
     /* =========================
        ADD RESOURCE FORM
        ========================= */
@@ -89,42 +89,81 @@ public class CounselorController {
     }
 
     /* =========================
-       SAVE RESOURCE
+       EDIT RESOURCE FORM
+       ========================= */
+    @GetMapping("/resources/edit/{id}")
+    public String showEditForm(@PathVariable int id, Model model) {
+        model.addAttribute("resource", resourceDao.findById(id));
+        return "counselor/resource-form";
+    }
+
+    /* =========================
+       SAVE RESOURCE (ADD + EDIT)
        ========================= */
     @PostMapping("/resources/save")
     public String saveResource(
             @ModelAttribute("resource") MentalHealthResource resource,
-            HttpSession session) {
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
 
         Person counselor = getLoggedInCounselor(session);
 
-        // ADD
+        /* ===== HANDLE VIDEO / ARTICLE ===== */
+        if ("VIDEO".equals(resource.getType())) {
+
+            String videoId = extractYoutubeVideoId(resource.getArticleUrl());
+
+            if (videoId == null) {
+                redirectAttributes.addFlashAttribute(
+                        "error",
+                        "Invalid YouTube link."
+                );
+
+                return resource.getId() == 0
+                        ? "redirect:/counselor/resources/add"
+                        : "redirect:/counselor/resources/edit/" + resource.getId();
+            }
+
+            resource.setYoutubeVideoId(videoId);
+            resource.setArticleUrl(null);
+
+        } else if ("ARTICLE".equals(resource.getType())) {
+
+            if (resource.getArticleUrl() == null || resource.getArticleUrl().isBlank()) {
+                redirectAttributes.addFlashAttribute(
+                        "error",
+                        "Please provide a valid article URL."
+                );
+
+                return resource.getId() == 0
+                        ? "redirect:/counselor/resources/add"
+                        : "redirect:/counselor/resources/edit/" + resource.getId();
+            }
+
+            resource.setYoutubeVideoId(null);
+        }
+
+        /* ===== ADD vs EDIT ===== */
         if (resource.getId() == 0) {
             resource.setCreatedById(counselor.getId());
             resource.setCreatedByName(counselor.getName());
             resource.setCreatedAt(LocalDateTime.now());
-        }
-        // EDIT
-        else {
+        } else {
             MentalHealthResource existing =
                     resourceDao.findById(resource.getId());
-
             resource.setCreatedAt(existing.getCreatedAt());
             resource.setCreatedById(existing.getCreatedById());
             resource.setCreatedByName(existing.getCreatedByName());
         }
 
         resourceDao.save(resource);
-        return "redirect:/counselor/resources";
-    }
 
-    /* =========================
-       EDIT RESOURCE
-       ========================= */
-    @GetMapping("/resources/edit/{id}")
-    public String showEditForm(@PathVariable int id, Model model) {
-        model.addAttribute("resource", resourceDao.findById(id));
-        return "counselor/resource-form";
+        redirectAttributes.addFlashAttribute(
+                "success",
+                "Resource saved successfully."
+        );
+
+        return "redirect:/counselor/resources";
     }
 
     /* =========================
@@ -138,6 +177,7 @@ public class CounselorController {
 
     /* =========================
        ADD / MANAGE ASSESSMENT
+       (method name = addAssessment)
        ========================= */
     @GetMapping("/resources/{id}/assessment/add")
     public String addAssessment(@PathVariable int id, Model model) {
@@ -156,7 +196,7 @@ public class CounselorController {
     }
 
     /* =========================
-       SAVE ASSESSMENT QUESTIONS
+       SAVE ASSESSMENT
        ========================= */
     @PostMapping("/resources/{id}/assessment/save")
     public String saveAssessment(
@@ -171,13 +211,10 @@ public class CounselorController {
             assessmentDao.save(assessment);
         }
 
-        // Clear old questions
         questionDao.deleteByAssessmentId(assessment.getId());
 
-        // Always 4 questions
         for (int i = 1; i <= 4; i++) {
             AssessmentQuestion q = new AssessmentQuestion();
-
             q.setAssessmentId(assessment.getId());
             q.setQuestionOrder(i);
             q.setQuestionText(params.get("question" + i));
@@ -186,7 +223,6 @@ public class CounselorController {
             q.setOptionC(params.get("option" + i + "C"));
             q.setOptionD(params.get("option" + i + "D"));
             q.setCorrectOption(params.get("correct" + i));
-
             questionDao.save(q);
         }
 
@@ -194,9 +230,33 @@ public class CounselorController {
     }
 
     /* =========================
-       HELPER
+       HELPER METHODS
        ========================= */
     private Person getLoggedInCounselor(HttpSession session) {
-        return (Person) session.getAttribute("loggedUser");
+
+        Person counselor = (Person) session.getAttribute("loggedUser");
+
+        if (counselor == null) {
+            counselor = new Person();
+            counselor.setId(1);
+            counselor.setName("Dr. Demo Counselor");
+            counselor.setRole("COUNSELOR");
+        }
+
+        return counselor;
+    }
+
+    private String extractYoutubeVideoId(String url) {
+        if (url == null || url.isBlank()) return null;
+
+        if (url.contains("youtu.be/")) {
+            return url.substring(url.lastIndexOf("/") + 1).split("\\?")[0];
+        }
+
+        if (url.contains("watch?v=")) {
+            return url.substring(url.indexOf("v=") + 2).split("&")[0];
+        }
+
+        return null;
     }
 }

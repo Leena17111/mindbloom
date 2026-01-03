@@ -8,7 +8,7 @@
   <!-- COMMON BASE -->
   <link rel="stylesheet" th:href="@{/css/common/base.css}">
 
-  <!-- STUDENT LAYOUT -->
+  <!-- STUDENT NAVBAR LAYOUT -->
   <link rel="stylesheet" th:href="@{/css/common/layout.css}">
 
   <!-- PAGE -->
@@ -16,7 +16,7 @@
 </head>
 
 <body>
-<div class="container">
+<div class="layout">
 
   <!-- SIDEBAR (FRAGMENT) -->
  <div th:replace="fragments/student-navbar :: student-navbar"></div>
@@ -41,10 +41,10 @@
       </p>
     </section>
 
-    <!-- Replaced contact cards with Panic Button form and static emergency call card -->
+    <!-- Panic Button form and static emergency call card -->
     <section class="contact-options">
 
-      <!-- PANIC BUTTON CARD (FORM SUBMISSION) -->
+      <!-- PANIC BUTTON CARD -->
       <form th:action="@{/student/emergency/trigger}" method="post" 
             onsubmit="return confirm('Are you sure you want to request urgent support?');">
         <button type="submit" class="emergency-card panic-button">
@@ -57,12 +57,12 @@
           </div>
           <h3 class="emergency-title-text">Panic Button</h3>
           <p class="emergency-description">
-            Notify immediately for urgent assistance.
+            Click Button to notify immediately for urgent assistance.
           </p>
         </button>
       </form>
 
-      <!-- CALL EMERGENCY SERVICES CARD (STATIC) -->
+      <!-- CALL EMERGENCY SERVICES CARD -->
       <div class="emergency-card call-services">
         <div class="emergency-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -93,7 +93,7 @@
           </div>
           <h3 class="crisis-card-title">Stay Calm</h3>
           <p class="crisis-card-text">
-            Focus On Your Breathing. Inhale Slowly, Hold, And Exhale.
+            Focus on your breathing. Inhale slowly, hold, and exhale.
           </p>
         </div>
 
@@ -106,7 +106,7 @@
           </div>
           <h3 class="crisis-card-title">Ensure Safety</h3>
           <p class="crisis-card-text">
-            Move To A Safe Place Away From Any Potential Harm.
+            Move to a safe place away from any potential harm.
           </p>
         </div>
 
@@ -118,7 +118,7 @@
           </div>
           <h3 class="crisis-card-title">Reach Out</h3>
           <p class="crisis-card-text">
-            Use The Phone Or Text Lines Above To Talk To Someone.
+            Use the phone or text lines above to talk to someone.
           </p>
         </div>
 

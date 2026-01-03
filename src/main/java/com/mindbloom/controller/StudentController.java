@@ -1,7 +1,9 @@
 package com.mindbloom.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,70 +14,277 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mindbloom.dao.AssessmentDao;
+import com.mindbloom.dao.AssessmentQuestionDao;
 import com.mindbloom.dao.AssessmentResultDao;
 import com.mindbloom.dao.EmergencyAlertDao;
+import com.mindbloom.dao.MentalHealthResourceDao;
+import com.mindbloom.dao.StudentResourceProgressDao;
+import com.mindbloom.model.Assessment;
+import com.mindbloom.model.AssessmentQuestion;
 import com.mindbloom.model.AssessmentResult;
 import com.mindbloom.model.EmergencyAlert;
+import com.mindbloom.model.MentalHealthResource;
 import com.mindbloom.model.Person;
+import com.mindbloom.model.StudentResourceProgress;
 
 @Controller
 @RequestMapping("/student")
 public class StudentController {
 
     @Autowired
+    private MentalHealthResourceDao resourceDao;
+
+    @Autowired
+    private AssessmentDao assessmentDao;
+
+    @Autowired
+    private AssessmentQuestionDao questionDao;
+
+    @Autowired
     private AssessmentResultDao assessmentResultDao;
+
+    @Autowired
+    private StudentResourceProgressDao progressDao;
 
     @Autowired
     private EmergencyAlertDao emergencyAlertDao;
 
-    // =========================
-    // Student Dashboard
-    // =========================
+    /* =========================
+       DASHBOARD
+       ========================= */
     @GetMapping("/dashboard")
-    public String studentDashboard() {
-        return "student/dashboard";
-    }
-
-    // =========================
-    // Assessment Result Page
-    // =========================
-    @GetMapping("/assessment/{id}/result")
-    public String viewResult(
-            @PathVariable Long id,
-            Model model,
-            HttpSession session
-    ) {
+    public String studentDashboard(Model model, HttpSession session) {
 
         int studentId = getLoggedInStudentId(session);
 
-        List<AssessmentResult> results =
-                assessmentResultDao.findByStudentId(studentId);
+        int completedResources =
+                progressDao.findByStudentId(studentId).size();
 
-        if (results.isEmpty()) {
+        int completedAssessments =
+                assessmentResultDao.findByStudentId(studentId).size();
+
+        model.addAttribute("completedResources", completedResources);
+        model.addAttribute("completedAssessments", completedAssessments);
+
+        return "student/dashboard";
+    }
+
+    /* =========================
+       LIST RESOURCES
+       ========================= */
+    @GetMapping("/resources")
+    public String listResources(Model model, HttpSession session) {
+
+        int studentId = getLoggedInStudentId(session);
+
+        List<MentalHealthResource> resources = resourceDao.findAll();
+
+        Map<Integer, String> statusMap = new HashMap<>();
+        Map<Integer, Boolean> assessmentMap = new HashMap<>();
+
+        for (MentalHealthResource r : resources) {
+
+            StudentResourceProgress progress =
+                    progressDao.findByStudentAndResource(studentId, r.getId());
+
+            if (progress == null) {
+                statusMap.put(r.getId(), "NOT_STARTED");
+            } else if (progress.getCompletedAt() == null) {
+                statusMap.put(r.getId(), "IN_PROGRESS");
+            } else {
+                statusMap.put(r.getId(), "COMPLETED");
+            }
+
+            assessmentMap.put(
+                r.getId(),
+                assessmentDao.findByResourceId(r.getId()) != null
+            );
+        }
+
+        model.addAttribute("resources", resources);
+        model.addAttribute("statusMap", statusMap);
+        model.addAttribute("assessmentMap", assessmentMap);
+
+        return "student/resources";
+    }
+
+    /* =========================
+       RESOURCE DETAIL
+       ========================= */
+    @GetMapping("/resources/{id}")
+    public String viewResource(
+            @PathVariable int id,
+            Model model,
+            HttpSession session) {
+
+        int studentId = getLoggedInStudentId(session);
+
+        MentalHealthResource resource = resourceDao.findById(id);
+
+        StudentResourceProgress progress =
+                progressDao.findByStudentAndResource(studentId, id);
+
+        if (progress == null) {
+            progress = new StudentResourceProgress();
+            progress.setStudentId(studentId);
+            progress.setResourceId(id);
+            progress.setStartedAt(LocalDateTime.now());
+            progressDao.save(progress);
+        }
+
+        boolean completed = progress.getCompletedAt() != null;
+
+        Assessment assessment = assessmentDao.findByResourceId(id);
+
+        // ✅ FIX 1: assessmentDone must require completedAt
+        AssessmentResult result =
+                assessment != null
+                ? assessmentResultDao.findByStudentAndAssessment(studentId, assessment.getId())
+                : null;
+
+        boolean assessmentDone =
+                result != null && result.getCompletedAt() != null;
+
+        model.addAttribute("resource", resource);
+        model.addAttribute("completed", completed);
+        model.addAttribute("hasAssessment", assessment != null);
+        model.addAttribute("assessmentDone", assessmentDone);
+
+        return "student/resource-detail";
+    }
+
+    /* =========================
+       MARK RESOURCE COMPLETED
+       ========================= */
+    @PostMapping("/resources/{id}/complete")
+    public String completeResource(
+            @PathVariable int id,
+            HttpSession session) {
+
+        int studentId = getLoggedInStudentId(session);
+
+        StudentResourceProgress progress =
+                progressDao.findByStudentAndResource(studentId, id);
+
+        if (progress != null && progress.getCompletedAt() == null) {
+            progress.setCompletedAt(LocalDateTime.now());
+            progressDao.save(progress);
+        }
+
+        return "redirect:/student/resources/" + id;
+    }
+
+    @GetMapping("/resources/{id}/assessment")
+    public String takeAssessment(
+            @PathVariable int id,
+            Model model,
+            HttpSession session) {
+
+        int studentId = getLoggedInStudentId(session);
+
+        StudentResourceProgress progress =
+                progressDao.findByStudentAndResource(studentId, id);
+
+        // Must be COMPLETED before assessment
+        if (progress == null || progress.getCompletedAt() == null) {
+            return "redirect:/student/resources/" + id;
+        }
+
+        Assessment assessment = assessmentDao.findByResourceId(id);
+        if (assessment == null) {
+            return "redirect:/student/resources/" + id;
+        }
+
+        List<AssessmentQuestion> questions =
+                questionDao.findByAssessmentId(assessment.getId());
+
+        MentalHealthResource resource = resourceDao.findById(id);
+
+        model.addAttribute("resource", resource); 
+        model.addAttribute("assessment", assessment);
+        model.addAttribute("questions", questions);
+
+        return "student/assessment";
+    }
+
+    /* =========================
+       SUBMIT ASSESSMENT
+       ========================= */
+    @PostMapping("/assessment/{id}/submit")
+    public String submitAssessment(
+            @PathVariable int id,
+            @RequestParam Map<String, String> params,
+            HttpSession session) {
+
+        int studentId = getLoggedInStudentId(session);
+
+    
+        AssessmentResult existing =
+                assessmentResultDao.findByStudentAndAssessment(studentId, id);
+
+        if (existing == null) {
+
+            List<AssessmentQuestion> questions =
+                    questionDao.findByAssessmentId(id);
+
+            int score = 0;
+
+            for (AssessmentQuestion q : questions) {
+                String selected = params.get("q" + q.getId());
+                if (q.getCorrectOption().equals(selected)) {
+                    score++;
+                }
+            }
+
+            AssessmentResult result = new AssessmentResult();
+            result.setStudentId(studentId);
+            result.setAssessmentId(id);
+            result.setScore(score);
+            result.setPointsEarned(10);
+            result.setCompletedAt(LocalDateTime.now());
+
+            assessmentResultDao.save(result);
+        }
+
+        return "redirect:/student/assessment/" + id + "/result";
+    }
+
+    /* =========================
+       ASSESSMENT RESULT
+       ========================= */
+    @GetMapping("/assessment/{id}/result")
+    public String viewAssessmentResult(
+            @PathVariable int id,
+            HttpSession session,
+            Model model) {
+
+        int studentId = getLoggedInStudentId(session);
+
+        AssessmentResult result =
+                assessmentResultDao.findByStudentAndAssessment(studentId, id);
+
+        if (result == null) {
             return "redirect:/student/dashboard";
         }
 
-        // latest result (most recent first assumed)
-        AssessmentResult latest = results.get(0);
+        int totalPoints =
+                assessmentResultDao.findByStudentId(studentId).size() * 10;
 
-        int totalPoints = results.size() * 10;
-
-        String level = calculateLevel(totalPoints);
-        String badge = calculateBadge(totalPoints);
-
-        model.addAttribute("score", latest.getScore());
-        model.addAttribute("points", latest.getPointsEarned());
+        model.addAttribute("score", result.getScore());
+        model.addAttribute("points", result.getPointsEarned());
         model.addAttribute("totalPoints", totalPoints);
-        model.addAttribute("level", level);
-        model.addAttribute("badge", badge);
+        model.addAttribute("level", calculateLevel(totalPoints));
+        model.addAttribute("badge", calculateBadge(totalPoints));
 
         return "student/assessment-result";
     }
 
-    // =========================
-    // Emergency / Panic Button
-    // =========================
+    /* =========================
+       EMERGENCY
+       ========================= */
     @GetMapping("/emergency")
     public String emergencyPage() {
         return "student/emergency";
@@ -84,7 +293,11 @@ public class StudentController {
     @PostMapping("/emergency/trigger")
     public String triggerEmergency(HttpSession session) {
 
-        int studentId = getLoggedInStudentId(session);
+        Integer studentId = getLoggedInStudentId(session);
+
+        if (studentId == null) {
+            return "redirect:/login";
+        }
 
         EmergencyAlert alert = new EmergencyAlert();
         alert.setStudentId(studentId);
@@ -96,25 +309,31 @@ public class StudentController {
         return "redirect:/student/emergency";
     }
 
-    // =========================
-    // Helper Methods
-    // =========================
-    private int getLoggedInStudentId(HttpSession session) {
-        Person loggedUser = (Person) session.getAttribute("loggedUser");
-        return loggedUser.getId();
+    /* =========================
+       HELPERS
+       ========================= */
+    private Integer getLoggedInStudentId(HttpSession session) {
+
+        Person user = (Person) session.getAttribute("loggedUser");
+
+        if (user == null) {
+            return null;
+        }
+
+        return user.getId();
     }
 
-    private String calculateLevel(int totalPoints) {
-        if (totalPoints >= 50) return "Expert";
-        if (totalPoints >= 30) return "Advanced";
-        if (totalPoints >= 10) return "Intermediate";
+    private String calculateLevel(int points) {
+        if (points >= 50) return "Expert";
+        if (points >= 30) return "Advanced";
+        if (points >= 10) return "Intermediate";
         return "Beginner";
     }
 
-    private String calculateBadge(int totalPoints) {
-        if (totalPoints >= 50) return "Platinum";
-        if (totalPoints >= 30) return "Gold";
-        if (totalPoints >= 10) return "Silver";
-        return "Bronze";
+    private String calculateBadge(int points) {
+        if (points >= 50) return "Gold";
+        if (points >= 30) return "Silver";
+        if (points >= 10) return "Bronze";
+        return "Starter";
     }
 }

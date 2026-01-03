@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<div class="container">
+<div class="layout">
 
     <!-- Counselor Navbar -->
     <div th:replace="fragments/counselor-navbar :: counselor-navbar"></div>
@@ -90,7 +90,7 @@
                 </div>
 
                 <input type="text" name="question2" class="question-input"
-                       th:value="${questions != null && questions.size() > 1 ? questions[1].questionText : ''}"
+                       placeholder="Enter your question here..." th:value="${questions != null && questions.size() > 1 ? questions[1].questionText : ''}"
                        required>
 
                 <div class="options-grid">
@@ -139,7 +139,7 @@
                 </div>
 
                 <input type="text" name="question3" class="question-input"
-                       th:value="${questions != null && questions.size() > 2 ? questions[2].questionText : ''}"
+                       placeholder="Enter your question here..." th:value="${questions != null && questions.size() > 2 ? questions[2].questionText : ''}"
                        required>
 
                 <div class="options-grid">
@@ -188,7 +188,7 @@
                 </div>
 
                 <input type="text" name="question4" class="question-input"
-                       th:value="${questions != null && questions.size() > 3 ? questions[3].questionText : ''}"
+                       placeholder="Enter your question here..." th:value="${questions != null && questions.size() > 3 ? questions[3].questionText : ''}"
                        required>
 
                 <div class="options-grid">

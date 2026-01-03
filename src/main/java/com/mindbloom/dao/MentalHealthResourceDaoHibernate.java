@@ -74,4 +74,16 @@ public class MentalHealthResourceDaoHibernate implements MentalHealthResourceDao
                 .setParameter("kw", "%" + keyword + "%")
                 .list();
     }
+
+    @Override
+    public List<MentalHealthResource> findByCategory(String category) {
+    return sessionFactory.getCurrentSession()
+            .createQuery(
+                "FROM MentalHealthResource WHERE category = :category",
+                MentalHealthResource.class
+            )
+            .setParameter("category", category)
+            .list();
+}
+
 }

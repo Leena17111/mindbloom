@@ -9,4 +9,6 @@ public interface AssessmentResultDao {
     void save(AssessmentResult result);
 
     List<AssessmentResult> findByStudentId(int studentId);
+    
+    AssessmentResult findByStudentAndAssessment(int studentId, int assessmentId);
 }

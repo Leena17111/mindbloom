@@ -36,4 +36,19 @@ public class AssessmentResultDaoHibernate implements AssessmentResultDao {
                 .setParameter("studentId", studentId)
                 .list();
     }
+
+    @Override
+    public AssessmentResult findByStudentAndAssessment(
+            int studentId,
+            int assessmentId) {
+
+        return sessionFactory.getCurrentSession()
+                .createQuery(
+                        "from AssessmentResult where studentId = :sid and assessmentId = :aid",
+                        AssessmentResult.class)
+                .setParameter("sid", studentId)
+                .setParameter("aid", assessmentId)
+                .uniqueResult();
+    }
+
 }

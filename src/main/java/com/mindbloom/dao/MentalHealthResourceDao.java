@@ -15,4 +15,6 @@ public interface MentalHealthResourceDao {
     List<MentalHealthResource> findAll();
 
     List<MentalHealthResource> searchByTitle(String keyword);
+
+    List<MentalHealthResource> findByCategory(String category);
 }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Results - MindBloom</title>
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/assessment-result.css}">
+</head>
+<body>
+    <div class="layout">
+        <div th:replace="fragments/student-navbar :: student-navbar"></div>
+        
+        <main class="main-content">
+            <div class="result-container">
+                <div class="result-celebration">
+                    <div class="celebration-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h1>Assessment Complete!</h1>
+                    <p class="celebration-text">Great job completing the assessment</p>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card score-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </div>
+                        <span class="card-label">Your Score</span>
+                        <span class="card-value" th:text="${score} + '/4'">3/4</span>
+                    </div>
+
+                    <div class="result-card points-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <span class="card-label">Points Earned</span>
+                        <span class="card-value" th:text="'+' + ${points}">+10</span>
+                    </div>
+
+                    <div class="result-card level-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="card-label">Current Level</span>
+                        <span class="card-value" th:text="${level}">Intermediate</span>
+                    </div>
+
+                    <div class="result-card badge-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                        </div>
+                        <span class="card-label">Badge</span>
+                        <span class="card-value" th:text="${badge}">Bronze</span>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <h2>Your Progress</h2>
+                    <div class="progress-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Points</span>
+                            <span class="stat-value" th:text="${totalPoints}">30</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" th:style="'width: ' + ${(totalPoints > 50) ? 100 : (totalPoints * 2)} + '%'"></div>
+                            </div>
+                            <span class="progress-label" th:text="${totalPoints} + ' / 50 points to Expert'">30 / 50 points to Expert</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <a th:href="@{/student/resources}" class="btn-primary">
+                        Continue Learning
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                    <a th:href="@{/student/dashboard}" class="btn-secondary">Back to Dashboard</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
