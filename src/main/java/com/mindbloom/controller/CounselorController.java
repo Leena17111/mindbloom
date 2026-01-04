@@ -106,7 +106,11 @@ public class CounselorController {
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
-        Person counselor = getLoggedInCounselor(session);
+            Integer counselorId = getLoggedInCounselorId(session);
+
+            if (counselorId == null) {
+                return "redirect:/login";
+            }
 
         /* ===== HANDLE VIDEO / ARTICLE ===== */
         if ("VIDEO".equals(resource.getType())) {
@@ -145,8 +149,8 @@ public class CounselorController {
 
         /* ===== ADD vs EDIT ===== */
         if (resource.getId() == 0) {
-            resource.setCreatedById(counselor.getId());
-            resource.setCreatedByName(counselor.getName());
+           resource.setCreatedById(counselorId);
+            resource.setCreatedAt(LocalDateTime.now());
             resource.setCreatedAt(LocalDateTime.now());
         } else {
             MentalHealthResource existing =
@@ -232,19 +236,16 @@ public class CounselorController {
     /* =========================
        HELPER METHODS
        ========================= */
-    private Person getLoggedInCounselor(HttpSession session) {
+   private Integer getLoggedInCounselorId(HttpSession session) {
 
-        Person counselor = (Person) session.getAttribute("loggedUser");
+    Person user = (Person) session.getAttribute("loggedUser");
 
-        if (counselor == null) {
-            counselor = new Person();
-            counselor.setId(1);
-            counselor.setName("Dr. Demo Counselor");
-            counselor.setRole("COUNSELOR");
-        }
-
-        return counselor;
+    if (user == null) {
+        return null;
     }
+
+    return user.getId();
+}
 
     private String extractYoutubeVideoId(String url) {
         if (url == null || url.isBlank()) return null;
