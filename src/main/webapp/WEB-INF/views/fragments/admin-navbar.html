@@ -1,0 +1,53 @@
+<nav class="sidebar" th:fragment="admin-navbar">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+        <img th:src="@{/img/logo.png}" alt="MindBloom" width="40" height="40">
+        <span class="sidebar-brand">MINDBLOOM</span>
+    </div>
+
+    <!-- Navigation -->
+    <div class="sidebar-nav">
+
+        <!-- OVERVIEW -->
+        <div class="nav-section">
+            <span class="nav-section-label">OVERVIEW</span>
+
+            <a th:href="@{/admin/dashboard}" class="nav-item active">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a th:href="@{/admin/analytics}" class="nav-item">
+                <i class="bi bi-bar-chart"></i>
+                <span>Analytics</span>
+            </a>
+        </div>
+
+        <!-- MANAGEMENT -->
+        <div class="nav-section">
+            <span class="nav-section-label">MANAGEMENT</span>
+
+            <a th:href="@{/admin/students}" class="nav-item">
+                <i class="bi bi-person-lines-fill"></i>
+                <span>Student Monitoring</span>
+            </a>
+
+            <a th:href="@{/admin/peer-support}" class="nav-item">
+                <i class="bi bi-people-fill"></i>
+                <span>Peer Support</span>
+            </a>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="nav-section">
+            <span class="nav-section-label">SETTINGS</span>
+
+            <a th:href="@{/logout}" class="nav-item nav-item-danger">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+
+    </div>
+</nav>
