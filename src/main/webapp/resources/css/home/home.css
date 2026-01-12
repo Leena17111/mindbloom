@@ -1,122 +1,82 @@
-/* Home Page CSS */
+/* ========================================
+   MindBloom - Home Page Styling
+   ======================================== */
 
-:root {
-  --primary-color: #6a5cff;
-  --primary-hover: #5a4ce6;
-  --text-dark: #1f2937;
-  --text-muted: #6b7280;
-}
-
-body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
-  color: var(--text-dark);
-}
-
-/* Navbar */
-.navbar {
-  padding: 1rem 0;
-}
-
-.logo-circle {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, #6a5cff 0%, #8b7fff 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-.brand-text {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-dark);
-  letter-spacing: 0.5px;
-}
-
-.nav-link {
-  color: var(--text-dark);
-  font-weight: 500;
-  padding: 8px 16px;
-  transition: color 0.3s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: var(--primary-color);
-}
-
-/* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, #fafcff 0%, #f0f4ff 100%);
-  padding: 60px 0;
-}
-
-.min-vh-75 {
-  min-height: 75vh;
+    padding: 3rem 0;
+    min-height: calc(100vh - 65px);
+    display: flex;
+    align-items: center;
+    background: var(--bg-white);
 }
 
 .hero-image {
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
 }
 
 .hero-content {
-  padding-left: 40px;
+    padding-left: 2.5rem;
 }
 
 .hero-title {
-  font-size: 28px;
-  line-height: 1.6;
-  color: var(--primary-color);
-  font-weight: 500;
-  font-style: italic;
+    font-size: 1.85rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--primary-color);
+    font-style: italic;
 }
 
-/* Buttons */
-.btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: white;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+/* Nav buttons home */
+.nav-buttons {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
 }
 
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-  border-color: var(--primary-hover);
-  transform: translateY(-1px);
+.btn-register-nav {
+    background: var(--primary-color) !important;
+    color: white !important;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    border-radius: 20px;
+    font-size: 0.875rem;
 }
 
-.btn-outline-primary {
-  border: 2px solid var(--primary-color);
-  color: var(--primary-color);
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  background: transparent;
-  transition: all 0.3s ease;
+.btn-register-nav:hover {
+    background: var(--primary-hover) !important;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
 }
 
-.btn-outline-primary:hover {
-  background-color: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
+.btn-signin-nav {
+    background: transparent !important;
+    border: 1.5px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    border-radius: 20px;
+    font-size: 0.875rem;
+}
+
+.btn-signin-nav:hover {
+    background: var(--badge-bg) !important;
 }
 
 /* Responsive */
-@media (max-width: 991px) {
-  .hero-content {
-    padding-left: 0;
-    margin-top: 30px;
-  }
+@media (max-width: 991.98px) {
+    .hero-section {
+        padding: 2rem 0;
+    }
 
-  .hero-title {
-    font-size: 24px;
-  }
+    .hero-content {
+        padding-left: 0;
+        padding-top: 2rem;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
 }

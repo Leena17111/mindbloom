@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <!-- Simplified navbar - removed search button and extra navigation links -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
@@ -25,9 +25,9 @@
                 <span class="brand-text">MINDBLOOM</span>
             </a>
             
-            <div class="d-flex gap-2 align-items-center">
-                <a th:href="@{/register}" class="btn btn-primary">Register Here</a>
-                <a th:href="@{/login}" class="btn btn-outline-primary">Sign In</a>
+            <div class="nav-buttons">
+                <a th:href="@{/register}" class="btn btn-register-nav">Register Here</a>
+                <a th:href="@{/login}" class="btn btn-signin-nav">Sign In</a>
             </div>
         </div>
     </nav>
@@ -35,9 +35,9 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <div class="row align-items-center min-vh-75">
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <img src="/images/image.png" alt="Medical professionals" class="img-fluid hero-image">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img th:src="@{/images/image.png}" alt="Medical professionals" class="img-fluid hero-image">
                 </div>
                 <div class="col-lg-6">
                     <div class="hero-content">

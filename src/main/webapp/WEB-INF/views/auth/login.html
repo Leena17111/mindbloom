@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <!-- Simplified navbar - removed search button and extra navigation links -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
         <div class="container-fluid px-4">
             <a class="navbar-brand d-flex align-items-center" href="/">
@@ -24,8 +24,6 @@
                 </div>
                 <span class="brand-text">MINDBLOOM</span>
             </a>
-            
-            
         </div>
     </nav>
 
@@ -59,10 +57,10 @@
                             </div>
 
                             <div class="text-end mb-4">
-                                <a th:href="@{/student/forgot-password}" class="forgot-link">Forgot Password?</a>
+                                <a th:href="@{/forgot-password}" class="forgot-link">Forgot Password?</a>
                             </div>
 
-                            <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+                            <div th:if="${error}" class="alert alert-danger mb-3" role="alert" th:text="${error}"></div>
 
                             <button type="submit" class="btn btn-primary auth-button w-100 mb-3">Login</button>
 
@@ -75,7 +73,8 @@
 
                 <!-- Right Side - Image -->
                 <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center auth-image-side">
-                    <img src="/images/image.png" alt="Medical professionals" class="auth-side-image">
+                    <img th:src="@{/resources/img/emailVerification.jpeg}">
+
                 </div>
             </div>
         </div>
