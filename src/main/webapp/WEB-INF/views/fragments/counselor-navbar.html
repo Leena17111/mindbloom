@@ -1,86 +1,53 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<nav class="sidebar" th:fragment="counselor-navbar">
 
-<nav class="sidebar d-flex flex-column bg-white border-end"
-     th:fragment="counselor-navbar"
-     aria-label="Counselor navigation">
-
-    <!-- LOGO -->
-    <div class="sidebar-logo d-flex align-items-center gap-3 px-3 py-3 border-bottom">
-        <img th:src="@{/resources/img/logo.png}"
-             alt="MindBloom logo"
-             width="44"
-             height="44"
-             class="logo-img" />
-        <span class="fw-bold text-dark logo-text">MINDBLOOM</span>
+    <!-- Logo -->
+    <div class="sidebar-logo">
+        <img th:src="@{/img/logo.png}" alt="MindBloom" width="40" height="40">
+        <span class="sidebar-brand">MINDBLOOM</span>
     </div>
 
-    <!-- NAVIGATION -->
-    <div class="sidebar-nav flex-grow-1 overflow-auto px-2 py-3">
+    <!-- Navigation -->
+    <div class="sidebar-nav">
 
         <!-- OVERVIEW -->
-        <div class="nav-group mb-3">
-            <p class="nav-section-title">Overview</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a th:href="@{/counselor/dashboard}"
-                       class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-grid"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-            </ul>
+        <div class="nav-section">
+            <span class="nav-section-label">OVERVIEW</span>
+
+            <a th:href="@{/counselor/dashboard}" class="nav-item active">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
         </div>
 
         <!-- MANAGEMENT -->
-        <div class="nav-group mb-3">
-            <p class="nav-section-title">Management</p>
-            <ul class="nav flex-column">
+        <div class="nav-section">
+            <span class="nav-section-label">MANAGEMENT</span>
 
-                <li class="nav-item">
-                    <a th:href="@{/counselor/resources}"
-                       class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-book"></i>
-                        <span>Mental Health Resources</span>
-                    </a>
-                </li>
+            <a th:href="@{/counselor/resources}" class="nav-item">
+                <i class="bi bi-book"></i>
+                <span>Mental Health Resources</span>
+            </a>
 
-                <li class="nav-item">
-                    <a th:href="@{/counselor/consultations}"
-                       class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-calendar-event"></i>
-                        <span>Consultations</span>
-                    </a>
-                </li>
+             <a th:href="@{/counselor/consultation}" class="nav-item">
+                <i class="bi bi-calendar-check"></i>
+                <span>Consultations</span>
+            </a>
 
-                <li class="nav-item">
-                    <a th:href="@{/counselor/students}"
-                       class="nav-link d-flex align-items-center gap-2">
-                        <i class="bi bi-people"></i>
-                        <span>Students</span>
-                    </a>
-                </li>
-
-            </ul>
+            <a th:href="@{/admin/students}" class="nav-item">
+                <i class="bi bi-person-lines-fill"></i>
+                <span>Students</span>
+            </a>
         </div>
 
         <!-- SETTINGS -->
-        <div class="nav-group">
-            <p class="nav-section-title">Settings</p>
-            <ul class="nav flex-column">
+        <div class="nav-section">
+            <span class="nav-section-label">SETTINGS</span>
 
-                <li class="nav-item">
-                    <a th:href="@{/logout}"
-                       class="nav-link nav-link-danger d-flex align-items-center gap-2">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
-
-            </ul>
+            <a th:href="@{/logout}" class="nav-item nav-item-danger">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
         </div>
 
     </div>
 </nav>
-
-</html>
