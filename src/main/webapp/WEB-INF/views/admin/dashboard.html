@@ -1,87 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Admin Dashboard</title>
 
     <!-- GLOBAL STYLES -->
-    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}">
-</head>
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/dashboard.css}" />
+  </head>
 
-<body>
-<div class="dashboard-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+  <body>
+    <div class="dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
         <div class="sidebar-header">
-            <h2>MindBloom</h2>
+          <h2>MindBloom</h2>
         </div>
 
         <div class="sidebar-section">
-            <h4>Admin</h4>
-            <nav class="sidebar-nav">
-                <a class="active">Dashboard</a>
-                <a>Manage Students</a>
-                <a>Manage Counselors</a>
-                <a>Reports</a>
-                <a th:href="@{/logout}">Logout</a>
-            </nav>
+          <h4>Admin</h4>
+          <nav class="sidebar-nav">
+            <a class="active">Dashboard</a>
+            <a>Manage Students</a>
+            <a>Manage Counselors</a>
+            <a>Reports</a>
+            <a th:href="@{/logout}">Logout</a>
+          </nav>
         </div>
-    </aside>
+      </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="dashboard-main">
-
+      <!-- MAIN CONTENT -->
+      <main class="dashboard-main">
         <header class="dashboard-header">
-            <h1>Admin Control Panel ⚙️</h1>
+          <h1>Admin Control Panel ⚙️</h1>
         </header>
 
         <div class="dashboard-content">
-
-            <!-- STATS -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <h3>Total Students</h3>
-                        <div class="stat-number">120</div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <h3>Total Counselors</h3>
-                        <div class="stat-number">8</div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <h3>Total Sessions</h3>
-                        <div class="stat-number">340</div>
-                    </div>
-                </div>
+          <!-- STATS -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-content">
+                <h3>Total Students</h3>
+                <div class="stat-number">120</div>
+              </div>
             </div>
 
-            <!-- QUICK ACTIONS -->
-            <div class="quick-actions">
-                <h2>Admin Actions</h2>
-
-                <div class="actions-grid">
-                    <a class="action-card">
-                        <h3>Add Counselor</h3>
-                        <p>Create new counselor account</p>
-                    </a>
-
-                    <a class="action-card">
-                        <h3>View Reports</h3>
-                        <p>System usage & analytics</p>
-                    </a>
-                </div>
+            <div class="stat-card">
+              <div class="stat-content">
+                <h3>Total Counselors</h3>
+                <div class="stat-number">8</div>
+              </div>
             </div>
 
+            <div class="stat-card">
+              <div class="stat-content">
+                <h3>Total Sessions</h3>
+                <div class="stat-number">340</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- QUICK ACTIONS -->
+          <div class="quick-actions">
+            <h2>Admin Actions</h2>
+
+            <div class="actions-grid">
+              <a class="action-card">
+                <h3>Add Counselor</h3>
+                <p>Create new counselor account</p>
+              </a>
+
+              <a class="action-card">
+                <h3>View Reports</h3>
+                <p>System usage & analytics</p>
+              </a>
+            </div>
+          </div>
         </div>
-    </main>
-
-</div>
-</body>
+      </main>
+    </div>
+  </body>
 </html>
