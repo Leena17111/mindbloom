@@ -1,16 +1,43 @@
-/* ================= ROOT VARIABLES ================= */
+/* ===============================
+   LAYOUT
+   =============================== */
+
 :root {
+  /* Primary Colors */
   --primary-color: #7c3aed;
   --primary-light: #a78bfa;
+  --primary-bg: rgba(124, 58, 237, 0.08);
+
+  /* Text Colors */
   --text-dark: #1f2937;
   --text-gray: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* Background Colors */
   --bg-white: #ffffff;
-  --bg-light: #f9fafb;
+  --bg-light: #f8f9fb;
+  --bg-muted: #f3f4f6;
+  --bg-subtle: #fafbfc;
+
+  /* Border Colors */
   --border-color: #e5e7eb;
+  --border-light: #f0f1f3;
+
+  /* Status Colors */
+  --success-color: #059669;
+  --warning-color: #d97706;
   --danger-color: #ef4444;
+  --danger-light: #fef2f2;
+  --danger-border: #fecaca;
+
+  /* Badge */
+  --badge-bg: rgba(124, 58, 237, 0.1);
+
+  /* Shadows */
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
@@ -19,8 +46,9 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background-color: var(--bg-light);
+  background: var(--bg-light);
   color: var(--text-dark);
+  line-height: 1.5;
 }
 
 /* ================= LAYOUT ================= */
@@ -29,95 +57,173 @@ body {
   min-height: 100vh;
 }
 
-/* ================= SIDEBAR ================= */
+/* Sidebar */
 .sidebar {
-  width: 240px;
-  background-color: var(--bg-white);
-  padding: 24px 16px;
-  border-right: 1px solid var(--border-color);
-  flex-shrink: 0;
+    width: 256px;
+    min-height: 100vh;
+    background: #fff;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
 }
 
-/* ================= LOGO ================= */
-.logo-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 32px;
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
 }
 
-.logo {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.sidebar-brand {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    letter-spacing: -0.5px;
 }
 
-.logo svg {
-  display: block;
-}
-
-.logo-text {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-/* ================= NAV ================= */
 .sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+    flex: 1;
+    padding: 24px 12px;
 }
 
 .nav-section {
-  display: flex;
-  flex-direction: column;
+    margin-bottom: 24px;
 }
 
-.nav-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-gray);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 0 12px 8px;
+.nav-section-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 16px;
 }
 
-.nav-list {
-  list-style: none;
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
 }
 
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 14px;
-  color: var(--text-gray);
-  transition: background 0.15s ease, color 0.15s ease;
+.nav-item:hover {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--primary);
+    transform: translateX(4px);
 }
 
-.nav-link:hover {
-  background-color: var(--bg-light);
-  color: var(--text-dark);
+.nav-item.active {
+    background: rgba(139, 92, 246, 0.15);
+    color: var(--primary);
+    font-weight: 500;
 }
 
-.nav-link.danger {
-  color: var(--danger-color);
+.nav-item-danger {
+    color: var(--danger) !important;
 }
 
-.nav-link.danger:hover {
-  background-color: #fef2f2;
+.nav-item-danger:hover {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: var(--danger) !important;
 }
+
 
 /* ================= MAIN CONTENT ================= */
 .main-content {
   flex: 1;
-  padding: 24px 32px;
+  min-width: 0;
+  padding: 24px 32px; 
+  background: var(--bg-light);
+}
+
+/* ================= FORM CONTROLS OVERRIDES ================= */
+.form-control,
+.form-select {
+  border-color: var(--border-color);
+  font-size: 14px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+/* ================= BUTTON OVERRIDES ================= */
+.btn-primary {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background: #6d28d9;
+  border-color: #6d28d9;
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* ================= CARDS ================= */
+.card {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  background: var(--bg-white);
+}
+
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 220px; 
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px !important;
+  }
+
+  .nav-group {
+    flex: 1 1 auto;
+    min-width: 140px;
+    margin-bottom: 0 !important;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
 }

@@ -1,0 +1,332 @@
+/* ===============================
+   DASHBOARD STYLES 
+   =============================== */
+
+/* Welcome Banner */
+.welcome-banner {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    border-radius: 12px;
+    padding: 24px 28px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.welcome-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.welcome-text h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.welcome-text p {
+    font-size: 13px;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.view-progress-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.view-progress-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+/* Stats Row */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.stat-card:hover {
+    box-shadow: var(--card-shadow);
+    border-color: var(--primary-light);
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+.stat-icon.resources-icon {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.stat-icon.assessments-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.stat-icon.session-icon {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-gray);
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.action-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.action-card:hover {
+    box-shadow: var(--card-shadow);
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.action-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--badge-bg);
+    color: var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 22px;
+}
+
+.action-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.action-card p {
+    font-size: 12px;
+    color: var(--text-gray);
+    margin: 0;
+}
+
+/* Bottom Row */
+.bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 14px;
+}
+
+/* Checklist Card */
+.checklist-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 18px 20px;
+}
+
+.checklist-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    color: var(--text-dark);
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.checklist-card .card-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-gray);
+    line-height: 1.5;
+}
+
+.checklist-item strong {
+    color: var(--text-dark);
+}
+
+.check-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 12px;
+}
+
+.check-icon i {
+    opacity: 0;
+}
+
+.checklist-item.completed .check-icon {
+    background: #16a34a;
+    color: #fff;
+}
+
+.checklist-item.completed .check-icon i {
+    opacity: 1;
+}
+
+.checklist-item.completed {
+    color: var(--text-gray);
+}
+
+.checklist-item.completed strong {
+    color: var(--text-gray);
+}
+
+/* Tip Card */
+.tip-card {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    border-radius: 10px;
+    padding: 18px 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.tip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tip-header i {
+    font-size: 18px;
+}
+
+.tip-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.tip-text {
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.95;
+    flex: 1;
+    margin: 0;
+}
+
+.tip-footer {
+    margin-top: 14px;
+    opacity: 0.3;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .bottom-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .welcome-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 20px;
+    }
+    
+    .view-progress-link {
+        align-self: flex-start;
+    }
+    
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}

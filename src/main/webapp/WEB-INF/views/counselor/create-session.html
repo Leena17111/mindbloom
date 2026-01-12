@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Session</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" th:href="@{/css/common/base.css}">
+        <link rel="stylesheet" th:href="@{/css/counselor/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/counselor/create-session.css}">
+</head>
+  <!-- Navbar -->
+    <div th:replace="fragments/counselor-navbar :: counselor-navbar"></div>
+<body>
+<div class="layout">
+  
+
+    <main class="main-content">
+        <div class="container py-4">
+            <!-- Page Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/counselor/dashboard}" class="text-decoration-none">
+                                    <i class="bi bi-house-door"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Create Session</li>
+                        </ol>
+                    </nav>
+                    <h1 class="display-6 fw-bold mb-2">
+                        <i class="bi bi-calendar-plus text-primary me-2"></i>
+                        Create Consultation Session
+                    </h1>
+                    <p class="text-muted">Schedule a new consultation session for students to book.</p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <!-- Form Card -->
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 p-md-5">
+                            <form th:action="@{/counselor/sessions/create}" method="post">
+                                <!-- Date Input -->
+                                 
+
+                                <div class="mb-4">
+                                    <label for="sessionDate" class="form-label fw-semibold">
+                                        <i class="bi bi-calendar3 text-primary me-2"></i>
+                                        Session Date
+                                    </label>
+                                    <input type="date" 
+                                           class="form-control form-control-lg" 
+                                           id="sessionDate" 
+                                           name="sessionDate" 
+                                           required>
+                                    <div class="form-text">Select the date for the consultation session.</div>
+                                </div>
+
+                                <!-- Start Time Input -->
+                                <div class="mb-4">
+                                    <label for="startTime" class="form-label fw-semibold">
+                                        <i class="bi bi-clock text-success me-2"></i>
+                                        Start Time
+                                    </label>
+                                    <input type="time" 
+                                           class="form-control form-control-lg" 
+                                           id="startTime" 
+                                           name="startTime" 
+                                           required>
+                                    <div class="form-text">When does the session begin?</div>
+                                </div>
+
+                                <!-- End Time Input -->
+                                <div class="mb-4">
+                                    <label for="endTime" class="form-label fw-semibold">
+                                        <i class="bi bi-clock-fill text-danger me-2"></i>
+                                        End Time
+                                    </label>
+                                    <input type="time" 
+                                           class="form-control form-control-lg" 
+                                           id="endTime" 
+                                           name="endTime" 
+                                           required>
+                                    <div class="form-text">When does the session end?</div>
+                                </div>
+
+                                <!-- Info Alert -->
+                                <div class="alert alert-info border-0 d-flex align-items-center mb-4" role="alert">
+                                    <i class="bi bi-info-circle-fill me-3 fs-5"></i>
+                                    <div class="small">
+                                        Once created, the session will be available for students to book until you cancel it.
+                                    </div>
+                                </div>
+
+                                <!-- Form Actions -->
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a th:href="@{/counselor/dashboard}" 
+                                       class="btn btn-lg btn-outline-secondary">
+                                        <i class="bi bi-arrow-left me-2"></i>
+                                        Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-lg btn-primary px-5">
+                                        <i class="bi bi-check-circle me-2"></i>
+                                        Create Session
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Tips Card -->
+                    <div class="card border-0 bg-light mt-4">
+                        <div class="card-body p-4">
+                            <h6 class="fw-semibold mb-3">
+                                <i class="bi bi-lightbulb text-warning me-2"></i>
+                                Tips for Creating Sessions
+                            </h6>
+                            <ul class="small mb-0 ps-3">
+                                <li class="mb-2">Schedule sessions during times when you're most available and alert.</li>
+                                <li class="mb-2">Consider creating multiple sessions throughout the week for better availability.</li>
+                                <li>Allow at least 45-60 minutes for meaningful consultations.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

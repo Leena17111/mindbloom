@@ -1,131 +1,116 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emergency Help - mindbloom </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Help - MindBloom</title>
 
-  <!-- COMMON BASE -->
-  <link rel="stylesheet" th:href="@{/css/common/base.css}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-  <!-- STUDENT NAVBAR LAYOUT -->
-  <link rel="stylesheet" th:href="@{/css/common/layout.css}">
-
-  <!-- PAGE -->
-  <link rel="stylesheet" th:href="@{/css/student/emergency.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/emergency.css}">
 </head>
 
 <body>
 <div class="layout">
 
-  <!-- SIDEBAR (FRAGMENT) -->
- <div th:replace="fragments/student-navbar :: student-navbar"></div>
+    <!-- SIDEBAR -->
+    <div th:replace="fragments/student-navbar :: student-navbar"></div>
 
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="container-fluid px-0">
 
-  <!-- MAIN CONTENT -->
-  <main class="main-content">
+            <!-- HERO (Compact, Danger themed) -->
+            <section class="emergency-hero">
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <h1>Emergency Help</h1>
+                        <p>If you are in a crisis, please use the resources below for immediate support</p>
+                    </div>
+                </div>
+            </section>
 
-    <!-- HEADER -->
-    <header class="emergency-header">
-      <h1 class="emergency-title">Emergency Help</h1>
-      <p class="emergency-subtitle">
-        If you are in a crisis, please use the resources below for immediate support
-      </p>
-    </header>
+            <!-- SUPPORT SECTION -->
+            <section class="support-section">
+                <h2>You Are Not Alone. Help Is Available.</h2>
+                <p>Connect With Someone Who Can Support You Right Now</p>
+            </section>
 
-    <!-- SUPPORT SECTION -->
-    <section class="support-section">
-      <h2 class="support-heading">You Are Not Alone. Help Is Available.</h2>
-      <p class="support-subheading">
-        Connect With Someone Who Can Support You Right Now
-      </p>
-    </section>
+            <!-- CONTACT OPTIONS -->
+            <div class="row g-4 mb-4">
+                <!-- PANIC BUTTON -->
+                <div class="col-md-6">
+                    <form th:action="@{/student/emergency/trigger}" method="post" 
+                          onsubmit="return confirm('Are you sure you want to request urgent support?');">
+                        <button type="submit" class="emergency-card panic-button w-100">
+                            <div class="emergency-icon">
+                                <i class="bi bi-exclamation-circle"></i>
+                            </div>
+                            <h3>Panic Button</h3>
+                            <p>Click to notify immediately for urgent assistance.</p>
+                        </button>
+                    </form>
+                </div>
 
-    <!-- Panic Button form and static emergency call card -->
-    <section class="contact-options">
+                <!-- CALL EMERGENCY SERVICES -->
+                <div class="col-md-6">
+                    <div class="emergency-card call-services">
+                        <div class="emergency-icon">
+                            <i class="bi bi-telephone"></i>
+                        </div>
+                        <h3>Call Emergency Services</h3>
+                        <p>Call 911 for immediate danger or life-threatening situations.</p>
+                    </div>
+                </div>
+            </div>
 
-      <!-- PANIC BUTTON CARD -->
-      <form th:action="@{/student/emergency/trigger}" method="post" 
-            onsubmit="return confirm('Are you sure you want to request urgent support?');">
-        <button type="submit" class="emergency-card panic-button">
-          <div class="emergency-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-          </div>
-          <h3 class="emergency-title-text">Panic Button</h3>
-          <p class="emergency-description">
-            Click Button to notify immediately for urgent assistance.
-          </p>
-        </button>
-      </form>
+            <!-- CRISIS GUIDANCE -->
+            <section class="crisis-section">
+            <div class="crisis-title">
+                <h2>What To Do In A Crisis:</h2>
+            </div>
 
-      <!-- CALL EMERGENCY SERVICES CARD -->
-      <div class="emergency-card call-services">
-        <div class="emergency-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </svg>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-4">
+                        <div class="crisis-card">
+                            <div class="crisis-icon">
+                                <i class="bi bi-bullseye"></i>
+                            </div>
+                            <h3>Stay Calm</h3>
+                            <p>Focus on your breathing. Inhale slowly, hold, and exhale.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="crisis-card">
+                            <div class="crisis-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <h3>Ensure Safety</h3>
+                            <p>Move to a safe place away from any potential harm.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="crisis-card">
+                            <div class="crisis-icon">
+                                <i class="bi bi-headset"></i>
+                            </div>
+                            <h3>Reach Out</h3>
+                            <p>Use the phone or text lines above to talk to someone.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
-        <h3 class="emergency-title-text">Call Emergency Services</h3>
-        <p class="emergency-description">
-          Call 911 for immediate danger or life-threatening situations.
-        </p>
-      </div>
-
-    </section>
-
-    <!-- CRISIS GUIDANCE -->
-    <section class="crisis-section">
-      <h2 class="crisis-title">What To Do In A Crisis:</h2>
-
-      <div class="crisis-grid">
-
-        <div class="crisis-card">
-          <div class="crisis-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
-              <path d="M12 12v10a10 10 0 0 0 10-10H12z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </div>
-          <h3 class="crisis-card-title">Stay Calm</h3>
-          <p class="crisis-card-text">
-            Focus on your breathing. Inhale slowly, hold, and exhale.
-          </p>
-        </div>
-
-        <div class="crisis-card">
-          <div class="crisis-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <path d="m9 12 2 2 4-4"></path>
-            </svg>
-          </div>
-          <h3 class="crisis-card-title">Ensure Safety</h3>
-          <p class="crisis-card-text">
-            Move to a safe place away from any potential harm.
-          </p>
-        </div>
-
-        <div class="crisis-card">
-          <div class="crisis-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"></path>
-            </svg>
-          </div>
-          <h3 class="crisis-card-title">Reach Out</h3>
-          <p class="crisis-card-text">
-            Use the phone or text lines above to talk to someone.
-          </p>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
+    </main>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

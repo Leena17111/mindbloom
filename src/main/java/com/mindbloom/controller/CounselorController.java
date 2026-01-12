@@ -1,6 +1,8 @@
 package com.mindbloom.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +23,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mindbloom.dao.AssessmentDao;
 import com.mindbloom.dao.AssessmentQuestionDao;
+import com.mindbloom.dao.ConsultationBookingDao;
+import com.mindbloom.dao.ConsultationSessionDao;
 import com.mindbloom.dao.MentalHealthResourceDao;
 import com.mindbloom.model.Assessment;
 import com.mindbloom.model.AssessmentQuestion;
+import com.mindbloom.model.ConsultationSession;
 import com.mindbloom.model.MentalHealthResource;
 import com.mindbloom.model.Person;
 
@@ -38,6 +44,12 @@ public class CounselorController {
 
     @Autowired
     private AssessmentQuestionDao questionDao;
+
+    @Autowired
+    private ConsultationSessionDao consultationSessionDao;
+
+    @Autowired
+    private ConsultationBookingDao consultationBookingDao;
 
     /* =========================
        DASHBOARD
@@ -111,6 +123,9 @@ public class CounselorController {
             if (counselorId == null) {
                 return "redirect:/login";
             }
+
+            Person counselor = (Person) session.getAttribute("loggedUser");
+            resource.setCreatedByName(counselor.getName());
 
         /* ===== HANDLE VIDEO / ARTICLE ===== */
         if ("VIDEO".equals(resource.getType())) {
@@ -260,4 +275,224 @@ public class CounselorController {
 
         return null;
     }
+
+    /* =========================
+   CREATE SESSION PAGE
+   ========================= */
+@GetMapping("/sessions/create")
+public String showCreateSessionPage(Model model) {
+    model.addAttribute("newSession", new ConsultationSession());
+    return "counselor/create-session";
+}
+
+
+/* =========================
+   CREATE CONSULTATION SESSION
+   ========================= */
+@PostMapping("/sessions/create")
+public String createSession(
+        @RequestParam("sessionDate")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        LocalDate sessionDate,
+
+        @RequestParam("startTime")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        LocalTime startTime,
+
+        @RequestParam("endTime")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        LocalTime endTime,
+
+        HttpSession session,
+        RedirectAttributes ra) {
+
+    Integer counselorId = getLoggedInCounselorId(session);
+    if (counselorId == null) return "redirect:/login";
+
+    if (!endTime.isAfter(startTime)) {
+        ra.addFlashAttribute("error", "End time must be after start time");
+        return "redirect:/counselor/sessions/create";
+    }
+
+    ConsultationSession cs = new ConsultationSession();
+    cs.setCounselorId(counselorId);
+    cs.setSessionDate(sessionDate);
+    cs.setStartTime(startTime);
+    cs.setEndTime(endTime);
+    cs.setStatus("AVAILABLE");
+    cs.setCreatedAt(LocalDateTime.now());
+
+    consultationSessionDao.save(cs);
+
+    ra.addFlashAttribute("success", "Session created successfully ✅");
+    return "redirect:/counselor/dashboard";
+}
+
+/* =========================
+   MANAGE SESSIONS PAGE
+   ========================= */
+@GetMapping("/sessions/manage")
+public String manageSessions(Model model, HttpSession session) {
+
+    Integer counselorId = getLoggedInCounselorId(session);
+    if (counselorId == null) return "redirect:/counselor/dashboard";
+
+    model.addAttribute(
+        "mySessions",
+        consultationSessionDao.findByCounselor(counselorId)
+    );
+
+    return "counselor/manage-sessions";
+}
+// =========================
+// VIEW BOOKED SESSIONS
+// =========================
+@GetMapping("/sessions/booked")
+public String viewBookedSessions(HttpSession session, Model model) {
+
+    Person counselor = (Person) session.getAttribute("loggedUser");
+    if (counselor == null) {
+        return "redirect:/login";
+    }
+
+    
+    List<Object[]> bookedSessions =
+            consultationBookingDao.findBookedSessionsWithStudentByCounselor(
+                    counselor.getId()
+            );
+
+    model.addAttribute("bookedSessions", bookedSessions);
+    return "counselor/booked-sessions";
+}
+
+
+/* =========================
+   UPDATE SESSION (EDIT)
+   ========================= */
+
+@GetMapping("/sessions/{id}/edit")
+public String editSession(
+        @PathVariable int id,
+        HttpSession httpSession,
+        Model model) {
+
+    Person counselor = (Person) httpSession.getAttribute("loggedUser");
+    if (counselor == null) {
+        return "redirect:/login";
+    }
+
+    ConsultationSession session = consultationSessionDao.findById(id);
+    if (session == null) {
+        return "redirect:/counselor/sessions/manage";
+    }
+
+    if (session.getCounselorId() != counselor.getId()) {
+        return "redirect:/login";
+    }
+
+    if (!"AVAILABLE".equals(session.getStatus())) {
+        return "redirect:/counselor/sessions/manage";
+    }
+
+    // ✅ FIXED NAME
+    model.addAttribute("consultationSession", session);
+
+    return "counselor/edit-session";
+}
+
+
+
+@PostMapping("/sessions/{id}/edit")
+public String updateSession(
+        @PathVariable int id,
+        @RequestParam("sessionDate")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        LocalDate sessionDate,
+
+        @RequestParam("startTime")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        LocalTime startTime,
+
+        @RequestParam("endTime")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        LocalTime endTime,
+
+        HttpSession httpSession,
+        RedirectAttributes ra) {
+
+    Person counselor = (Person) httpSession.getAttribute("loggedUser");
+    if (counselor == null) {
+        return "redirect:/login";
+    }
+
+    ConsultationSession cs = consultationSessionDao.findById(id);
+    if (cs == null) {
+        return "redirect:/counselor/sessions/manage";
+    }
+
+    if (!"AVAILABLE".equals(cs.getStatus())) {
+        return "redirect:/counselor/sessions/manage";
+    }
+
+    if (!endTime.isAfter(startTime)) {
+        ra.addFlashAttribute("error", "End time must be after start time");
+        return "redirect:/counselor/sessions/" + id + "/edit"; // ✅ CORRECT
+    }
+
+    cs.setSessionDate(sessionDate);
+    cs.setStartTime(startTime);
+    cs.setEndTime(endTime);
+
+    consultationSessionDao.save(cs);
+
+    return "redirect:/counselor/sessions/manage";
+}
+
+
+/* =========================
+   CANCEL SESSION (AVAILABLE ONLY)
+   =========================
+   Counselor can cancel ONLY if:
+   - session is AVAILABLE
+   - session belongs to counselor
+*/
+@PostMapping("/sessions/{id}/cancel")
+public String cancelSession(
+        @PathVariable int id,
+        HttpSession httpSession,
+        RedirectAttributes ra) {
+
+    Person counselor = (Person) httpSession.getAttribute("loggedUser");
+    if (counselor == null) {
+        return "redirect:/login";
+    }
+
+    ConsultationSession cs =
+            consultationSessionDao.findById(id);
+
+    // ❌ session not found
+    if (cs == null) {
+        return "redirect:/counselor/sessions/manage";
+    }
+
+    // ❌ counselor does NOT own this session
+    if (cs.getCounselorId() != counselor.getId()) {
+        return "redirect:/login";
+    }
+
+    //  cannot cancel if already booked or cancelled
+    if (!"AVAILABLE".equals(cs.getStatus())) {
+        return "redirect:/counselor/sessions/manage";
+    }
+
+    // ✅ safe cancel
+    cs.setStatus("CANCELLED");
+    consultationSessionDao.save(cs);
+
+    ra.addFlashAttribute("success", "Session cancelled");
+    return "redirect:/counselor/sessions/manage";
+}
+
+
+
 }

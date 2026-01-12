@@ -1,200 +1,217 @@
-/* ===== ASSESSMENT HEADER ===== */
-.assessment-header {
-  margin-bottom: 20px;
+/* =========================
+   COUNSELOR ASSESSMENT QUESTIONS
+   ========================= */
+
+/* ================= PAGE HERO ================= */
+.page-hero {
+    background: linear-gradient(
+        135deg,
+        var(--primary-color, #7c3aed),
+        var(--primary-light, #a78bfa)
+    );
+    border-radius: 12px;
+    padding: 24px 28px;
+    color: #ffffff;
+    margin-bottom: 28px;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  color: var(--text-gray);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 10px;
-  transition: color 0.2s;
+.page-hero h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
 }
 
-.back-link:hover {
-  color: var(--primary-color);
+.page-hero .resource-context {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
 }
 
-.assessment-header h1 {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: var(--text-dark);
+.page-hero .resource-context strong {
+    color: #ffffff;
+    font-weight: 600;
 }
 
-.resource-context {
-  font-size: 13.5px;
-  color: var(--text-gray);
-}
-
-.resource-context strong {
-  color: var(--text-dark);
-  font-weight: 600;
-}
-
-/* ===== ASSESSMENT FORM ===== */
+/* ================= FORM WIDTH ================= */
 .assessment-form {
-  max-width: 820px;
+    max-width: 1100px;   /* wider, consistent with resource form */
+    margin: 0 auto;
 }
 
-/* ===== QUESTION CARD ===== */
+/* ================= QUESTION CARD ================= */
 .question-card {
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: var(--card-shadow);
-  transition: box-shadow 0.2s;
+    background: var(--bg-white, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
 }
 
 .question-card:hover {
-  box-shadow: var(--card-shadow-hover);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
+/* ================= QUESTION HEADER ================= */
 .question-header {
-  margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 
 .question-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--primary-color);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-color, #7c3aed);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 }
 
+/* ================= QUESTION INPUT ================= */
 .question-input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 13.5px;
-  margin-bottom: 14px;
-  transition: border-color 0.2s;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    font-size: 15px;
+    margin-bottom: 16px;
+    background: #ffffff;
 }
 
 .question-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.08);
+    outline: none;
+    border-color: var(--primary-color, #7c3aed);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
 }
 
-/* ===== OPTIONS GRID ===== */
+.question-input::placeholder {
+    color: #9ca3af;
+}
+
+/* ================= OPTIONS GRID ================= */
 .options-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
 }
 
 .option-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-light);
-  transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    background: var(--bg-light, #f9fafb);
+    transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .option-item:hover {
-  background: var(--border-light);
-  border-color: var(--border-color);
+    background: #f3f4f6;
+    border-color: #d1d5db;
 }
 
 .option-item input[type="radio"] {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--primary-color);
-  cursor: pointer;
-  flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color, #7c3aed);
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
 .option-label {
-  font-size: 12px;
-  color: var(--text-gray);
-  white-space: nowrap;
-  font-weight: 500;
-  flex-shrink: 0;
-  cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-gray, #6b7280);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .option-input {
-  flex: 1;
-  padding: 6px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  font-size: 13px;
-  background: var(--bg-white);
-  transition: border-color 0.2s;
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    font-size: 14px;
+    background: #ffffff;
 }
 
 .option-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
+    outline: none;
+    border-color: var(--primary-color, #7c3aed);
 }
 
-/* ===== FORM ACTIONS ===== */
+/* ================= FORM ACTIONS (FIXED) ================= */
 .form-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color);
+    margin-top: 32px;
+    padding: 20px 24px;
+    border-radius: 12px;
+    background: var(--bg-white, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
 }
 
-.btn-cancel {
-  padding: 8px 18px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  background: var(--bg-white);
-  color: var(--text-gray);
-  text-decoration: none;
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+/* SAVE ASSESSMENT (PURPLE) */
+.form-actions .btn-success {
+    background: var(--primary-color, #7c3aed);
+    border: none;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 8px;
+    min-height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-cancel:hover {
-  background: var(--bg-light);
-  border-color: var(--border-color);
-  color: var(--text-dark);
+.form-actions .btn-success:hover {
+    background: #6d28d9;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
 }
 
-.btn-submit {
-  padding: 8px 20px;
-  border-radius: 8px;
-  border: none;
-  background: var(--primary-color);
-  color: #ffffff;
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
+/* CANCEL */
+.form-actions .btn-outline-secondary {
+    background: #ffffff;
+    border: 1px solid var(--border-color, #e5e7eb);
+    color: var(--text-dark, #374151);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 22px;
+    border-radius: 8px;
+    min-height: 44px;
+    opacity: 0.85;
 }
 
-.btn-submit:hover {
-  background: var(--primary-light);
+.form-actions .btn-outline-secondary:hover {
+    background: var(--bg-light, #f9fafb);
+    opacity: 1;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-  .options-grid {
-    grid-template-columns: 1fr;
-  }
+    .assessment-form {
+        max-width: 100%;
+    }
 
-  .option-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .option-input {
-    width: 100%;
-  }
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-actions .btn-success,
+    .form-actions .btn-outline-secondary {
+        width: 100%;
+        justify-content: center;
+    }
 }

@@ -1,6 +1,7 @@
 package com.mindbloom.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mindbloom.dao.AssessmentDao;
 import com.mindbloom.dao.AssessmentQuestionDao;
 import com.mindbloom.dao.AssessmentResultDao;
+import com.mindbloom.dao.ConsultationBookingDao;
+import com.mindbloom.dao.ConsultationSessionDao;
 import com.mindbloom.dao.EmergencyAlertDao;
 import com.mindbloom.dao.MentalHealthResourceDao;
 import com.mindbloom.dao.PersonDao;
@@ -27,6 +31,8 @@ import com.mindbloom.dao.StudentResourceProgressDao;
 import com.mindbloom.model.Assessment;
 import com.mindbloom.model.AssessmentQuestion;
 import com.mindbloom.model.AssessmentResult;
+import com.mindbloom.model.ConsultationBooking;
+import com.mindbloom.model.ConsultationSession;
 import com.mindbloom.model.EmergencyAlert;
 import com.mindbloom.model.MentalHealthResource;
 import com.mindbloom.model.Person;
@@ -61,41 +67,136 @@ public class StudentController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private ConsultationBookingDao consultationBookingDao;
+    
+    @Autowired
+    private ConsultationSessionDao consultationSessionDao;
+
     /* =========================
        DASHBOARD
        ========================= */
     @GetMapping("/dashboard")
     public String studentDashboard(Model model, HttpSession session) {
 
-        int studentId = getLoggedInStudentId(session);
+        Person student = (Person) session.getAttribute("loggedUser");
+        if (student == null) {
+            return "redirect:/login";
+        }
 
-        int completedResources =
-                progressDao.findByStudentId(studentId).size();
+        int studentId = student.getId();
 
-        int completedAssessments =
-                assessmentResultDao.findByStudentId(studentId).size();
+        // ===== Stats =====
+        int completedResources = progressDao.countCompletedResources(studentId);
 
+        int completedAssessments = assessmentResultDao.findByStudentId(studentId).size();
+
+        // You have NO counselling module implemented yet → keep safe
+        boolean sessionBooked = false;
+        String upcomingSession = null;
+
+        // ===== Daily tip (static for now, safe & realistic) =====
+        String dailyTip =
+                "Take 5 minutes today to practice deep breathing. It can help reduce stress and improve focus.";
+
+        // ===== Bind to view =====
+        model.addAttribute("student", student);
         model.addAttribute("completedResources", completedResources);
         model.addAttribute("completedAssessments", completedAssessments);
+        model.addAttribute("sessionBooked", sessionBooked);
+        model.addAttribute("upcomingSession", upcomingSession);
+        model.addAttribute("dailyTip", dailyTip);
 
         return "student/dashboard";
     }
 
-    /* =========================
-       LIST RESOURCES
-       ========================= */
-    @GetMapping("/resources")
-    public String listResources(Model model, HttpSession session) {
+    @GetMapping("/progress")
+    public String viewProgress(Model model, HttpSession session) {
 
-        int studentId = getLoggedInStudentId(session);
+        Person student = (Person) session.getAttribute("loggedUser");
+        if (student == null) {
+            return "redirect:/login";
+        }
 
-        List<MentalHealthResource> resources = resourceDao.findAll();
+        int studentId = student.getId();
+
+        // ===== TOTAL COUNTS =====
+        int totalResources = resourceDao.findAll().size();
+        int totalAssessments = assessmentDao.findAll().size();
+
+        // ===== RESOURCE PROGRESS =====
+        int completedResources =
+                progressDao.countCompletedResources(studentId);
+
+        int inProgressResources =
+                progressDao.countInProgressResources(studentId);
+
+        int resourcesPercent = totalResources == 0 ? 0
+                : (int) Math.round((completedResources * 100.0) / totalResources);
+
+        int inProgressPercent = totalResources == 0 ? 0
+                : (int) Math.round((inProgressResources * 100.0) / totalResources);
+
+        // ===== ASSESSMENTS =====
+        int completedAssessments =
+                assessmentResultDao.findByStudentId(studentId).size();
+
+        int assessmentsPercent = totalAssessments == 0 ? 0
+                : (int) Math.round((completedAssessments * 100.0) / totalAssessments);
+
+        // ===== POINTS & LEVEL =====
+        int totalPoints = assessmentResultDao.findByStudentId(studentId)
+                .stream()
+                .mapToInt(AssessmentResult::getPointsEarned)
+                .sum();
+
+        String level = calculateLevel(totalPoints);
+
+        // ===== BIND TO VIEW =====
+        model.addAttribute("level", level);
+        model.addAttribute("totalPoints", totalPoints);
+
+        model.addAttribute("totalResources", totalResources);
+        model.addAttribute("completedResources", completedResources);
+        model.addAttribute("inProgressResources", inProgressResources);
+
+        model.addAttribute("totalAssessments", totalAssessments);
+        model.addAttribute("completedAssessments", completedAssessments);
+
+        model.addAttribute("resourcesPercent", resourcesPercent);
+        model.addAttribute("inProgressPercent", inProgressPercent);
+        model.addAttribute("assessmentsPercent", assessmentsPercent);
+
+        return "student/progress";
+    }
+
+        /* =========================
+        LIST RESOURCES
+        ========================= */
+        @GetMapping("/resources")
+        public String listResources(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String category,
+            Model model,
+            HttpSession session) {
+
+        Integer studentId = getLoggedInStudentId(session);
+        if (studentId == null) {
+            return "redirect:/login";}
+
+        List<MentalHealthResource> resources;
+
+        if (category != null && !category.isEmpty()) {
+            resources = resourceDao.findByCategory(category);
+        } else if (search != null && !search.trim().isEmpty()) {
+            resources = resourceDao.searchByTitle(search);
+        } else {
+            resources = resourceDao.findAll();
+        }
 
         Map<Integer, String> statusMap = new HashMap<>();
-        Map<Integer, Boolean> assessmentMap = new HashMap<>();
 
         for (MentalHealthResource r : resources) {
-
             StudentResourceProgress progress =
                     progressDao.findByStudentAndResource(studentId, r.getId());
 
@@ -106,19 +207,16 @@ public class StudentController {
             } else {
                 statusMap.put(r.getId(), "COMPLETED");
             }
-
-            assessmentMap.put(
-                r.getId(),
-                assessmentDao.findByResourceId(r.getId()) != null
-            );
         }
 
         model.addAttribute("resources", resources);
         model.addAttribute("statusMap", statusMap);
-        model.addAttribute("assessmentMap", assessmentMap);
+        model.addAttribute("search", search);
+        model.addAttribute("category", category);
 
         return "student/resources";
     }
+
 
     /* =========================
        RESOURCE DETAIL
@@ -129,7 +227,9 @@ public class StudentController {
             Model model,
             HttpSession session) {
 
-        int studentId = getLoggedInStudentId(session);
+        Integer studentId = getLoggedInStudentId(session);
+        if (studentId == null) {
+            return "redirect:/login";}
 
         MentalHealthResource resource = resourceDao.findById(id);
 
@@ -165,26 +265,86 @@ public class StudentController {
         return "student/resource-detail";
     }
 
-    /* =========================
-       MARK RESOURCE COMPLETED
-       ========================= */
-    @PostMapping("/resources/{id}/complete")
-    public String completeResource(
-            @PathVariable int id,
-            HttpSession session) {
+    @GetMapping("/assessments")
+    public String listAssessments(
+        @RequestParam(required = false) String search,
+        @RequestParam(required = false) String category,
+        Model model,
+        HttpSession session) {
 
-        int studentId = getLoggedInStudentId(session);
+    Integer studentId = getLoggedInStudentId(session);
+    if (studentId == null) return "redirect:/login";
 
-        StudentResourceProgress progress =
-                progressDao.findByStudentAndResource(studentId, id);
+    List<Assessment> allAssessments = assessmentDao.findAll();
+    List<Assessment> filteredAssessments = new ArrayList<>();
 
-        if (progress != null && progress.getCompletedAt() == null) {
-            progress.setCompletedAt(LocalDateTime.now());
-            progressDao.save(progress);
+    Map<Integer, String> statusMap = new HashMap<>();
+    Map<Integer, MentalHealthResource> resourceMap = new HashMap<>();
+
+    for (Assessment a : allAssessments) {
+
+        MentalHealthResource resource = resourceDao.findById(a.getResourceId());
+
+        // CATEGORY FILTER
+        if (category != null && !category.isEmpty()
+                && !category.equals(resource.getCategory())) {
+            continue;
         }
 
-        return "redirect:/student/resources/" + id;
+        // SEARCH FILTER
+        if (search != null && !search.isEmpty()
+                && !resource.getTitle().toLowerCase().contains(search.toLowerCase())) {
+            continue;
+        }
+
+        filteredAssessments.add(a);
+        resourceMap.put(a.getId(), resource);
+
+        StudentResourceProgress progress =
+                progressDao.findByStudentAndResource(studentId, resource.getId());
+
+        if (progress == null || progress.getCompletedAt() == null) {
+            statusMap.put(a.getId(), "LOCKED");
+            continue;
+        }
+
+        AssessmentResult result =
+                assessmentResultDao.findByStudentAndAssessment(studentId, a.getId());
+
+        statusMap.put(a.getId(), result == null ? "NOT_TAKEN" : "COMPLETED");
     }
+
+    model.addAttribute("assessments", filteredAssessments);
+    model.addAttribute("statusMap", statusMap);
+    model.addAttribute("resourceMap", resourceMap);
+    model.addAttribute("search", search);
+    model.addAttribute("category", category);
+
+    return "student/assessment-list";
+}
+
+        /* =========================
+        MARK RESOURCE COMPLETED
+        ========================= */
+        @PostMapping("/resources/{id}/complete")
+        public String completeResource(
+                @PathVariable int id,
+                HttpSession session) {
+
+            Integer studentId = getLoggedInStudentId(session);
+            if (studentId == null) {
+                return "redirect:/login";}
+
+            StudentResourceProgress progress =
+                    progressDao.findByStudentAndResource(studentId, id);
+
+            if (progress != null && progress.getCompletedAt() == null) {
+                progress.setCompletedAt(LocalDateTime.now());
+                progressDao.save(progress);
+            }
+
+            return "redirect:/student/resources/" + id;
+        }
 
     @GetMapping("/resources/{id}/assessment")
     public String takeAssessment(
@@ -192,7 +352,9 @@ public class StudentController {
             Model model,
             HttpSession session) {
 
-        int studentId = getLoggedInStudentId(session);
+         Integer studentId = getLoggedInStudentId(session);
+        if (studentId == null) {
+            return "redirect:/login";}
 
         StudentResourceProgress progress =
                 progressDao.findByStudentAndResource(studentId, id);
@@ -228,8 +390,9 @@ public class StudentController {
             @RequestParam Map<String, String> params,
             HttpSession session) {
 
-        int studentId = getLoggedInStudentId(session);
-
+        Integer studentId = getLoggedInStudentId(session);
+        if (studentId == null) {
+            return "redirect:/login";}
     
         AssessmentResult existing =
                 assessmentResultDao.findByStudentAndAssessment(studentId, id);
@@ -270,7 +433,10 @@ public class StudentController {
             HttpSession session,
             Model model) {
 
-        int studentId = getLoggedInStudentId(session);
+        Integer studentId = getLoggedInStudentId(session);
+        if (studentId == null) {
+            return "redirect:/login";
+        }
 
         AssessmentResult result =
                 assessmentResultDao.findByStudentAndAssessment(studentId, id);
@@ -303,7 +469,7 @@ public class StudentController {
     public String triggerEmergency(HttpSession session) {
 
         Integer studentId = getLoggedInStudentId(session);
-
+        
         if (studentId == null) {
             return "redirect:/login";
         }
@@ -332,14 +498,20 @@ public class StudentController {
        ========================= */
     private Integer getLoggedInStudentId(HttpSession session) {
 
-        Person user = (Person) session.getAttribute("loggedUser");
+    Person user = (Person) session.getAttribute("loggedUser");
 
-        if (user == null) {
-            return null;
-        }
-
-        return user.getId();
+    if (user == null) {
+        return null;
     }
+
+    // TEMPORARY BLOCK: only STUDENT allowed
+    if (!"STUDENT".equalsIgnoreCase(user.getRole())) {
+        return null;
+    }
+
+    return user.getId();
+}
+
 
     private String calculateLevel(int points) {
         if (points >= 50) return "Expert";
@@ -355,6 +527,134 @@ public class StudentController {
         return "Starter";
     }
 
+    /* =========================
+   VIEW AVAILABLE SESSIONS
+   =========================
+   - Student sees all AVAILABLE consultation sessions
+   - Read-only (no booking yet)
+*/
+@GetMapping("/sessions")
+public String viewAvailableSessions(Model model, HttpSession session) {
+
+    Integer studentId = getLoggedInStudentId(session);
+    if (studentId == null) {
+        return "redirect:/login";
+    }
+
+    // ✅ CORRECT: show ALL AVAILABLE sessions
+    List<ConsultationSession> sessions =
+            consultationSessionDao.findAllAvailable();
+
+    model.addAttribute("sessions", sessions);
+    return "student/available-sessions";
+}
+
+
+
+/* =========================
+   BOOK CONSULTATION SESSION
+   =========================
+   - Student books ONE available session
+   - Prevents double booking
+*/
+@PostMapping("/sessions/{id}/book")
+public String bookSession(
+        @PathVariable("id") int sessionId,
+        HttpSession httpSession,
+        RedirectAttributes redirectAttributes) {
+
+    // 1️⃣ Get logged-in student ID
+    Integer studentId = getLoggedInStudentId(httpSession);
+if (studentId == null) {
+    return "redirect:/login";
+}
+
+
+    // 2️⃣ Fetch session
+    ConsultationSession session =
+            consultationSessionDao.findById(sessionId);
+
+    if (session == null || !"AVAILABLE".equals(session.getStatus())) {
+        redirectAttributes.addFlashAttribute(
+                "error", "Session is no longer available.");
+        return "redirect:/student/sessions";
+    }
+
+    // allow student to book teh same seeion agine after cancle 
+  ConsultationBooking existing =
+        consultationBookingDao.findBySessionId(sessionId);
+
+if (existing != null && "BOOKED".equals(existing.getStatus())) {
+    redirectAttributes.addFlashAttribute(
+        "error", "This session is already booked."
+    );
+    return "redirect:/student/sessions";
+}
+
+
+    // 4️⃣ Create OR reuse booking (session_id is UNIQUE)
+
+// 🔧 FIX: reuse existing booking if this session was booked before
+ConsultationBooking booking =
+        consultationBookingDao.findBySessionId(sessionId);
+
+if (booking == null) {
+    // first time this session is ever booked
+    booking = new ConsultationBooking();
+    booking.setSession(session);
+}
+
+// (re)book the session
+booking.setStudentId(studentId);
+booking.setBookedAt(LocalDateTime.now());
+booking.setStatus("BOOKED");
+
+// save (INSERT if new, UPDATE if existed)
+consultationBookingDao.save(booking);
+
+// mark session as booked
+session.setStatus("BOOKED");
+consultationSessionDao.save(session);
+
+redirectAttributes.addFlashAttribute(
+        "success", "Session booked successfully.");
+
+return "redirect:/student/sessions";
+
+}
+@GetMapping("/sessions/my-bookings")
+public String myBookings(HttpSession session, Model model) {
+
+    Integer studentId = getLoggedInStudentId(session);
+    if (studentId == null) {
+        return "redirect:/login";
+    }
+
+    List<ConsultationBooking> bookings =
+    consultationBookingDao.findByStudent(studentId);
+            
+
+    model.addAttribute("bookings", bookings);
+
+    return "student/my-bookings";
+}
+ // cancle session 
+@PostMapping("/sessions/cancel/{bookingId}/{sessionId}")
+public String cancelBooking(
+        @PathVariable int bookingId,
+        @PathVariable int sessionId,
+        HttpSession session,
+        RedirectAttributes ra) {
+
+    Integer studentId = getLoggedInStudentId(session);
+    if (studentId == null) return "redirect:/login";
+
+    consultationBookingDao.cancelByStudent(bookingId, studentId);
+    consultationSessionDao.markAvailable(sessionId);
+
+    ra.addFlashAttribute("success", "Session cancelled successfully.");
+    return "redirect:/student/sessions/my-bookings";
+}
     /* =========================
        PASSWORD RESET FLOW
        ========================= */

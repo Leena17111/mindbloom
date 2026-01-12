@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Mental Health Resources - MindBloom</title>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <link rel="stylesheet" th:href="@{/css/common/layout.css}">
     <link rel="stylesheet" th:href="@{/css/student/resources.css}">
 </head>
@@ -11,81 +15,93 @@
 <body>
 <div class="layout">
 
-    <!-- SIDEBAR (FRAGMENT) -->
+    <!-- SIDEBAR -->
     <div th:replace="fragments/student-navbar :: student-navbar"></div>
 
     <main class="main-content">
+        <div class="container-fluid px-0">
 
-        <div class="page-header">
-            <h1>Mental Health Resources</h1>
-            <p class="subtitle">Learn and grow with curated mental health content</p>
-        </div>
+            <!-- HERO (No breadcrumb) -->
+            <section class="resources-hero">
+                <h1><i class="bi bi-book me-2"></i>Mental Health Resources</h1>
+                <p>Learn and grow with curated mental health content</p>
+            </section>
 
-        <div class="resources-grid">
+           <!-- FILTER BAR -->
+        <form class="resources-filters" method="get" th:action="@{/student/assessments}">
+            <div class="row g-3 align-items-end">
 
-            <div th:each="resource : ${resources}" class="resource-card">
-
-                <div class="card-header">
-                    <span class="resource-type">
-
-                        <!-- VIDEO SVG -->
-                        <svg th:if="${resource.type == 'VIDEO'}"
-                             width="16" height="16" viewBox="0 0 24 24"
-                             fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-
-                        <!-- ARTICLE SVG -->
-                        <svg th:if="${resource.type == 'ARTICLE'}"
-                             width="16" height="16" viewBox="0 0 24 24"
-                             fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16
-                                     a2 2 0 0 0 2 2h12a2 2
-                                     0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                        </svg>
-
-                        <span th:text="${resource.type}"></span>
-                    </span>
-
-                    <span class="resource-category"
-                          th:text="${resource.category}"></span>
+                <!-- SEARCH -->
+                <div class="col-md-5">
+                    <input type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search assessments..."
+                        th:value="${search}" />
                 </div>
 
-                <h3 class="resource-title"
-                    th:text="${resource.title}"></h3>
-
-                <p class="resource-description"
-                   th:text="${resource.description}"></p>
-
-                <div class="card-footer">
-
-                   <span th:if="${statusMap[resource.id] == 'NOT_STARTED'}"
-                    class="status-badge not-started">
-                    Not Started
-                    </span>
-
-                <span th:if="${statusMap[resource.id] == 'IN_PROGRESS'}"
-                    class="status-badge pending">
-                    In Progress
-                    </span>
-
-                <span th:if="${statusMap[resource.id] == 'COMPLETED'}"
-                    class="status-badge completed">
-                    Completed
-                    </span>
-
-                    <a th:href="@{/student/resources/{id}(id=${resource.id})}"
-                       class="btn-view">
-                        View Resource
-                    </a>
-
+                <!-- CATEGORY -->
+                <div class="col-md-4">
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        <option value="Awareness" th:selected="${category == 'Awareness'}">Awareness</option>
+                        <option value="Self-Care" th:selected="${category == 'Self-Care'}">Self-Care</option>
+                        <option value="Coping Strategies" th:selected="${category == 'Coping Strategies'}">Coping Strategies</option>
+                        <option value="Treatment" th:selected="${category == 'Treatment'}">Treatment</option>
+                        <option value="Crisis Support" th:selected="${category == 'Crisis Support'}">Crisis Support</option>
+                    </select>
                 </div>
+
+                <!-- FILTER BUTTON -->
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-funnel me-1"></i> Filter
+                    </button>
+                </div>
+
             </div>
+        </form>
 
+            <!-- RESOURCES GRID -->
+            <div class="row g-4 mt-2">
+
+                <div th:each="resource : ${resources}" class="col-lg-4 col-md-6">
+                    <div class="resource-card h-100">
+
+                        <div class="card-header">
+                            <span class="resource-type">
+                                <i th:if="${resource.type == 'VIDEO'}" class="bi bi-play-circle"></i>
+                                <i th:if="${resource.type == 'ARTICLE'}" class="bi bi-file-text"></i>
+                                <span th:text="${resource.type}"></span>
+                            </span>
+                            <span class="resource-category" th:text="${resource.category}"></span>
+                        </div>
+
+                        <h3 class="resource-title" th:text="${resource.title}"></h3>
+
+                        <p class="resource-description" th:text="${resource.description}"></p>
+
+                        <div class="card-footer">
+                            <span th:if="${statusMap[resource.id] == 'NOT_STARTED'}" 
+                                  class="badge bg-secondary">Not Started</span>
+                            <span th:if="${statusMap[resource.id] == 'IN_PROGRESS'}" 
+                                  class="badge bg-warning text-dark">In Progress</span>
+                            <span th:if="${statusMap[resource.id] == 'COMPLETED'}" 
+                                  class="badge bg-success">Completed</span>
+
+                            <a th:href="@{/student/resources/{id}(id=${resource.id})}" class="btn btn-sm btn-primary">
+                                View Resource
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-
     </main>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

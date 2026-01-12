@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Self Assessments - MindBloom</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- REUSE RESOURCES CSS -->
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/resources.css}">
+</head>
+
+<body>
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div th:replace="fragments/student-navbar :: student-navbar"></div>
+
+    <main class="main-content">
+        <div class="container-fluid px-0">
+
+            <!-- HERO (reuses resources-hero) -->
+            <section class="resources-hero">
+                <h1>Self Assessments</h1>
+                <p>Reflect on your mental well-being through resource-based assessments</p>
+            </section>
+
+           <!-- FILTER BAR -->
+<form class="resources-filters" method="get" th:action="@{/student/assessments}">
+    <div class="row g-3 align-items-end">
+
+        <!-- SEARCH -->
+        <div class="col-md-5">
+            <input type="text"
+                   name="search"
+                   class="form-control"
+                   placeholder="Search assessments..."
+                   th:value="${search}" />
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="col-md-4">
+            <select name="category" class="form-select">
+                <option value="">All Categories</option>
+                <option value="Awareness" th:selected="${category == 'Awareness'}">Awareness</option>
+                <option value="Self-Care" th:selected="${category == 'Self-Care'}">Self-Care</option>
+                <option value="Coping Strategies" th:selected="${category == 'Coping Strategies'}">Coping Strategies</option>
+                <option value="Treatment" th:selected="${category == 'Treatment'}">Treatment</option>
+                <option value="Crisis Support" th:selected="${category == 'Crisis Support'}">Crisis Support</option>
+            </select>
+        </div>
+
+        <!-- FILTER BUTTON -->
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-funnel me-1"></i> Filter
+            </button>
+        </div>
+
+    </div>
+</form>
+            <!-- ASSESSMENTS GRID -->
+            <div class="row g-4 mt-2" th:if="${!assessments.isEmpty()}">
+
+                <div th:each="a : ${assessments}" class="col-lg-4 col-md-6">
+                    <div class="resource-card h-100">
+
+                        <!-- CARD HEADER -->
+                        <div class="card-header">
+                            <span class="resource-type">
+                                <i class="bi bi-clipboard-check"></i>
+                                Assessment
+                            </span>
+                            <span class="resource-category" 
+                                  th:text="${resourceMap[a.id].category}">Category</span>
+                        </div>
+
+                        <!-- TITLE (linked resource) -->
+                        <h3 class="resource-title" 
+                            th:text="${resourceMap[a.id].title}">Resource Title</h3>
+
+                        <!-- DESCRIPTION -->
+                        <p class="resource-description">
+                            Self-assessment based on the completed learning resource.
+                        </p>
+
+                        <!-- FOOTER -->
+                        <div class="card-footer">
+                            <!-- Status Badges using Bootstrap classes -->
+                            <span th:if="${statusMap[a.id] == 'NOT_TAKEN'}" 
+                                  class="badge bg-secondary">Not Taken</span>
+                            <span th:if="${statusMap[a.id] == 'COMPLETED'}" 
+                                  class="badge bg-success">Completed</span>
+                            <span th:if="${statusMap[a.id] == 'LOCKED'}" 
+                                  class="badge bg-warning text-dark">Locked</span>
+
+                            <!-- Actions -->
+                            <a th:if="${statusMap[a.id] == 'NOT_TAKEN'}"
+                               th:href="@{/student/resources/{id}/assessment(id=${resourceMap[a.id].id})}"
+                               class="btn btn-sm btn-primary">
+                                Start Assessment
+                            </a>
+
+                            <a th:if="${statusMap[a.id] == 'COMPLETED'}"
+                               th:href="@{/student/assessment/{id}/result(id=${a.id})}"
+                               class="btn btn-sm btn-outline-primary">
+                                View Result
+                            </a>
+
+                            <span th:if="${statusMap[a.id] == 'LOCKED'}"
+                                  class="text-muted small">
+                                <i class="bi bi-lock me-1"></i>Complete resource first
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div class="text-center py-5" th:if="${assessments.isEmpty()}">
+                <i class="bi bi-clipboard-x text-muted" style="font-size: 48px;"></i>
+                <p class="text-muted mt-3">No assessments available yet.</p>
+                <a th:href="@{/student/resources}" class="btn btn-primary mt-2">
+                    <i class="bi bi-book me-1"></i> Browse Resources
+                </a>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

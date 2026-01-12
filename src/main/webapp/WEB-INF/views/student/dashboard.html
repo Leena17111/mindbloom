@@ -1,53 +1,177 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Student Dashboard</title>
-    
-    <!-- GLOBAL STYLES -->
-     <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/resources/css/common/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - MindBloom</title>
 
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/resources/css/common/dashboard.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
+    <link rel="stylesheet" th:href="@{/css/common/base.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/dashboard.css}">
 </head>
 <body>
+<div class="layout">
 
-<div class="dashboard-layout">
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>MindBloom</h2>
-        </div>
+    <!-- Sidebar -->
+    <div th:replace="fragments/student-navbar :: student-navbar"></div>
 
-        <div class="sidebar-section">
-            <h4>Student</h4>
-            <nav class="sidebar-nav">
-                <a class="active">Dashboard</a>
-                <a th:href="@{/student/resources}">Mental Health Resources</a>
-                <a>My Sessions</a>
-                <a>Profile</a>
-                <a th:href="@{/logout}">Logout</a>
-            </nav>
-        </div>
-    </aside>
+    <!-- Main Content (No breadcrumb) -->
+    <main class="main-content">
+        <div class="container-fluid px-0">
 
-    <main class="dashboard-main">
-        <header class="dashboard-header">
-            <h1>Welcome Student 🌱</h1>
-        </header>
-
-        <div class="dashboard-content">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <h3>Upcoming Sessions</h3>
-                        <div class="stat-number">2</div>
+            <!-- Welcome Banner -->
+            <section class="welcome-banner">
+                <div class="welcome-content">
+                    <div class="welcome-text">
+                        <h1>
+                            Welcome back,
+                            <span th:text="${student.name}">Student</span>
+                        </h1>
+                        <p>Track your mental health journey and access support resources.</p>
                     </div>
                 </div>
-            </div>
+
+                <a th:href="@{/student/progress}" class="view-progress-link">
+                    <i class="bi bi-activity"></i>
+                    View My Progress
+                </a>
+            </section>
+
+            <!-- Stats Row -->
+            <section class="stats-row">
+
+                <div class="stat-card">
+                    <div class="stat-icon resources-icon">
+                        <i class="bi bi-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" th:text="${completedResources}">0</span>
+                        <span class="stat-label">Completed Resources</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon assessments-icon">
+                        <i class="bi bi-check2-square"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" th:text="${completedAssessments}">0</span>
+                        <span class="stat-label">Completed Assessments</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon session-icon">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value"
+                              th:text="${upcomingSession != null ? upcomingSession : 'None'}">
+                            None
+                        </span>
+                        <span class="stat-label">Upcoming Session</span>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+
+                <a th:href="@{/student/resources}" class="action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-journal-richtext"></i>
+                    </div>
+                    <h3>Mental Health Resources</h3>
+                    <p>Articles, videos & guides</p>
+                </a>
+
+                <a th:href="@{/student/consultations/book}" class="action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-calendar-plus"></i>
+                    </div>
+                    <h3>Book Counselling Session</h3>
+                    <p>Schedule a session</p>
+                </a>
+
+                <a th:href="@{/student/peer-support}" class="action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3>Peer Support Forum</h3>
+                    <p>Connect with others</p>
+                </a>
+
+                <a th:href="@{/student/ai-suggestions}" class="action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <h3>AI Suggestions</h3>
+                    <p>Get personalized recommendations</p>
+                </a>
+
+            </section>
+
+            <!-- Bottom Row -->
+            <section class="bottom-row">
+
+                <!-- Getting Started -->
+                <div class="checklist-card">
+                    <div class="card-header">
+                        <h2>Getting Started</h2>
+                    </div>
+
+                    <ul class="checklist">
+                        <li class="checklist-item completed">
+                            <span class="check-icon">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                            <span><strong>Read a Resource:</strong> Explore mental health content.</span>
+                        </li>
+
+                        <li class="checklist-item completed">
+                            <span class="check-icon">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                            <span><strong>Take Assessment:</strong> Complete an assessment.</span>
+                        </li>
+
+                        <li class="checklist-item completed">
+                            <span class="check-icon">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                            <span><strong>Book a Session:</strong> Counselling support.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Quick Tip -->
+                <div class="tip-card">
+                    <div class="tip-header">
+                        <i class="bi bi-lightbulb"></i>
+                        <h2>Quick Tip</h2>
+                    </div>
+
+                    <p class="tip-text" th:text="${dailyTip}">
+                        Tip goes here
+                    </p>
+
+                    <div class="tip-footer">
+                        <i class="bi bi-heart"></i>
+                    </div>
+                </div>
+
+            </section>
+
         </div>
     </main>
 </div>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

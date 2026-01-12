@@ -50,4 +50,47 @@ public class StudentResourceProgressDaoHibernate
                 .setParameter("sid", studentId)
                 .list();
     }
+
+    @Override
+    public int countCompletedResources(int studentId) {
+        Long count = getSession()
+            .createQuery(
+                "SELECT COUNT(*) FROM StudentResourceProgress " +
+                "WHERE studentId = :sid AND completedAt IS NOT NULL",
+                Long.class)
+            .setParameter("sid", studentId)
+            .uniqueResult();
+
+         return count != null ? count.intValue() : 0;
+    }
+
+    @Override
+    public int countCompletedAssessments(int studentId) {
+
+        Long count = getSession()
+            .createQuery(
+                "SELECT COUNT(ar) FROM AssessmentResult ar " +
+                "WHERE ar.studentId = :sid AND ar.completedAt IS NOT NULL",
+                Long.class)
+            .setParameter("sid", studentId)
+            .uniqueResult();
+
+        return count != null ? count.intValue() : 0;
+}
+
+    @Override
+    public int countInProgressResources(int studentId) {
+        Long count = getSession()
+                .createQuery(
+                    "SELECT COUNT(*) FROM StudentResourceProgress " +
+                    "WHERE studentId = :sid AND completedAt IS NULL",
+                    Long.class
+                )
+                .setParameter("sid", studentId)
+                .uniqueResult();
+
+        return count.intValue();
+    }
+
+
 }

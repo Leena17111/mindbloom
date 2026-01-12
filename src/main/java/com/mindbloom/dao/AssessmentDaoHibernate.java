@@ -1,5 +1,7 @@
 package com.mindbloom.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,12 @@ public class AssessmentDaoHibernate implements AssessmentDao {
     @Override
     public void save(Assessment assessment) {
         getSession().save(assessment);
+    }
+
+    @Override
+    public List<Assessment> findAll() {
+        return getSession()
+                .createQuery("FROM Assessment", Assessment.class)
+                .list();
     }
 }

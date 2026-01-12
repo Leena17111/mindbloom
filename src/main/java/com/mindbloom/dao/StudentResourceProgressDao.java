@@ -11,4 +11,10 @@ public interface StudentResourceProgressDao {
     StudentResourceProgress findByStudentAndResource(int studentId, int resourceId);
 
     List<StudentResourceProgress> findByStudentId(int studentId);
+
+    int countCompletedResources(int studentId);
+    
+    int countCompletedAssessments(int studentId);
+
+    int countInProgressResources(int studentId);
 }
