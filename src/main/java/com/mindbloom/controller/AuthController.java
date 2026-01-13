@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // ✅ ADD
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,16 +39,38 @@ public class AuthController {
 
         Person person = personDao.findByEmail(email);
 
-        if (person == null || !person.getPassword().equals(password)) {
+        if (person == null) {
             model.addAttribute("error", "Invalid email or password");
             return "auth/login";
         }
 
-        // Save user in session
+        // =========================
+        // 🔐 PASSWORD CHECK (CRITICAL FIX)
+        // =========================
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        boolean passwordMatches;
+
+        // Support BOTH old plain-text passwords AND new hashed ones
+        if (person.getPassword().startsWith("$2a$")) {
+            // BCrypt hashed password
+            passwordMatches = encoder.matches(password, person.getPassword());
+        } else {
+            // Plain-text password (old admin/counselor accounts)
+            passwordMatches = person.getPassword().equals(password);
+        }
+
+        if (!passwordMatches) {
+            model.addAttribute("error", "Invalid email or password");
+            return "auth/login";
+        }
+
+        // =========================
+        // LOGIN SUCCESS
+        // =========================
         session.setAttribute("loggedUser", person);
         session.setAttribute("role", person.getRole());
 
-        // CRITICAL FIX
         String role = person.getRole().trim().toUpperCase();
 
         switch (role) {
@@ -71,7 +94,7 @@ public class AuthController {
     }
 
     // =========================
-    // PROCESS REGISTER
+    // PROCESS REGISTER (still plain-text for now)
     // =========================
     @PostMapping("/register")
     public String doRegister(
@@ -98,7 +121,7 @@ public class AuthController {
         Person person = new Person();
         person.setName(fullName);
         person.setEmail(email);
-        person.setPassword(password);
+        person.setPassword(password); // ⚠ plain-text (OK for now)
         person.setPhone(phone);
         person.setDateOfBirth(dateOfBirth);
         person.setRole("STUDENT");
