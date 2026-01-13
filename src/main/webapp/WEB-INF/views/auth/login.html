@@ -26,11 +26,10 @@
 <nav class="auth-navbar">
     <div class="auth-navbar-inner">
         <a class="auth-brand" href="/">
-            <!-- Using logo.png instead of brain icon -->
             <img th:src="@{/img/logo.png}" alt="MindBloom" class="auth-logo-img">
             <span class="auth-brand-text">MINDBLOOM</span>
         </a>
-        
+
         <a th:href="@{/register}" class="auth-nav-btn">
             <span>Create Account</span>
             <i class="bi bi-arrow-right"></i>
@@ -38,13 +37,10 @@
     </div>
 </nav>
 
-<!-- MAIN WRAPPER -->
 <div class="auth-wrapper">
     <div class="auth-container">
 
-        <!-- LEFT: FORM -->
         <div class="auth-form-side">
-
             <div class="auth-form-card">
 
                 <span class="auth-badge">
@@ -60,10 +56,10 @@
                     Continue your journey towards better mental wellness
                 </p>
 
-                <!-- ERROR -->
-                <div th:if="${error}" class="auth-alert auth-alert-error">
+                <!-- SPRING SECURITY ERROR -->
+                <div th:if="${param.error}" class="auth-alert auth-alert-error">
                     <i class="bi bi-exclamation-circle"></i>
-                    <span th:text="${error}">Error message</span>
+                    <span>Invalid email or password</span>
                 </div>
 
                 <!-- FORM -->
@@ -75,7 +71,7 @@
                             <i class="bi bi-envelope"></i> Email Address
                         </label>
                         <input type="email"
-                               name="email"
+                               name="username"
                                class="auth-input"
                                placeholder="john.smith@domain.com"
                                required>
@@ -106,13 +102,11 @@
                         </div>
                     </div>
 
-                    <!-- SUBMIT -->
                     <button type="submit" class="auth-submit-btn">
                         <span>Sign In</span>
                         <i class="bi bi-arrow-right"></i>
                     </button>
 
-                    <!-- REGISTER -->
                     <p class="auth-switch-text">
                         Don't have an account?
                         <a th:href="@{/register}" class="auth-switch-link">Create one</a>
@@ -122,8 +116,6 @@
             </div>
         </div>
 
-        <!-- RIGHT: BRANDING -->
-        <!-- Simplified to show only logo centered -->
         <div class="auth-brand-side">
             <div class="auth-brand-content">
                 <img th:src="@{/img/full-logo.webp}"
@@ -134,7 +126,6 @@
     </div>
 </div>
 
-<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>

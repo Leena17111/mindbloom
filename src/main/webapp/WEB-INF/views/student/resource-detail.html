@@ -42,7 +42,7 @@
             <!-- CONTENT CARD -->
             <div class="row">
                 <div class="col-12">
-                    <article class="resource-content-card">
+    
 
                         <!-- VIDEO CONTENT -->
                         <div th:if="${resource.type == 'VIDEO'}" class="video-section">
@@ -56,6 +56,7 @@
                         </div>
 
                         <!-- ARTICLE CONTENT -->
+                        <article class="resource-content-card">
                         <div th:if="${resource.type == 'ARTICLE'}" class="article-section">
                             <a th:href="${resource.articleUrl}"
                                target="_blank"
@@ -71,27 +72,31 @@
                                 <i class="bi bi-box-arrow-up-right ms-auto"></i>
                             </a>
                         </div>
-
+                            </article>
                         <!-- ACTION BAR -->
                         <footer class="resource-actions">
 
                             <!-- Not completed -->
                             <form th:if="${!completed}"
-                                  th:action="@{/student/resources/{id}/complete(id=${resource.id})}"
-                                  method="post"
-                                  class="action-row">
+                            th:action="@{/student/resources/{id}/complete(id=${resource.id})}"
+                            method="post"
+                            class="action-row">
 
-                                <span class="action-hint">
-                                    <i class="bi bi-check2-circle me-1"></i>
-                                    <span th:text="${resource.type == 'VIDEO' ? 'Finished watching?' : 'Done reading?'}">
-                                        Done reading?
-                                    </span>
+                            <input type="hidden"
+                                th:name="${_csrf.parameterName}"
+                                th:value="${_csrf.token}" />
+
+                            <span class="action-hint">
+                                <i class="bi bi-check2-circle me-1"></i>
+                                <span th:text="${resource.type == 'VIDEO' ? 'Finished watching?' : 'Done reading?'}">
+                                    Done reading?
                                 </span>
+                            </span>
 
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-check-lg me-1"></i> Mark as completed
-                                </button>
-                            </form>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i> Mark as completed
+                            </button>
+                        </form>
 
                             <!-- Completed -->
                             <div th:if="${completed}" class="completed-section">

@@ -2,11 +2,18 @@ package com.mindbloom.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.*;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +39,45 @@ public class Person {
     @Column(name = "reset_code_expiry")
     private LocalDateTime resetCodeExpiry;
 
-    // ===== GETTERS & SETTERS =====
+    /* =========================
+       USER DETAILS (SECURITY)
+       ========================= */
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(
+            new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())
+        );
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /* =========================
+       GETTERS & SETTERS
+       ========================= */
 
     public Integer getId() {
         return id;
@@ -58,6 +103,7 @@ public class Person {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }

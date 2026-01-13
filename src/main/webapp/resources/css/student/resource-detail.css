@@ -76,17 +76,22 @@
     overflow: hidden;
 }
 
-/* ================= VIDEO ================= */
+/* ================= VIDEO ================ */
+
 .video-section {
-    padding: 20px;
     background: #f8fafc;
+    padding: 20px 0;
 }
 
 .video-container {
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    aspect-ratio: 16 / 9;
+
+    /* KEY FIX */
+    height: 360px;          /* keeps it short */
+    max-height: 55vh;       /* safety on small screens */
+
     border-radius: 10px;
     overflow: hidden;
     background: #1f2937;
@@ -97,6 +102,7 @@
     height: 100%;
     border: none;
 }
+
 
 /* ================= ARTICLE ================= */
 .article-section {

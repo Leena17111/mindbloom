@@ -1,11 +1,12 @@
 package com.mindbloom.controller;
 
 import java.time.LocalDate;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // ✅ ADD
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,12 @@ public class AuthController {
     @Autowired
     private PersonDao personDao;
 
+    // 🔐 BCrypt encoder (Bean provided by SecurityConfig)
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     // =========================
-    // SHOW LOGIN
+    // SHOW LOGIN PAGE
     // =========================
     @GetMapping("/login")
     public String loginPage() {
@@ -28,65 +33,7 @@ public class AuthController {
     }
 
     // =========================
-    // PROCESS LOGIN ✅ FIXED
-    // =========================
-    @PostMapping("/login")
-    public String doLogin(
-            @RequestParam String email,
-            @RequestParam String password,
-            HttpSession session,
-            Model model) {
-
-        Person person = personDao.findByEmail(email);
-
-        if (person == null) {
-            model.addAttribute("error", "Invalid email or password");
-            return "auth/login";
-        }
-
-        // =========================
-        // 🔐 PASSWORD CHECK (CRITICAL FIX)
-        // =========================
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        boolean passwordMatches;
-
-        // Support BOTH old plain-text passwords AND new hashed ones
-        if (person.getPassword().startsWith("$2a$")) {
-            // BCrypt hashed password
-            passwordMatches = encoder.matches(password, person.getPassword());
-        } else {
-            // Plain-text password (old admin/counselor accounts)
-            passwordMatches = person.getPassword().equals(password);
-        }
-
-        if (!passwordMatches) {
-            model.addAttribute("error", "Invalid email or password");
-            return "auth/login";
-        }
-
-        // =========================
-        // LOGIN SUCCESS
-        // =========================
-        session.setAttribute("loggedUser", person);
-        session.setAttribute("role", person.getRole());
-
-        String role = person.getRole().trim().toUpperCase();
-
-        switch (role) {
-            case "STUDENT":
-                return "redirect:/student/dashboard";
-            case "ADMIN":
-                return "redirect:/admin/dashboard";
-            case "COUNSELOR":
-                return "redirect:/counselor/dashboard";
-            default:
-                return "redirect:/login";
-        }
-    }
-
-    // =========================
-    // SHOW REGISTER
+    // SHOW REGISTER PAGE
     // =========================
     @GetMapping("/register")
     public String registerPage() {
@@ -94,7 +41,7 @@ public class AuthController {
     }
 
     // =========================
-    // PROCESS REGISTER (still plain-text for now)
+    // PROCESS REGISTER (BCrypt)
     // =========================
     @PostMapping("/register")
     public String doRegister(
@@ -121,7 +68,10 @@ public class AuthController {
         Person person = new Person();
         person.setName(fullName);
         person.setEmail(email);
-        person.setPassword(password); // ⚠ plain-text (OK for now)
+
+        // 🔐 HASH PASSWORD (CORRECT & REQUIRED)
+        person.setPassword(passwordEncoder.encode(password));
+
         person.setPhone(phone);
         person.setDateOfBirth(dateOfBirth);
         person.setRole("STUDENT");
@@ -132,7 +82,7 @@ public class AuthController {
     }
 
     // =========================
-    // LOGOUT
+    // LOGOUT (optional, Security also handles it)
     // =========================
     @GetMapping("/logout")
     public String logout(HttpSession session) {

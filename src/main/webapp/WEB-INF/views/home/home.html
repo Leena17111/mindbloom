@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>MindBloom - Mental Health Support</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- Bootstrap 5 CSS -->
@@ -18,11 +19,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <div class="logo-circle">
-                    <i class="bi bi-brain"></i>
-                </div>
-                <span class="brand-text">MINDBLOOM</span>
+            <!-- Using full-logo.webp instead of text logo -->
+            <a class="navbar-brand" href="/">
+                <img th:src="@{/img/full-logo.webp}" alt="MindBloom Logo" class="navbar-logo">
             </a>
             
             <div class="nav-buttons">
@@ -37,13 +36,16 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img th:src="@{/images/image.png}" alt="Medical professionals" class="img-fluid hero-image">
+                    <div class="hero-image-wrapper">
+                        <img th:src="@{/img/image.png}" alt="Medical professionals" class="img-fluid hero-image">
+                    </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hero-content">
-                        <h1 class="hero-title">
+                    <!-- Removed extra buttons, keeping just the text in a card -->
+                    <div class="hero-content-card">
+                        <p class="hero-text">
                             Access trusted resources, book appointments with mental health professionals, and connect with UTM's well-being community — all in one place
-                        </h1>
+                        </p>
                     </div>
                 </div>
             </div>
