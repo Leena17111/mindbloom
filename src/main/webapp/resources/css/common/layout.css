@@ -145,9 +145,11 @@ body {
    MAIN CONTENT
    =============================== */
 .main-content {
-    flex: 1;
-    padding: 24px 32px;
-    background: var(--bg-light);
+  flex: 1;
+  height: 100vh;              
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
 }
 
 /* ================= FORM CONTROLS OVERRIDES ================= */

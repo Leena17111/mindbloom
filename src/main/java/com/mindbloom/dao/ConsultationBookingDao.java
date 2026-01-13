@@ -17,9 +17,9 @@ public interface ConsultationBookingDao {
      /**
  * Counselor cancels a booking
  * Used when counselor cancels a session that was already booked
- */
- void cancelByCounselor(int bookingId);
-
+    */
+    void cancelByCounselor(int bookingId);
+    int countUpcomingBookings(int studentId);
 
      
 }
