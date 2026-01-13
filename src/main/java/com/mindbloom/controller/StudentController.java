@@ -91,9 +91,7 @@ public class StudentController {
 
         int completedAssessments = assessmentResultDao.findByStudentId(studentId).size();
 
-        // You have NO counselling module implemented yet → keep safe
-        boolean sessionBooked = false;
-        String upcomingSession = null;
+         int upcomingCount = consultationBookingDao.countUpcomingBookings(student.getId());
 
         // ===== Daily tip (static for now, safe & realistic) =====
         String dailyTip =
@@ -103,8 +101,7 @@ public class StudentController {
         model.addAttribute("student", student);
         model.addAttribute("completedResources", completedResources);
         model.addAttribute("completedAssessments", completedAssessments);
-        model.addAttribute("sessionBooked", sessionBooked);
-        model.addAttribute("upcomingSession", upcomingSession);
+        model.addAttribute("upcomingSession", upcomingCount);
         model.addAttribute("dailyTip", dailyTip);
 
         return "student/dashboard";

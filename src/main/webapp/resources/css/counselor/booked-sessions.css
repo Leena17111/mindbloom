@@ -1,31 +1,68 @@
-/* ===============================
-   PAGE HERO
-   =============================== */
 .page-hero {
   background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
-  padding: 48px;
-  border-radius: 16px;
-  color: white;
-  margin-bottom: 32px;
-  text-align: center;
+  padding: 24px 28px;
+  border-radius: 12px;
+  color: #ffffff;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
 .page-hero h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  gap: 10px;
+}
+
+.page-hero h1 i {
+  font-size: 22px;
 }
 
 .page-hero p {
-  font-size: 16px;
-  opacity: 0.95;
+  font-size: 13px;
+  opacity: 0.9;
   margin: 0;
   font-weight: 400;
 }
+
+/* Optional button inside hero */
+.page-hero .btn,
+.page-hero .btn-white,
+.page-hero .btn-header {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+}
+
+.page-hero .btn:hover,
+.page-hero .btn-white:hover,
+.page-hero .btn-header:hover {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
 
 /* ===============================
    TABLE STYLING

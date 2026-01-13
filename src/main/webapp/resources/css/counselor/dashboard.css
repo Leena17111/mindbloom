@@ -1,26 +1,26 @@
 /* ===============================
-   WELCOME BANNER (HERO)
+   WELCOME BANNER
    =============================== */
 .welcome-banner {
   background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
-  padding: 48px;
-  border-radius: 16px;
-  color: white;
-  margin-bottom: 32px;
+  padding: 24px 28px;
+  border-radius: 12px;
+  color: #ffffff;
+  margin-bottom: 20px;
 }
 
 .welcome-content h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .welcome-content p {
-  font-size: 16px;
-  opacity: 0.95;
+  font-size: 13px;
+  opacity: 0.9;
   margin: 0;
 }
 
@@ -29,52 +29,52 @@
    =============================== */
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .action-card {
-  background: white;
-  padding: 32px;
-  border-radius: 12px;
+  background: #ffffff;
+  padding: 20px 16px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
   box-shadow: var(--card-shadow);
   text-align: center;
-  transition: all 0.2s ease;
   text-decoration: none;
   color: var(--text-dark);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: block;
 }
 
 .action-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--card-shadow-hover);
   color: var(--text-dark);
 }
 
 .action-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   background: rgba(124, 58, 237, 0.1);
   color: var(--primary-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
-  font-size: 32px;
+  margin: 0 auto 12px;
+  font-size: 22px;
 }
 
 .action-card h3 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: var(--text-dark);
 }
 
 .action-card p {
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-gray);
   margin: 0;
 }
@@ -84,68 +84,100 @@
    =============================== */
 .bottom-row {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
 }
 
 /* Checklist Card */
 .checklist-card {
-  background: white;
-  padding: 32px;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--card-shadow);
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 18px 20px;
 }
 
-.card-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.checklist-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    color: var(--text-dark);
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.checklist-card .card-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
 }
 
 .checklist {
-  list-style: none;
-  margin-top: 24px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
 }
 
 .checklist-item {
-  display: flex;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-gray);
+    line-height: 1.5;
 }
 
-.checklist-item:last-child {
-  border-bottom: none;
+.checklist-item strong {
+    color: var(--text-dark);
 }
 
 .check-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--success-color);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 12px;
 }
 
-.checklist-item span {
-  font-size: 14px;
-  color: var(--text-gray);
+.check-icon i {
+    opacity: 0;
 }
 
-/* Tip Card */
+.checklist-item.completed .check-icon {
+    background: #16a34a;
+    color: #fff;
+}
+
+.checklist-item.completed .check-icon i {
+    opacity: 1;
+}
+
+.checklist-item.completed {
+    color: var(--text-gray);
+}
+
+.checklist-item.completed strong {
+    color: var(--text-gray);
+}
+
+
+/* ===============================
+   TIP CARD
+   =============================== */
 .tip-card {
   background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
-  padding: 32px;
-  border-radius: 12px;
-  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -154,30 +186,32 @@
 .tip-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .tip-header i {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .tip-header h2 {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 600;
   margin: 0;
 }
 
 .tip-text {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
   opacity: 0.95;
+  margin: 0;
 }
 
 .tip-footer {
   text-align: right;
-  font-size: 24px;
-  margin-top: 16px;
+  font-size: 18px;
+  margin-top: 12px;
+  opacity: 0.4;
 }
 
 /* ===============================

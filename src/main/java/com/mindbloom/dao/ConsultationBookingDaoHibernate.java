@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mindbloom.model.ConsultationBooking;
 
@@ -233,5 +234,23 @@ public class ConsultationBookingDaoHibernate implements ConsultationBookingDao {
         } finally {
             if (session != null) session.close();
         }
+        }
+    @Transactional(readOnly = true)
+    @Override
+    public int countUpcomingBookings(int studentId) {
+
+        Long count = sessionFactory.getCurrentSession()
+            .createQuery(
+                "SELECT COUNT(b) FROM ConsultationBooking b " +
+                "WHERE b.studentId = :studentId " +
+                "AND b.status = 'BOOKED'",
+                Long.class
+            )
+            .setParameter("studentId", studentId)
+            .uniqueResult();
+
+        return count != null ? count.intValue() : 0;
     }
+
+
 }

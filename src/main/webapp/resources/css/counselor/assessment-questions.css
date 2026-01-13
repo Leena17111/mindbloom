@@ -4,214 +4,222 @@
 
 /* ================= PAGE HERO ================= */
 .page-hero {
-    background: linear-gradient(
-        135deg,
-        var(--primary-color, #7c3aed),
-        var(--primary-light, #a78bfa)
-    );
-    border-radius: 12px;
-    padding: 24px 28px;
-    color: #ffffff;
-    margin-bottom: 28px;
+  background: linear-gradient(135deg, var(--primary-color, #7c3aed), var(--primary-light, #a78bfa));
+  border-radius: 12px;
+  padding: 20px 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
 }
 
 .page-hero h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 4px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .page-hero .resource-context {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
 }
 
 .page-hero .resource-context strong {
-    color: #ffffff;
-    font-weight: 600;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 /* ================= FORM WIDTH ================= */
 .assessment-form {
-    max-width: 1100px;   /* wider, consistent with resource form */
-    margin: 0 auto;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 /* ================= QUESTION CARD ================= */
+/* Updated card to fill height for consistent 2-column layout */
+/* Reduced padding for more compact appearance */
 .question-card {
-    background: var(--bg-white, #ffffff);
-    border: 1px solid var(--border-color, #e5e7eb);
-    border-radius: 12px;
-    padding: 22px 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.2s ease;
+  background: var(--bg-white, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 10px;
+  padding: 16px;
+  height: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .question-card:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-light, #a78bfa);
 }
 
 /* ================= QUESTION HEADER ================= */
 .question-header {
-    margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .question-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--primary-color, #7c3aed);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary-color, #7c3aed);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 /* ================= QUESTION INPUT ================= */
+/* Reduced padding and margin for compact layout */
 .question-input {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color, #e5e7eb);
-    font-size: 15px;
-    margin-bottom: 16px;
-    background: #ffffff;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  font-size: 13px;
+  margin-bottom: 12px;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .question-input:focus {
-    outline: none;
-    border-color: var(--primary-color, #7c3aed);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+  outline: none;
+  border-color: var(--primary-color, #7c3aed);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
 }
 
 .question-input::placeholder {
-    color: #9ca3af;
+  color: #9ca3af;
 }
 
 /* ================= OPTIONS GRID ================= */
+/* Changed from 2 columns to 1 column to prevent overflow */
 .options-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
 }
 
+/* Changed to horizontal layout: radio button on left, input on right */
 .option-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color, #e5e7eb);
-    background: var(--bg-light, #f9fafb);
-    transition: background 0.15s ease, border-color 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  background: var(--bg-light, #f9fafb);
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .option-item:hover {
-    background: #f3f4f6;
-    border-color: #d1d5db;
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* Radio button with label on the left side */
+.option-item-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .option-item input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--primary-color, #7c3aed);
-    cursor: pointer;
-    flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary-color, #7c3aed);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .option-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-gray, #6b7280);
-    white-space: nowrap;
-    flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-gray, #6b7280);
+  cursor: pointer;
+  margin: 0;
+  white-space: nowrap;
 }
 
+/* Option input takes remaining space on the right */
 .option-input {
-    flex: 1;
-    padding: 10px 14px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color, #e5e7eb);
-    font-size: 14px;
-    background: #ffffff;
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  font-size: 12px;
+  background: #ffffff;
+  transition: border-color 0.2s ease;
 }
 
 .option-input:focus {
-    outline: none;
-    border-color: var(--primary-color, #7c3aed);
+  outline: none;
+  border-color: var(--primary-color, #7c3aed);
 }
 
-/* ================= FORM ACTIONS (FIXED) ================= */
+/* ================= FORM ACTIONS ================= */
 .form-actions {
-    margin-top: 32px;
-    padding: 20px 24px;
-    border-radius: 12px;
-    background: var(--bg-white, #ffffff);
-    border: 1px solid var(--border-color, #e5e7eb);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: var(--bg-white, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
 /* SAVE ASSESSMENT (PURPLE) */
 .form-actions .btn-success {
-    background: var(--primary-color, #7c3aed);
-    border: none;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 8px;
-    min-height: 44px;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  background: var(--primary-color, #7c3aed);
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: 8px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-actions .btn-success:hover {
-    background: #6d28d9;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+  background: #6d28d9;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
 }
 
 /* CANCEL */
 .form-actions .btn-outline-secondary {
-    background: #ffffff;
-    border: 1px solid var(--border-color, #e5e7eb);
-    color: var(--text-dark, #374151);
-    font-size: 14px;
-    font-weight: 500;
-    padding: 10px 22px;
-    border-radius: 8px;
-    min-height: 44px;
-    opacity: 0.85;
+  background: #ffffff;
+  border: 1px solid var(--border-color, #e5e7eb);
+  color: var(--text-dark, #374151);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 20px;
+  border-radius: 8px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
 }
 
 .form-actions .btn-outline-secondary:hover {
-    background: var(--bg-light, #f9fafb);
-    opacity: 1;
+  background: var(--bg-light, #f9fafb);
 }
 
 /* ================= RESPONSIVE ================= */
-@media (max-width: 768px) {
-    .assessment-form {
-        max-width: 100%;
-    }
+@media (max-width: 992px) {
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .options-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .form-actions .btn-success,
-    .form-actions .btn-outline-secondary {
-        width: 100%;
-        justify-content: center;
-    }
+  .form-actions .btn-success,
+  .form-actions .btn-outline-secondary {
+    width: 100%;
+    justify-content: center;
+  }
 }
