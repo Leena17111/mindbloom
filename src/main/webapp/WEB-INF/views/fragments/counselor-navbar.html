@@ -28,9 +28,24 @@
                 <span>Mental Health Resources</span>
             </a>
 
-             <a th:href="@{/counselor/consultation}" class="nav-item">
-                <i class="bi bi-calendar-check"></i>
-                <span>Consultations</span>
+            
+
+            <!-- ✅ ADDED: Create Session -->
+            <a th:href="@{/counselor/sessions/create}" class="nav-item">
+                <i class="bi bi-plus-circle"></i>
+                <span>Create Session</span>
+            </a>
+
+            <!-- ✅ ADDED: Manage Sessions -->
+            <a th:href="@{/counselor/sessions/manage}" class="nav-item">
+                <i class="bi bi-list-check"></i>
+                <span>Manage Sessions</span>
+            </a>
+
+            <!-- ✅ ADDED: Booked Sessions -->
+            <a th:href="@{/counselor/sessions/booked}" class="nav-item">
+                <i class="bi bi-person-check"></i>
+                <span>Booked Sessions</span>
             </a>
 
             <a th:href="@{/admin/students}" class="nav-item">

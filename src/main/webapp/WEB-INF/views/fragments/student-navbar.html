@@ -38,9 +38,16 @@
         <div class="nav-section">
             <span class="nav-section-label">SUPPORT</span>
 
-            <a th:href="@{/student/consultations}" class="nav-item">
-                <i class="bi bi-calendar-check"></i>
+            <!-- ✅ UPDATED: Book Consultation → Available Sessions -->
+            <a th:href="@{/student/sessions}" class="nav-item">
+                <i class="bi bi-calendar-plus"></i>
                 <span>Book Consultation</span>
+            </a>
+
+            <!-- ✅ ADDED: My Bookings -->
+            <a th:href="@{/student/sessions/my-bookings}" class="nav-item">
+                <i class="bi bi-calendar-check"></i>
+                <span>My Bookings</span>
             </a>
 
             <a th:href="@{/student/peer-support}" class="nav-item">

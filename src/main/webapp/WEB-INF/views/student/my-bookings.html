@@ -1,91 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My Booked Sessions</title>
-
+    <title>My Booked Sessions - MindBloom</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
     <link rel="stylesheet" th:href="@{/css/student/my-bookings.css}">
 </head>
 
 <body>
-
-<div th:replace="fragments/student-navbar :: student-navbar"></div>
-
-<div class="container py-5">
-
-    <h2 class="fw-bold mb-4">My Booked Sessions</h2>
-
-    <!-- Empty state -->
-    <div th:if="${#lists.isEmpty(bookings)}"
-         class="alert alert-info">
-        You have not booked any sessions yet.
+    <div class="layout">
+        
+        <!-- Sidebar Navigation -->
+        <div th:replace="fragments/student-navbar :: student-navbar"></div>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Purple gradient page header banner like Mental Health Resources -->
+            <div class="page-header-banner">
+                <div class="page-header-content">
+                    <div class="page-header-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div class="page-header-text">
+                        <h1 class="page-title">My Booked Sessions</h1>
+                        <p class="page-subtitle">View and manage your upcoming consultation sessions.</p>
+                    </div>
+                </div>
+                <a th:href="@{/student/sessions}" class="btn btn-header">
+                    <i class="bi bi-plus-lg me-2"></i>Book New Session
+                </a>
+            </div>
+            
+            <!-- Empty State -->
+            <div th:if="${#lists.isEmpty(bookings)}" class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+                <h3>No Bookings Yet</h3>
+                <p>You haven't booked any consultation sessions yet.</p>
+                <a th:href="@{/student/sessions}" class="btn btn-primary mt-3">
+                    <i class="bi bi-calendar-plus me-2"></i>Browse Available Sessions
+                </a>
+            </div>
+            
+            <!-- Bookings List -->
+            <div th:if="${!#lists.isEmpty(bookings)}" class="bookings-container">
+                
+                <!-- Stats Cards -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon booked">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" th:text="${#lists.size(bookings)}">0</span>
+                            <span class="stat-label">Total Bookings</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bookings Table -->
+                <div class="bookings-table-card">
+                    <div class="table-header">
+                        <h3><i class="bi bi-list-ul me-2"></i>Your Sessions</h3>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table bookings-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="b : ${bookings}">
+                                    <td>
+                                        <div class="booking-date">
+                                            <i class="bi bi-calendar3 me-2"></i>
+                                            <span th:text="${b.session.sessionDate}">2026-01-17</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="booking-time">
+                                            <i class="bi bi-clock me-2"></i>
+                                            <span th:text="${b.session.startTime}">20:14</span>
+                                            <span class="time-separator">-</span>
+                                            <span th:text="${b.session.endTime}">22:11</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span th:if="${b.status == 'BOOKED'}" class="status-badge booked">
+                                            <i class="bi bi-check-circle me-1"></i>Booked
+                                        </span>
+                                        <span th:if="${b.status != 'BOOKED'}" class="status-badge cancelled">
+                                            <i class="bi bi-x-circle me-1"></i>Cancelled
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <form th:if="${b.status == 'BOOKED'}"
+                                              th:action="@{/student/sessions/cancel/{bid}/{sid}(bid=${b.id}, sid=${b.session.id})}"
+                                              method="post"
+                                              class="d-inline">
+                                            <button type="submit" 
+                                                    class="btn btn-sm btn-cancel"
+                                                    onclick="return confirm('Are you sure you want to cancel this session?');">
+                                                <i class="bi bi-x-lg me-1"></i>Cancel
+                                            </button>
+                                        </form>
+                                        <span th:if="${b.status != 'BOOKED'}" class="text-muted">-</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </main>
     </div>
-
-    <!-- Table -->
-    <table class="table table-hover"
-           th:if="${!#lists.isEmpty(bookings)}">
-
-        <thead class="table-light">
-        <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th class="text-end">Action</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="b : ${bookings}">
-            <td th:text="${b.session.sessionDate}"></td>
-
-            <td>
-                <span th:text="${b.session.startTime}"></span>
-                –
-                <span th:text="${b.session.endTime}"></span>
-            </td>
-
-            <!-- Status (user-friendly) -->
-            <td>
-                <span class="badge bg-success"
-                      th:if="${b.status == 'BOOKED'}">
-                    Booked
-                </span>
-
-                <span class="badge bg-secondary"
-                      th:if="${b.status != 'BOOKED'}">
-                    Cancelled
-                </span>
-            </td>
-
-            <!-- Action -->
-            <td class="text-end">
-
-                <!-- Cancel button ONLY if booked -->
-                <form th:if="${b.status == 'BOOKED'}"
-                      th:action="@{/student/sessions/cancel/{bid}/{sid}(
-                          bid=${b.id},
-                          sid=${b.session.id})}"
-                      method="post"
-                      class="d-inline">
-
-                    <button class="btn btn-sm btn-danger"
-                            onclick="return confirm('Cancel this session?');">
-                        Cancel
-                    </button>
-                </form>
-
-                <!-- No action if cancelled -->
-                <span th:if="${b.status != 'BOOKED'}"
-                      class="text-muted">
-                    —
-                </span>
-
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-</div>
-
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
