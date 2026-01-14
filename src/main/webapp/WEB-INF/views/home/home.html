@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>MindBloom - Mental Health Support</title>
+    <title>MindBloom - Your Mental Health Companion</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -19,14 +19,15 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <!-- Using full-logo.webp instead of text logo -->
             <a class="navbar-brand" href="/">
-                <img th:src="@{/img/full-logo.webp}" alt="MindBloom Logo" class="navbar-logo">
+                <img th:src="@{/img/logo.png}" alt="MindBloom" class="navbar-logo">
+                <span class="brand-text">MINDBLOOM</span>
             </a>
             
+            <!-- Changed button colors to purple -->
             <div class="nav-buttons">
-                <a th:href="@{/register}" class="btn btn-register-nav">Register Here</a>
-                <a th:href="@{/login}" class="btn btn-signin-nav">Sign In</a>
+                <a th:href="@{/register}" class="btn btn-outline-purple btn-nav">Get Started</a>
+                <a th:href="@{/login}" class="btn btn-purple btn-nav">Sign In</a>
             </div>
         </div>
     </nav>
@@ -35,22 +36,86 @@
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="hero-image-wrapper">
-                        <img th:src="@{/img/image.png}" alt="Medical professionals" class="img-fluid hero-image">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Connect. Thrive. <span class="highlight">Bloom.</span></h1>
+                        <p class="hero-description">
+                        <strong><em>
+                            Your trusted companion for mental wellness at Universiti Teknologi Malaysia. 
+                            Access professional support, curated resources, and a caring community—all in one place.
+                        </em></strong>
+                    </p>
+
+                        <!-- Changed button colors to purple -->
+                        <div class="hero-buttons">
+                            <a th:href="@{/register}" class="btn btn-purple btn-hero">Start Your Journey</a>
+                            <a th:href="@{/login}" class="btn btn-outline-purple btn-hero-secondary">Sign In</a>
+                        </div>
+                        
+                        <!-- Removed feature badges section -->
                     </div>
                 </div>
+                
                 <div class="col-lg-6">
-                    <!-- Removed extra buttons, keeping just the text in a card -->
-                    <div class="hero-content-card">
-                        <p class="hero-text">
-                            Access trusted resources, book appointments with mental health professionals, and connect with UTM's well-being community — all in one place
-                        </p>
+                    <div class="hero-visual">
+                        <!-- Removed floating cards -->
+                        <div class="hero-image-container">
+                            <img th:src="@{/img/full-logo.webp}" alt="MindBloom" class="hero-image">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-book-half"></i>
+                        </div>
+                        <h3>Curated Resources</h3>
+                        <p>Access expert-vetted mental health content tailored for university students.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-calendar2-heart"></i>
+                        </div>
+                        <h3>Book Consultations</h3>
+                        <p>Connect with qualified counselors who understand student life challenges.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h3>Peer Support</h3>
+                        <p>Join a supportive community where you can share and grow together.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img th:src="@{/img/logo.png}" alt="MindBloom" class="footer-logo">
+                    <span class="footer-brand-text">MINDBLOOM</span>
+                </div>
+                <p class="footer-text">Your mental health matters. Connect, thrive, and grow.</p>
+                <p class="footer-copyright">&copy; 2025 MindBloom - Universiti Teknologi Malaysia (UTM)</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

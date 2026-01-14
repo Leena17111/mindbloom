@@ -27,6 +27,7 @@ import com.mindbloom.dao.ConsultationSessionDao;
 import com.mindbloom.dao.EmergencyAlertDao;
 import com.mindbloom.dao.MentalHealthResourceDao;
 import com.mindbloom.dao.PersonDao;
+import com.mindbloom.dao.PostDao;
 import com.mindbloom.dao.StudentResourceProgressDao;
 import com.mindbloom.model.Assessment;
 import com.mindbloom.model.AssessmentQuestion;
@@ -36,6 +37,7 @@ import com.mindbloom.model.ConsultationSession;
 import com.mindbloom.model.EmergencyAlert;
 import com.mindbloom.model.MentalHealthResource;
 import com.mindbloom.model.Person;
+import com.mindbloom.model.Post;
 import com.mindbloom.model.StudentResourceProgress;
 import com.mindbloom.service.EmailService;
 
@@ -72,6 +74,9 @@ public class StudentController {
     
     @Autowired
     private ConsultationSessionDao consultationSessionDao;
+
+    @Autowired
+    private PostDao postDao;
 
     @GetMapping("/dashboard")
 public String studentDashboard(Model model) {
@@ -686,5 +691,100 @@ public String cancelBooking(
 
         return "redirect:/login";
     }
+
+    /* =========================
+   PEER SUPPORT
+   ========================= */
+
+/* -------- CREATE POST PAGE -------- */
+@GetMapping("/peer-support/create")
+public String createPostPage(Model model) {
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    if (auth == null || !auth.isAuthenticated()
+            || auth.getPrincipal().equals("anonymousUser")) {
+        return "redirect:/login";
+    }
+
+    Person student = (Person) auth.getPrincipal();
+    model.addAttribute("student", student);
+
+    return "student/create-post";
+}
+
+/* -------- CREATE POST (SUBMIT) -------- */
+@PostMapping("/peer-support/create")
+public String createPost(
+        @RequestParam("title") String title,
+        @RequestParam("category") String category,
+        @RequestParam("content") String content,
+        RedirectAttributes redirectAttributes) {
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    if (auth == null || !auth.isAuthenticated()
+            || auth.getPrincipal().equals("anonymousUser")) {
+        return "redirect:/login";
+    }
+
+    Person student = (Person) auth.getPrincipal();
+
+    Post post = new Post();
+    post.setTitle(title);
+    post.setCategory(category);
+    post.setContent(content);
+    post.setStudentId(student.getId());
+    post.setStudentName(student.getName());
+
+    postDao.save(post);
+
+    redirectAttributes.addFlashAttribute(
+            "success", "Post published successfully!");
+
+    return "redirect:/student/peer-support";
+}
+
+/* -------- VIEW PEER SUPPORT POSTS -------- */
+@GetMapping("/peer-support")
+public String peerSupport(
+        @RequestParam(required = false) String search,
+        @RequestParam(required = false) String category,
+        Model model) {
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    if (auth == null || !auth.isAuthenticated()
+            || auth.getPrincipal().equals("anonymousUser")) {
+        return "redirect:/login";
+    }
+
+    List<Post> allPosts = postDao.findAll();
+    List<Post> filteredPosts = new ArrayList<>();
+
+    for (Post post : allPosts) {
+
+        // CATEGORY FILTER
+        if (category != null && !category.isEmpty()
+                && !category.equals(post.getCategory())) {
+            continue;
+        }
+
+        // SEARCH FILTER
+        if (search != null && !search.trim().isEmpty()
+                && !post.getTitle().toLowerCase().contains(search.toLowerCase())) {
+            continue;
+        }
+
+        filteredPosts.add(post);
+    }
+
+    model.addAttribute("posts", filteredPosts);
+    model.addAttribute("search", search);
+    model.addAttribute("category", category);
+
+    return "student/peer-support";
+}
+
 
 }

@@ -1,0 +1,237 @@
+/* ===============================
+   CREATE POST PAGE
+   =============================== */
+
+.create-post-header {
+    background-color: #2d3748;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.search-container {
+    flex: 1;
+    max-width: 500px;
+}
+
+.search-input {
+    background-color: #4a5568;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+}
+
+.search-input::placeholder {
+    color: #a0aec0;
+}
+
+.search-input:focus {
+    background-color: #4a5568;
+    border-color: #7c3aed;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.25);
+}
+
+.filter-icon {
+    color: #ffffff;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: opacity 0.2s;
+}
+
+.filter-icon:hover {
+    opacity: 0.8;
+}
+
+.create-post-content {
+    padding: 0 2rem 2rem;
+}
+
+.content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.page-description {
+    color: var(--text-gray);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.post-form-card {
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Tabs */
+.post-tabs {
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 1.5rem;
+    margin: 0;
+}
+
+.post-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-gray);
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    background: transparent;
+    transition: all 0.2s;
+}
+
+.post-tabs .nav-link:hover {
+    color: var(--text-dark);
+    border-bottom-color: var(--border-color);
+}
+
+.post-tabs .nav-link.active {
+    color: var(--text-dark);
+    border-bottom-color: var(--primary-color);
+    background: transparent;
+}
+
+/* Form */
+.post-form {
+    padding: 2rem 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background-color: var(--bg-white);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.1);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-select {
+    background-color: #f3f4f6;
+    cursor: pointer;
+}
+
+.content-textarea {
+    min-height: 200px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Action Buttons */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-cancel {
+    background-color: #f3f4f6;
+    color: var(--text-dark);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.btn-cancel:hover {
+    background-color: #e5e7eb;
+    color: var(--text-dark);
+}
+
+.btn-publish {
+    background-color: #7c3aed;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-publish:hover {
+    background-color: #6d28d9;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.details-placeholder {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: var(--text-gray);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .create-post-header {
+        padding: 1rem;
+    }
+
+    .create-post-content {
+        padding: 0 1rem 2rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .post-form {
+        padding: 1.5rem 1rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-cancel,
+    .btn-publish {
+        width: 100%;
+    }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Support - MindBloom</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" th:href="@{/css/common/base.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/peer-support.css}">
+</head>
+<body>
+<div class="layout">
+
+    <!-- Sidebar -->
+    <div th:replace="fragments/student-navbar :: student-navbar"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container-fluid px-0">
+
+            <!-- Header -->
+            <section class="peer-support-header">
+                <div class="header-top">
+                    <h1><i class="bi bi-people me-2"></i>Peer Support</h1>
+                    <a th:href="@{/student/peer-support/create}" class="btn btn-create-post">
+                        <i class="bi bi-plus-circle me-2"></i>Create New Post
+                    </a>
+                </div>
+                <p class="header-description">Connect with others and share your experiences</p>
+            </section>
+
+            <!-- Filter Bar -->
+            <form class="peer-support-filters" method="get" th:action="@{/student/peer-support}">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <input type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Search posts..."
+                            th:value="${search}" />
+                    </div>
+                    <div class="col-md-4">
+                        <select name="category" class="form-select">
+                            <option value="">All Categories</option>
+                            <option value="Anxiety" th:selected="${category == 'Anxiety'}">Anxiety</option>
+                            <option value="Depression" th:selected="${category == 'Depression'}">Depression</option>
+                            <option value="Stress" th:selected="${category == 'Stress'}">Stress</option>
+                            <option value="Self-Care" th:selected="${category == 'Self-Care'}">Self-Care</option>
+                            <option value="Coping Strategies" th:selected="${category == 'Coping Strategies'}">Coping Strategies</option>
+                            <option value="Support" th:selected="${category == 'Support'}">Support</option>
+                            <option value="General" th:selected="${category == 'General'}">General</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-funnel me-1"></i> Filter
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Posts List -->
+            <div class="posts-container">
+                <div th:if="${posts == null || posts.isEmpty()}" class="no-posts">
+                    <i class="bi bi-inbox"></i>
+                    <p>No posts found. Be the first to share!</p>
+                    <a th:href="@{/student/peer-support/create}" class="btn btn-primary">Create Post</a>
+                </div>
+
+                <div th:each="post : ${posts}" class="post-card">
+                    <div class="post-header">
+                        <div class="post-author">
+                            <div class="author-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <div class="author-info">
+                                <span class="author-name" th:text="${post.studentName}">Student</span>
+                                <span class="post-date" th:text="${#temporals.format(post.createdAt, 'MMM dd, yyyy HH:mm')}">Date</span>
+                            </div>
+                        </div>
+                        <span class="post-category" th:text="${post.category}">Category</span>
+                    </div>
+                    <h3 class="post-title" th:text="${post.title}">Post Title</h3>
+                    <p class="post-content" th:text="${post.content}">Post content...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

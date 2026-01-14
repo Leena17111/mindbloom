@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Students Monitoring - Admin</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Global -->
+    <link rel="stylesheet" th:href="@{/css/common/base.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+
+    <!-- Page -->
+    <link rel="stylesheet" th:href="@{/css/admin/student-monitoring.css}">
+</head>
+
+<body>
+<div class="layout">
+
+    <!-- Sidebar -->
+    <div th:replace="fragments/admin-navbar :: admin-navbar"></div>
+
+    <!-- Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+
+            <h2 class="page-title">Students Monitoring</h2>
+
+            <div class="students-table">
+                <table class="monitoring-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Average Quiz Score</th>
+                            <th>Resources Accessed</th>
+                            <th>Approved Forms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- EMPTY -->
+                        <tr th:if="${#lists.isEmpty(studentData)}">
+                            <td colspan="5" class="empty-state">
+                                No students found.
+                            </td>
+                        </tr>
+
+                        <!-- ROWS -->
+                        <tr th:each="data : ${studentData}">
+                            <td th:text="${data.student.name}">John Doe</td>
+                            <td th:text="${data.student.email}">john@example.com</td>
+
+                            <td class="center">
+                                <span class="badge badge-score"
+                                      th:text="${#numbers.formatDecimal(data.averageScore,1,2)}">
+                                    0.00
+                                </span>
+                            </td>
+
+                            <td class="center">
+                                <span class="badge badge-resources"
+                                      th:text="${data.resourcesAccessed}">
+                                    0
+                                </span>
+                            </td>
+
+                            <td class="center">
+                                <span class="badge badge-forms"
+                                      th:text="${data.approvedForms}">
+                                    0
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+/* ===============================
+   ANALYTICS STYLES
+   =============================== */
+
+.chart-container {
+  background: var(--bg-white);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.chart-container h5 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-container h5 i {
+  font-size: 18px;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 400px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}

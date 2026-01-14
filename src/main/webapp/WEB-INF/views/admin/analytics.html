@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics - Admin</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <link rel="stylesheet" th:href="@{/css/common/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/analytics.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Sidebar -->
+      <div th:replace="fragments/admin-navbar :: admin-navbar"></div>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="container-fluid px-0">
+          <h4 class="page-title">Analytics Dashboard</h4>
+
+          <div class="row g-4">
+            <!-- Average Quiz Scores Chart -->
+            <div class="col-md-12">
+              <div class="chart-container">
+                <h5>
+                  <i class="bi bi-graph-up"></i> Average Quiz Scores by Student
+                </h5>
+                <div class="chart-wrapper">
+                  <canvas id="scoresChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resources Accessed Chart -->
+            <div class="col-md-6">
+              <div class="chart-container">
+                <h5><i class="bi bi-book"></i> Resources Accessed</h5>
+                <div class="chart-wrapper">
+                  <canvas id="resourcesChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Approved Forms Chart -->
+            <div class="col-md-6">
+              <div class="chart-container">
+                <h5><i class="bi bi-check-circle"></i> Approved Forms</h5>
+                <div class="chart-wrapper">
+                  <canvas id="formsChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      const studentNames = /*[[${studentNames}]]*/ [];
+      const averageScores = /*[[${averageScores}]]*/ [];
+      const resourcesCount = /*[[${resourcesCount}]]*/ [];
+      const approvedFormsCount = /*[[${approvedFormsCount}]]*/ [];
+      /*]]>*/
+
+      // Chart colors
+      const primaryColor = "#7b3fe4";
+      const secondaryColor = "#9f6bff";
+      const accentColor = "#c5a3ff";
+
+      // Average Quiz Scores Chart
+      const scoresCtx = document.getElementById("scoresChart").getContext("2d");
+      new Chart(scoresCtx, {
+        type: "bar",
+        data: {
+          labels: studentNames,
+          datasets: [
+            {
+              label: "Average Score",
+              data: averageScores,
+              backgroundColor: primaryColor,
+              borderColor: secondaryColor,
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 5,
+            },
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+        },
+      });
+
+      // Resources Accessed Chart
+      const resourcesCtx = document
+        .getElementById("resourcesChart")
+        .getContext("2d");
+      new Chart(resourcesCtx, {
+        type: "doughnut",
+        data: {
+          labels: studentNames,
+          datasets: [
+            {
+              label: "Resources Accessed",
+              data: resourcesCount,
+              backgroundColor: [
+                primaryColor,
+                secondaryColor,
+                accentColor,
+                "#e0c3ff",
+                "#f0e9ff",
+              ],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      });
+
+      // Approved Forms Chart
+      const formsCtx = document.getElementById("formsChart").getContext("2d");
+      new Chart(formsCtx, {
+        type: "line",
+        data: {
+          labels: studentNames,
+          datasets: [
+            {
+              label: "Approved Forms",
+              data: approvedFormsCount,
+              borderColor: primaryColor,
+              backgroundColor: secondaryColor + "20",
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
