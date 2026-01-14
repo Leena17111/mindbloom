@@ -1,0 +1,167 @@
+/* ===============================
+   HERO
+   =============================== */
+.result-hero {
+    background: linear-gradient(135deg, #7c3aed, #9f7aea);
+    color: white;
+    padding: 26px 30px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.result-hero i {
+    font-size: 34px;
+}
+
+.result-hero h2 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 700;
+}
+
+.result-hero p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+/* ===============================
+   GRID
+   =============================== */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+/* ===============================
+   CARD BASE
+   =============================== */
+.result-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    border-left: 6px solid transparent;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.card-header i {
+    font-size: 20px;
+}
+
+.score-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.severity-text {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* ===============================
+   SEVERITY COLORS
+   =============================== */
+.severity-normal {
+    border-left-color: #22c55e;
+}
+.severity-normal .severity-text,
+.severity-normal i {
+    color: #15803d;
+}
+
+.severity-mild {
+    border-left-color: #3b82f6;
+}
+.severity-mild .severity-text,
+.severity-mild i {
+    color: #1e40af;
+}
+
+.severity-moderate {
+    border-left-color: #f59e0b;
+}
+.severity-moderate .severity-text,
+.severity-moderate i {
+    color: #b45309;
+}
+
+.severity-severe {
+    border-left-color: #ea580c;
+}
+.severity-severe .severity-text,
+.severity-severe i {
+    color: #9a3412;
+}
+
+.severity-extremely-severe {
+    border-left-color: #dc2626;
+}
+.severity-extremely-severe .severity-text,
+.severity-extremely-severe i {
+    color: #991b1b;
+}
+
+/* ===============================
+   NOTICE
+   =============================== */
+.notice-box {
+    display: flex;
+    gap: 12px;
+    background: #fef3c7;
+    border-left: 6px solid #f59e0b;
+    padding: 16px 18px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.notice-box i {
+    font-size: 20px;
+    color: #b45309;
+}
+
+.notice-box p {
+    margin: 0;
+    font-size: 14px;
+    color: #78350f;
+}
+
+/* ===============================
+   ACTIONS
+   =============================== */
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.result-actions .btn {
+    padding: 12px 26px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* ===============================
+   MOBILE
+   =============================== */
+@media (max-width: 768px) {
+    .result-actions {
+        flex-direction: column;
+    }
+    .result-actions .btn {
+        width: 100%;
+    }
+}

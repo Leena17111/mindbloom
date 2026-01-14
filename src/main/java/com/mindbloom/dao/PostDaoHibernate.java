@@ -102,4 +102,18 @@ public class PostDaoHibernate implements PostDao {
                 .setParameter("kw", "%" + keyword + "%")
                 .list();
     }
+
+    /* ===========================
+       FIND BY STATUS
+       =========================== */
+    @Override
+    public List<Post> findByStatus(String status) {
+        return getSession()
+                .createQuery(
+                    "FROM Post WHERE status = :status ORDER BY createdAt DESC",
+                    Post.class
+                )
+                .setParameter("status", status)
+                .list();
+    }
 }

@@ -1,0 +1,127 @@
+/* ===============================
+   HERO
+   =============================== */
+.dass-hero {
+    background: linear-gradient(135deg, #7c3aed, #9f7aea);
+    color: white;
+    padding: 32px;
+    border-radius: 16px;
+    margin-bottom: 28px;
+}
+
+.dass-hero h2 {
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+/* ===============================
+   SCALE LEGEND
+   =============================== */
+.scale-legend {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 32px;
+    display: grid;
+    gap: 10px;
+}
+
+.scale-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.scale-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ede9fe;
+    color: #7c3aed;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===============================
+   QUESTIONS
+   =============================== */
+.questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.question-card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid #e5e7eb;
+}
+
+.question-header {
+    margin-bottom: 16px;
+}
+
+.question-index {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.question-text {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+/* ===============================
+   NUMERIC OPTIONS (0–3)
+   =============================== */
+.numeric-options {
+    display: flex;
+    gap: 14px;
+}
+
+.numeric-options label {
+    position: relative;
+}
+
+.numeric-options input {
+    display: none;
+}
+
+.numeric-options span {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.numeric-options input:checked + span {
+    background: #7c3aed;
+    color: white;
+    border-color: #7c3aed;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+}
+
+.numeric-options span:hover {
+    border-color: #7c3aed;
+}
+
+/* ===============================
+   SUBMIT
+   =============================== */
+.submit-wrapper {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+}

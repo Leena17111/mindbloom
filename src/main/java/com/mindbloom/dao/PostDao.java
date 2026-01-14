@@ -19,4 +19,6 @@ public interface PostDao {
     List<Post> findByCategory(String category);
 
     List<Post> searchByTitle(String keyword);
+
+    List<Post> findByStatus(String status);
 }

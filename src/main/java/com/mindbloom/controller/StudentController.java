@@ -24,6 +24,8 @@ import com.mindbloom.dao.AssessmentQuestionDao;
 import com.mindbloom.dao.AssessmentResultDao;
 import com.mindbloom.dao.ConsultationBookingDao;
 import com.mindbloom.dao.ConsultationSessionDao;
+import com.mindbloom.dao.Dass21QuestionDao;
+import com.mindbloom.dao.Dass21ResultDao;
 import com.mindbloom.dao.EmergencyAlertDao;
 import com.mindbloom.dao.MentalHealthResourceDao;
 import com.mindbloom.dao.PersonDao;
@@ -34,12 +36,16 @@ import com.mindbloom.model.AssessmentQuestion;
 import com.mindbloom.model.AssessmentResult;
 import com.mindbloom.model.ConsultationBooking;
 import com.mindbloom.model.ConsultationSession;
+import com.mindbloom.model.Dass21Question;
+import com.mindbloom.model.Dass21Result;
 import com.mindbloom.model.EmergencyAlert;
 import com.mindbloom.model.MentalHealthResource;
 import com.mindbloom.model.Person;
 import com.mindbloom.model.Post;
 import com.mindbloom.model.StudentResourceProgress;
 import com.mindbloom.service.EmailService;
+
+
 
 @Controller
 @RequestMapping("/student")
@@ -77,6 +83,13 @@ public class StudentController {
 
     @Autowired
     private PostDao postDao;
+
+    @Autowired
+private Dass21QuestionDao dass21QuestionDao;
+
+@Autowired
+private Dass21ResultDao dass21ResultDao;
+
 
     @GetMapping("/dashboard")
 public String studentDashboard(Model model) {
@@ -267,6 +280,69 @@ public String completeResource(@PathVariable int id) {
     return "redirect:/student/resources/" + id;
 }
 
+@GetMapping("/dass21")
+public String showDass21(Model model) {
+
+    model.addAttribute("questions", dass21QuestionDao.findAll());
+
+    return "student/dass21";
+}
+
+@PostMapping("/dass21/submit")
+public String submitDass21(
+        @RequestParam Map<String, String> answers,
+        Model model) {
+
+    int depression = 0;
+    int anxiety = 0;
+    int stress = 0;
+
+    for (Map.Entry<String, String> entry : answers.entrySet()) {
+
+        int questionId = Integer.parseInt(entry.getKey());
+        int value = Integer.parseInt(entry.getValue());
+
+        Dass21Question question = dass21QuestionDao.findById(questionId);
+
+        switch (question.getCategory()) {
+            case DEPRESSION:
+                depression += value;
+                break;
+            case ANXIETY:
+                anxiety += value;
+                break;
+            case STRESS:
+                stress += value;
+                break;
+        }
+    }
+
+    // DASS-21 standard scaling
+    depression *= 2;
+    anxiety *= 2;
+    stress *= 2;
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Person person = (Person) auth.getPrincipal();
+
+    Dass21Result result = new Dass21Result();
+    result.setPersonId(person.getId());
+    result.setDepressionScore(depression);
+    result.setAnxietyScore(anxiety);
+    result.setStressScore(stress);
+    result.setDepressionSeverity(mapDepression(depression));
+    result.setAnxietySeverity(mapAnxiety(anxiety));
+    result.setStressSeverity(mapStress(stress));
+    result.setCompletedAt(LocalDateTime.now());
+
+    dass21ResultDao.save(result);
+
+    model.addAttribute("result", result);
+    return "student/dass21-result";
+}
+
+
+
 @GetMapping("/assessments")
 public String listAssessments(
         @RequestParam(required = false) String search,
@@ -331,9 +407,9 @@ public String listAssessments(
 /* =========================
    VIEW ASSESSMENT QUESTIONS
    ========================= */
-@GetMapping("/assessment/{id}")
+@GetMapping("/assessment/{resourceId}")
 public String startAssessment(
-        @PathVariable int id,
+        @PathVariable int resourceId,
         Model model) {
 
     Integer studentId = getLoggedInStudentId();
@@ -341,26 +417,22 @@ public String startAssessment(
         return "redirect:/login";
     }
 
-    Assessment assessment = assessmentDao.findByResourceId(id);
+    Assessment assessment =
+            assessmentDao.findByResourceId(resourceId);
+
     if (assessment == null) {
         return "redirect:/student/assessments";
     }
 
-    StudentResourceProgress progress =
-            progressDao.findByStudentAndResource(studentId, assessment.getResourceId());
-
-    if (progress == null || progress.getCompletedAt() == null) {
-        return "redirect:/student/assessments";
-    }
-
     List<AssessmentQuestion> questions =
-            questionDao.findByAssessmentId(id);
+            questionDao.findByAssessmentId(assessment.getId());
 
     model.addAttribute("assessment", assessment);
     model.addAttribute("questions", questions);
 
-    return "student/assessment"; 
+    return "student/assessment";
 }
+
 
 /* =========================
    SUBMIT ASSESSMENT
@@ -784,6 +856,30 @@ public String peerSupport(
     model.addAttribute("category", category);
 
     return "student/peer-support";
+}
+
+private String mapDepression(int score) {
+    if (score <= 9) return "Normal";
+    if (score <= 13) return "Mild";
+    if (score <= 20) return "Moderate";
+    if (score <= 27) return "Severe";
+    return "Extremely Severe";
+}
+
+private String mapAnxiety(int score) {
+    if (score <= 7) return "Normal";
+    if (score <= 9) return "Mild";
+    if (score <= 14) return "Moderate";
+    if (score <= 19) return "Severe";
+    return "Extremely Severe";
+}
+
+private String mapStress(int score) {
+    if (score <= 14) return "Normal";
+    if (score <= 18) return "Mild";
+    if (score <= 25) return "Moderate";
+    if (score <= 33) return "Severe";
+    return "Extremely Severe";
 }
 
 

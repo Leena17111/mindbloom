@@ -99,9 +99,8 @@
 
                             <!-- Actions -->
 
-                        <!-- START ASSESSMENT -->
                         <a th:if="${statusMap[a.id] == 'NOT_TAKEN'}"
-                        th:href="@{/student/assessment/{id}(id=${a.id})}"
+                        th:href="@{/student/assessment/{resourceId}(resourceId=${a.resourceId})}"
                         class="btn btn-sm btn-primary">
                             Start Assessment
                         </a>

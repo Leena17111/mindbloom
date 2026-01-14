@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DASS-21 Screening</title>
+
+    <!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- App CSS -->
+    <link rel="stylesheet" th:href="@{/css/common/base.css}">
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/dass21.css}">
+</head>
+
+<body>
+<div class="layout">
+
+    <div th:replace="fragments/student-navbar :: student-navbar"></div>
+
+    <main class="main-content">
+        <div class="container-fluid px-0">
+
+            <!-- HERO -->
+            <div class="dass-hero">
+                <h2>DASS-21 Mental Health Screening</h2>
+                <p>Please select how much each statement applied to you over the past week.</p>
+            </div>
+
+            <!-- ✅ SCALE LEGEND (OFFICIAL) -->
+            <div class="scale-legend">
+                <div class="scale-item">
+                    <span class="scale-number">0</span>
+                    <span>Did not apply to me at all</span>
+                </div>
+                <div class="scale-item">
+                    <span class="scale-number">1</span>
+                    <span>Applied to me to some degree, or some of the time</span>
+                </div>
+                <div class="scale-item">
+                    <span class="scale-number">2</span>
+                    <span>Applied to me to a considerable degree, or a good part of time</span>
+                </div>
+                <div class="scale-item">
+                    <span class="scale-number">3</span>
+                    <span>Applied to me very much, or most of the time</span>
+                </div>
+            </div>
+
+            <!-- FORM -->
+            <form th:action="@{/student/dass21/submit}" method="post">
+
+                <div class="questions-container">
+
+                    <div class="question-card"
+                         th:each="q, stat : ${questions}">
+
+                        <div class="question-header">
+                            <span class="question-index">Question <span th:text="${stat.index + 1}"></span></span>
+                            <div class="question-text" th:text="${q.questionText}"></div>
+                        </div>
+
+                        <!-- ✅ PURE 0–3 SCALE -->
+                        <div class="numeric-options">
+                            <label>
+                                <input type="radio" th:name="${q.id}" value="0" required>
+                                <span>0</span>
+                            </label>
+                            <label>
+                                <input type="radio" th:name="${q.id}" value="1">
+                                <span>1</span>
+                            </label>
+                            <label>
+                                <input type="radio" th:name="${q.id}" value="2">
+                                <span>2</span>
+                            </label>
+                            <label>
+                                <input type="radio" th:name="${q.id}" value="3">
+                                <span>3</span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- SUBMIT -->
+                <div class="submit-wrapper">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        Submit Screening
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

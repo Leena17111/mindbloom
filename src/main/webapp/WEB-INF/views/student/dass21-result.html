@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DASS-21 Results</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/common/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/student/dass21-result.css}">
+</head>
+
+<body>
+<div class="layout">
+    <div th:replace="fragments/student-navbar :: student-navbar"></div>
+
+    <main class="main-content">
+        <div class="container-fluid px-0">
+
+            <!-- HERO -->
+            <div class="result-hero">
+                <i class="bi bi-heart-pulse"></i>
+                <div>
+                    <h2>Your DASS-21 Results</h2>
+                    <p>Summary of your emotional well-being over the past week</p>
+                </div>
+            </div>
+
+            <!-- RESULTS -->
+            <div class="results-grid">
+
+                <!-- Depression -->
+                <div class="result-card"
+                     th:classappend="' severity-' + ${#strings.toLowerCase(#strings.replace(result.depressionSeverity,' ','-'))}">
+                    <div class="card-header">
+                        <i class="bi bi-emoji-frown"></i>
+                        <span>Depression</span>
+                    </div>
+
+                    <div class="score-text">
+                        Score: <strong th:text="${result.depressionScore}"></strong>
+                    </div>
+
+                    <div class="severity-text"
+                         th:text="${result.depressionSeverity}">
+                    </div>
+                </div>
+
+                <!-- Anxiety -->
+                <div class="result-card"
+                     th:classappend="' severity-' + ${#strings.toLowerCase(#strings.replace(result.anxietySeverity,' ','-'))}">
+                    <div class="card-header">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <span>Anxiety</span>
+                    </div>
+
+                    <div class="score-text">
+                        Score: <strong th:text="${result.anxietyScore}"></strong>
+                    </div>
+
+                    <div class="severity-text"
+                         th:text="${result.anxietySeverity}">
+                    </div>
+                </div>
+
+                <!-- Stress -->
+                <div class="result-card"
+                     th:classappend="' severity-' + ${#strings.toLowerCase(#strings.replace(result.stressSeverity,' ','-'))}">
+                    <div class="card-header">
+                        <i class="bi bi-activity"></i>
+                        <span>Stress</span>
+                    </div>
+
+                    <div class="score-text">
+                        Score: <strong th:text="${result.stressScore}"></strong>
+                    </div>
+
+                    <div class="severity-text"
+                         th:text="${result.stressSeverity}">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- NOTICE -->
+            <div class="notice-box">
+                <i class="bi bi-info-circle"></i>
+                <p>
+                    This screening is not a diagnosis.
+                    If you are experiencing distress, please seek support from a qualified mental health professional.
+                </p>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="result-actions">
+                <a th:href="@{/student/dashboard}" class="btn btn-primary">
+                    Back to Dashboard
+                </a>
+                <a th:href="@{/student/sessions}" class="btn btn-outline-primary">
+                    Book Consultation
+                </a>
+            </div>
+
+        </div>
+    </main>
+</div>
+</body>
+</html>

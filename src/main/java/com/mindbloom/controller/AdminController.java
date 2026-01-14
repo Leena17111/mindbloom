@@ -9,14 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mindbloom.dao.AssessmentResultDao;
 import com.mindbloom.dao.ConsultationBookingDao;
 import com.mindbloom.dao.EmergencyAlertDao;
 import com.mindbloom.dao.PersonDao;
+import com.mindbloom.dao.PostDao;
 import com.mindbloom.dao.StudentResourceProgressDao;
 import com.mindbloom.model.Person;
+import com.mindbloom.model.Post;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,6 +40,8 @@ public class AdminController {
 	private ConsultationBookingDao consultationBookingDao;
     @Autowired
     private EmergencyAlertDao emergencyAlertDao;
+    @Autowired
+    private PostDao postDao;
 
 	@GetMapping("/dashboard")
 public String adminDashboard(Model model) {
@@ -141,4 +148,71 @@ public String adminDashboard(Model model) {
         
         return "admin/analytics";
     }
+
+    /* =========================
+   PEER SUPPORT - VALIDATE POSTS (ADMIN)
+   ========================= */
+
+@GetMapping("/peer-support")
+public String validatePosts(Model model) {
+
+    List<Post> pendingPosts = postDao.findByStatus("PENDING");
+    if (pendingPosts == null) {
+        pendingPosts = new ArrayList<>();
+    }
+
+    model.addAttribute("pendingPosts", pendingPosts);
+    return "admin/validate-post";
+}
+
+/* =========================
+   APPROVE POST
+   ========================= */
+@PostMapping("/posts/approve")
+public String approvePost(
+        @RequestParam("postId") int postId,
+        RedirectAttributes redirectAttributes) {
+
+    Post post = postDao.findById(postId);
+
+    if (post == null) {
+        redirectAttributes.addFlashAttribute(
+                "error", "Post not found.");
+        return "redirect:/admin/peer-support";
+    }
+
+    post.setStatus("APPROVED");
+    postDao.save(post);
+
+    redirectAttributes.addFlashAttribute(
+            "success", "Post approved successfully.");
+
+    return "redirect:/admin/peer-support";
+}
+
+/* =========================
+   REJECT POST
+   ========================= */
+@PostMapping("/posts/reject")
+public String rejectPost(
+        @RequestParam("postId") int postId,
+        RedirectAttributes redirectAttributes) {
+
+    Post post = postDao.findById(postId);
+
+    if (post == null) {
+        redirectAttributes.addFlashAttribute(
+                "error", "Post not found.");
+        return "redirect:/admin/peer-support";
+    }
+
+    post.setStatus("REJECTED");
+    postDao.save(post);
+
+    redirectAttributes.addFlashAttribute(
+            "success", "Post rejected.");
+
+    return "redirect:/admin/peer-support";
+}
+
 }

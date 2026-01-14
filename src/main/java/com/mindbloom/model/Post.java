@@ -44,9 +44,19 @@ public class Post {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /* =========================
+       APPROVAL STATUS
+       ========================= */
+
+    @Column(name = "status", nullable = false, length = 20)
+    private String status = "PENDING"; // PENDING, APPROVED, REJECTED
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
+        if (status == null) {
+            status = "PENDING";
+        }
     }
 
     /* =========================
@@ -73,4 +83,7 @@ public class Post {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
