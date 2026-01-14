@@ -282,18 +282,16 @@ public String listAssessments(
         MentalHealthResource resource =
                 resourceDao.findById(a.getResourceId());
 
-        // ✅ FIX 1: orphan safety
         if (resource == null) {
             continue;
         }
 
-        // ✅ CATEGORY FILTER (RESOURCE-BASED)
         if (category != null && !category.isEmpty()
                 && !category.equals(resource.getCategory())) {
             continue;
         }
 
-        // ✅ SEARCH FILTER (RESOURCE TITLE)
+        
         if (search != null && !search.trim().isEmpty()
                 && !resource.getTitle().toLowerCase().contains(search.toLowerCase())) {
             continue;
@@ -325,6 +323,39 @@ public String listAssessments(
     return "student/assessment-list";
 }
 
+/* =========================
+   VIEW ASSESSMENT QUESTIONS
+   ========================= */
+@GetMapping("/assessment/{id}")
+public String startAssessment(
+        @PathVariable int id,
+        Model model) {
+
+    Integer studentId = getLoggedInStudentId();
+    if (studentId == null) {
+        return "redirect:/login";
+    }
+
+    Assessment assessment = assessmentDao.findByResourceId(id);
+    if (assessment == null) {
+        return "redirect:/student/assessments";
+    }
+
+    StudentResourceProgress progress =
+            progressDao.findByStudentAndResource(studentId, assessment.getResourceId());
+
+    if (progress == null || progress.getCompletedAt() == null) {
+        return "redirect:/student/assessments";
+    }
+
+    List<AssessmentQuestion> questions =
+            questionDao.findByAssessmentId(id);
+
+    model.addAttribute("assessment", assessment);
+    model.addAttribute("questions", questions);
+
+    return "student/assessment"; 
+}
 
 /* =========================
    SUBMIT ASSESSMENT

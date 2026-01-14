@@ -98,17 +98,20 @@
                                   class="badge bg-warning text-dark">Locked</span>
 
                             <!-- Actions -->
-                            <a th:if="${statusMap[a.id] == 'NOT_TAKEN'}"
-                               th:href="@{/student/resources/{id}/assessment(id=${resourceMap[a.id].id})}"
-                               class="btn btn-sm btn-primary">
-                                Start Assessment
-                            </a>
 
-                            <a th:if="${statusMap[a.id] == 'COMPLETED'}"
-                               th:href="@{/student/assessment/{id}/result(id=${a.id})}"
-                               class="btn btn-sm btn-outline-primary">
-                                View Result
-                            </a>
+                        <!-- START ASSESSMENT -->
+                        <a th:if="${statusMap[a.id] == 'NOT_TAKEN'}"
+                        th:href="@{/student/assessment/{id}(id=${a.id})}"
+                        class="btn btn-sm btn-primary">
+                            Start Assessment
+                        </a>
+
+                        <!-- VIEW RESULT -->
+                        <a th:if="${statusMap[a.id] == 'COMPLETED'}"
+                        th:href="@{/student/assessment/{id}/result(id=${a.id})}"
+                        class="btn btn-sm btn-outline-primary">
+                            View Result
+                        </a>
 
                             <span th:if="${statusMap[a.id] == 'LOCKED'}"
                                   class="text-muted small">

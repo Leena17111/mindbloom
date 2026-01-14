@@ -8,9 +8,9 @@ public class PasswordGenerator {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         System.out.println("Admin password hash:");
-        System.out.println(encoder.encode("123"));
+        System.out.println(encoder.encode("1234"));
 
         System.out.println("\nCounselor password hash:");
-        System.out.println(encoder.encode("123"));
+        System.out.println(encoder.encode("1234"));
     }
 }
